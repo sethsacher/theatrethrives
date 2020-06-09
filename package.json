@@ -14,6 +14,7 @@
     "gatsby-plugin-sharp": "^2.0.14",
     "gatsby-plugin-svgr": "^2.0.1",
     "gatsby-source-filesystem": "^2.0.8",
+    "gatsby-transformer-csv": "^2.3.4",
     "gatsby-transformer-sharp": "^2.1.8",
     "mdbreact": "4.10.0",
     "prop-types": "^15.6.2",
