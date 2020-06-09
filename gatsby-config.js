@@ -23,9 +23,6 @@ module.exports = {
     },
     {
       resolve: `gatsby-transformer-csv`,
-      options: {
-        noheader: true,
-      },
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,

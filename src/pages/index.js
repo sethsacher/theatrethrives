@@ -23,7 +23,7 @@ class App extends Component {
             ]}
           />
           <Carousel />
-          <Intro allTheatresCsv={this.props.data.allTheatresCsv} />
+          <Intro theatreData={this.props.data.allTheatresCsv.nodes} />
           <main>
             <AboutSection />
             <section id="cardSection">
@@ -45,15 +45,12 @@ class App extends Component {
 
 export const query = graphql`
   query {
-    allTheatresCsv(sort: { fields: field1, order: ASC }) {
-      edges {
-        node {
-          id
-          field4
-          field3
-          field2
-          field1
-        }
+    allTheatresCsv(sort: { fields: Theatre, order: ASC }) {
+      nodes {
+        Facebook
+        Theatre
+        Twitter
+        Website
       }
     }
   }

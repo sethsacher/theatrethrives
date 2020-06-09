@@ -6,11 +6,11 @@ class Intro extends Component {
     super(props)
   }
   render() {
-    const theatreData = this.props.allTheatresCsv.edges
+    const theatreData = this.props.theatreData
 
     const listItems = theatreData.map(theatre => (
       <h4 className="subtext-header h4-responsive mt-2 mb-4">
-        {theatre.node.field1}
+        {theatre.Theatre}
       </h4>
     ))
     const half = Math.ceil(listItems.length / 2)
