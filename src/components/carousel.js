@@ -6,8 +6,8 @@ import {
   MDBView,
   MDBMask,
 } from 'mdbreact'
-import image4 from '../images/RCP_LeMiz.jpg'
-import image2 from '../images/RCP_GGLAM.jpg'
+import image4 from '../images/RCP_GGLAM.jpg'
+import image2 from '../images/RCP_Aida.jpg'
 import image3 from '../images/RCP_TMM.jpg'
 
 const CarouselPage = () => {
