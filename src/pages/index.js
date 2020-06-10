@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Layout>
+        <Layout page="intro">
           <SEO
             title="Home"
             keywords={[
@@ -25,11 +25,9 @@ class App extends Component {
           />
           <Carousel />
           <Intro />
-          <main>
-            <IntroParticipantsSection
-              theatreData={this.props.data.allTheatresCsv.nodes}
-            />
-          </main>
+          {/* <IntroParticipantsSection
+            theatreData={this.props.data.allTheatresCsv.nodes}
+          /> */}
         </Layout>
       </>
     )

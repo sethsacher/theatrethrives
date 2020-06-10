@@ -14,7 +14,7 @@ const timerProps = {
 const renderTime = (dimension, time) => {
   return (
     <div className="">
-      <div className="">{time}</div>
+      <div className="text-center">{time}</div>
       <div>{dimension}</div>
     </div>
   )

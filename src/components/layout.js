@@ -1,16 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StaticQuery, graphql } from 'gatsby'
 import Navbar from './navbar'
 import Footer from './footer'
-import "./layout.css"
+import './layout.css'
 
-const Layout = ({ children }) => (
-     <>
-        <Navbar />
-          {children}
-        <Footer />
-      </>
+function DisplayFooter(props) {
+  if (props.page === 'intro') {
+    return null
+  }
+  return <Footer />
+}
+
+const Layout = ({ children, page }) => (
+  <>
+    <Navbar />
+    {children}
+    <DisplayFooter page={page} />
+  </>
 )
 
 Layout.propTypes = {
