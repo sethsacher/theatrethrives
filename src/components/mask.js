@@ -1,21 +1,13 @@
 import React, { Component } from 'react'
 import { MDBContainer, MDBBtn, MDBIcon, MDBRow, MDBCol } from 'mdbreact'
+import ButtonDonate from './buttonDonate'
+import ButtonLiveStream from './buttonLiveStream'
 
 class Intro extends Component {
   constructor(props) {
     super(props)
   }
   render() {
-    const theatreData = this.props.theatreData
-
-    const listItems = theatreData.map(theatre => (
-      <h4 className="subtext-header h4-responsive mt-2 mb-4">
-        {theatre.Theatre}
-      </h4>
-    ))
-    const half = Math.ceil(listItems.length / 2)
-    const firstHalf = listItems.splice(0, half)
-    const secondHalf = listItems.splice(-half)
     return (
       <MDBContainer style={{ marginTop: '25vh', marginBottom: '50vh' }}>
         <MDBRow>
@@ -27,14 +19,21 @@ class Intro extends Component {
           </MDBCol>
         </MDBRow>
         <MDBRow>
-          <MDBCol className="white-text text-center">{firstHalf}</MDBCol>
-          <MDBCol className="white-text text-center">{secondHalf}</MDBCol>
+          <MDBCol className="white-text text-center">
+            <h5>
+              As COVID-19 has forced us to adapt to a new reality of social
+              distancing, Washington, DC community theatres are proud to share
+              our talents through this live-streamed telethon event. We hope you
+              enjoy the variety of talent on display, and that you may think of
+              providing a donation to support the theatrical arts in this time
+              of hardship.
+            </h5>
+          </MDBCol>
         </MDBRow>
         <MDBRow>
           <MDBCol md="12" className="white-text text-center">
-            <MDBBtn color="info">
-              <MDBIcon icon="home" className="mr-2" /> Visit us
-            </MDBBtn>
+            <ButtonDonate />
+            <ButtonLiveStream />
           </MDBCol>
         </MDBRow>
       </MDBContainer>

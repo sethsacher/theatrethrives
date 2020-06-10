@@ -17,6 +17,8 @@ import {
 } from 'mdbreact'
 import { Link } from 'gatsby'
 import CustomNavLink from './customLink'
+import ButtonDonate from './buttonDonate'
+import ButtonLiveStream from './buttonLiveStream'
 import { ReactComponent as Logo } from '../images/CTTFinal.svg'
 
 class NavbarPage extends Component {
@@ -43,8 +45,10 @@ class NavbarPage extends Component {
             <MDBNavbarNav left>
               <CustomNavLink to="#!">Home</CustomNavLink>
               <CustomNavLink to="#!">About</CustomNavLink>
-              <CustomNavLink to="#!">Projects</CustomNavLink>
-              <MDBNavItem>
+              <CustomNavLink to="#!">Participants</CustomNavLink>
+              <CustomNavLink to="#!">Sponsors</CustomNavLink>
+              <CustomNavLink to="#!">Schedule</CustomNavLink>
+              {/* <MDBNavItem>
                 <MDBDropdown>
                   <MDBDropdownToggle nav caret>
                     <div className="d-none d-md-inline">About</div>
@@ -55,20 +59,19 @@ class NavbarPage extends Component {
                     <MDBDropdownItem href="#!">Testimonials</MDBDropdownItem>
                   </MDBDropdownMenu>
                 </MDBDropdown>
-              </MDBNavItem>
+              </MDBNavItem> */}
             </MDBNavbarNav>
             <MDBNavbarNav right>
-              <div className="d-flex align-items-center">
-                <CustomNavLink to="#!">
+              {/* <div className="d-flex align-items-center"> */}
+              {/* <CustomNavLink to="#!">
                   <MDBIcon fab icon="facebook" className="ml-1" />
                 </CustomNavLink>
                 <CustomNavLink to="#!">
                   <MDBIcon fab icon="twitter" className="ml-1" />
-                </CustomNavLink>
-                <MDBBtn color="info">
-                  <MDBIcon icon="home" className="mr-2" /> Donate
-                </MDBBtn>
-              </div>
+                </CustomNavLink> */}
+              <ButtonDonate />
+              <ButtonLiveStream />
+              {/* </div> */}
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBContainer>
