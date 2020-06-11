@@ -2,6 +2,7 @@ import React from "react"
 import { Link } from "gatsby"
 
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap"
+import HeaderNavLink from "./headerNavLink"
 
 const CustomNavbar = ({ pageInfo }) => {
   console.log(pageInfo)
@@ -14,13 +15,22 @@ const CustomNavbar = ({ pageInfo }) => {
         </Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto" activeKey={pageInfo && pageInfo.pageName}>
-            <Link to="/page-2" className="link-no-style">
-              <Nav.Link as="span" eventKey="page-2">
-                Page 2
-              </Nav.Link>
-            </Link>
-          </Nav>
+          <HeaderNavLink pageInfo={pageInfo} linkTo="about" linkName="About" />
+          <HeaderNavLink
+            pageInfo={pageInfo}
+            linkTo="participants"
+            linkName="Participants"
+          />
+          <HeaderNavLink
+            pageInfo={pageInfo}
+            linkTo="sponsors"
+            linkName="Sponsors"
+          />
+          <HeaderNavLink
+            pageInfo={pageInfo}
+            linkTo="schedule"
+            linkName="Schedule"
+          />
           <Nav className="ml-auto">
             <Form inline onSubmit={e => e.preventDefault()}>
               <Form.Group>
