@@ -15,4 +15,5 @@ A GatsbyJS starter that includes
 # Hosted on S3
 
 https://www.gatsbyjs.org/docs/deploying-to-s3-cloudfront/
-npm run build && npm run deploy
+npm run build
+AWS_PROFILE=theatre-thrives npm run deploy
