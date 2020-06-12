@@ -15,9 +15,18 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `data`,
+        path: `${__dirname}/src/data/`,
+      },
+    },
     `gatsby-plugin-sass`,
     `gatsby-transformer-sharp`,
+    `gatsby-transformer-csv`,
     `gatsby-plugin-sharp`,
+    `gatsby-image`,
     // For mobile, let's see what happens without it
     // {
     //   resolve: `gatsby-plugin-manifest`,
