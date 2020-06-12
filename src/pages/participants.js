@@ -38,7 +38,9 @@ const ParticipantsPage = () => {
 
   const sections = query.theatres.nodes.map(theatre => {
     const image = query.images.edges.find(
-      image => image.node.relativePath === `participants/${theatre.Logo}`
+      image =>
+        image.node.relativePath === `participants/${theatre.Logo}` ||
+        image.node.relativePath === `participants/default.png`
     )
     return <TheatreParticipant theatre={theatre} image={image} />
   })
