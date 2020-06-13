@@ -78,7 +78,7 @@ class DonatePage extends React.Component {
   DonationForm = () => {
     const options = {
       authorization: this.state.clientToken,
-      card: false,
+      card: true,
       paypal: {
         flow: "checkout",
         amount: "10.00",
@@ -93,6 +93,7 @@ class DonatePage extends React.Component {
         buttonStyle: null,
         commit: null,
       },
+      // Only visible on mobile
       venmo: true,
       // Requires Developer Account for $100
       // applyPay: {
