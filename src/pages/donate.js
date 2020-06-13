@@ -35,7 +35,34 @@ class DonatePage extends React.Component {
   // async buy() {
   //   // Send the nonce to your server
   //   const { nonce } = await this.instance.requestPaymentMethod()
-  //   await fetch(`server.test/purchase/${nonce}`)
+  //   // await fetch(`server.test/purchase/${nonce}`)
+
+  //   const response = await fetch(process.env.BT_URL, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Basic ${process.env.BT_BASE64}`,
+  //       "Braintree-Version": "2020-06-12",
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: `{
+  //       "query": "mutation ExampleCharge($input: ChargePaymentMethodInput!) {
+  //         chargePaymentMethod(input: $input) {
+  //           transaction {
+  //             id
+  //             status
+  //           }
+  //         }
+  //       }",
+  //       "variables": {
+  //         "input": {
+  //           "paymentMethodId": "id_of_payment_method",
+  //           "transaction": {
+  //             "amount": "11.23"
+  //           }
+  //         }
+  //       }
+  //     }`,
+  //   })
   // }
 
   render() {
@@ -51,7 +78,13 @@ class DonatePage extends React.Component {
         <Layout pageInfo={{ pageName: "donate" }}>
           <SEO title="Donate" />
           <h1>DONATE</h1>
-          {JSON.stringify(this.state.clientToken)}
+          {/* <div>
+            <DropIn
+              options={{ authorization: this.state.clientToken }}
+              onInstance={instance => (this.instance = instance)}
+            />
+            <button onClick={this.buy.bind(this)}>Buy</button>
+          </div> */}
         </Layout>
       )
     }
