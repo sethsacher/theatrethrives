@@ -1,2 +1,15 @@
 var templates = Handlebars.templates;
+document.getElementById('header').innerHTML = templates.header();
+document.getElementById('intro').innerHTML = templates.intro();
+document.getElementById('about').innerHTML = templates.about();
+document.getElementById('speakers').innerHTML = templates.speakers();
+document.getElementById('schedule').innerHTML = templates.schedule();
+document.getElementById('venue').innerHTML = templates.venue();
+document.getElementById('hotels').innerHTML = templates.hotels();
+document.getElementById('gallery').innerHTML = templates.gallery();
+document.getElementById('supporters').innerHTML = templates.supporters();
+document.getElementById('faq').innerHTML = templates.faq();
+document.getElementById('subscribe').innerHTML = templates.subscribe();
+document.getElementById('buy-tickets').innerHTML = templates.buyTickets();
+document.getElementById('contact').innerHTML = templates.contact();
 document.getElementById('footer').innerHTML = templates.footer();
