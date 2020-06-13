@@ -78,7 +78,7 @@ class DonatePage extends React.Component {
   DonationForm = () => {
     const options = {
       authorization: this.state.clientToken,
-      card: null,
+      card: false,
       paypal: {
         flow: "checkout",
         amount: "10.00",
@@ -93,19 +93,21 @@ class DonatePage extends React.Component {
         buttonStyle: null,
         commit: null,
       },
-      venmo: { allowNewBrowserTab: true },
-      applyPay: {
-        buttonStyle: null,
-        displayName: null,
-        applePaySessionVersion: null,
-        paymentRequest: null,
-      },
-      googlePay: {
-        merchantId: null,
-        googlePayVersion: null,
-        transactionInfo: null,
-        button: null,
-      },
+      venmo: true,
+      // Requires Developer Account for $100
+      // applyPay: {
+      //   buttonStyle: null,
+      //   displayName: null,
+      //   applePaySessionVersion: null,
+      //   paymentRequest: null,
+      // },
+      // Requires Developer Account for $25
+      // googlePay: {
+      //   merchantId: null,
+      //   googlePayVersion: null,
+      //   transactionInfo: null,
+      //   button: null,
+      // },
     }
     // Confirmation page
     if (this.state.submit && this.state.submit === true) {
