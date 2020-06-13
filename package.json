@@ -6,6 +6,7 @@
   "author": "Seth Sacher <SethRSacher@gmail.com>",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "dotenv": "^8.2.0",
     "gatsby": "^2.3.34",
     "gatsby-image": "^2.4.7",
     "gatsby-plugin-manifest": "^2.0.29",
@@ -41,7 +42,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "deploy": "gatsby-plugin-s3 deploy -y"
+    "deploy": "npm run -n \"-r dotenv/config\" && npm run build && gatsby-plugin-s3 deploy -y"
   },
   "repository": {
     "type": "git",
