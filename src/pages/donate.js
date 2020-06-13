@@ -12,15 +12,25 @@ class DonatePage extends React.Component {
     clientToken: null,
   }
 
-  // async componentDidMount() {
-  //   // Get a client token for authorization from your server
-  //   const response = await fetch("server.test/client_token")
-  //   const clientToken = await response.json() // If returned as JSON string
-
-  //   this.setState({
-  //     clientToken,
-  //   })
-  // }
+  async componentDidMount() {
+    // Get a client token for authorization from your server
+    const response = await fetch(process.env.BT_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${process.env.BT_BASE64}`,
+        "Braintree-Version": "2020-06-12",
+        "Content-Type": "application/json",
+      },
+      body: '{"query": "mutation {createClientToken {clientToken}}"}',
+    })
+    const clientResponse = await response.json()
+    if (clientResponse.data) {
+      const clientToken = clientResponse.data.createClientToken.clientToken
+      this.setState({
+        clientToken,
+      })
+    }
+  }
 
   // async buy() {
   //   // Send the nonce to your server
@@ -33,7 +43,7 @@ class DonatePage extends React.Component {
       return (
         <div>
           <h1>Loading...</h1>
-          {process.env.BT_ENVIRONMENT}
+          {JSON.stringify(this.state.clientToken)}
         </div>
       )
     } else {
@@ -41,6 +51,7 @@ class DonatePage extends React.Component {
         <Layout pageInfo={{ pageName: "donate" }}>
           <SEO title="Donate" />
           <h1>DONATE</h1>
+          {JSON.stringify(this.state.clientToken)}
         </Layout>
       )
     }
