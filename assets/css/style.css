@@ -10,8 +10,9 @@
   --accent-darker: #1188cc;
   --font-header: 'Raleway';
   --font-body: 'Open Sans';
-  /* --header-background: #fff; */
-  --header-background: rgba(6, 12, 34, 0.98);
+  /* --header-background: #1188cc; */
+  --header-background: rgba(17, 136, 204, 0.75);
+  /* --header-background: rgba(6, 12, 34, 0.98); */
 }
 
 /*--------------------------------------------------------------
