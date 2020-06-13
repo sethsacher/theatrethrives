@@ -1,4 +1,2 @@
-var template = Handlebars.templates.footer;
-document.getElementById('output').innerHTML = template({
-  doesWhat: 'rocks!',
-});
+var templates = Handlebars.templates;
+document.getElementById('footer').innerHTML = templates.footer();
