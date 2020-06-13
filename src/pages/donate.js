@@ -76,6 +76,37 @@ class DonatePage extends React.Component {
   }
 
   DonationForm = () => {
+    const options = {
+      authorization: this.state.clientToken,
+      card: null,
+      paypal: {
+        flow: "checkout",
+        amount: "10.00",
+        currency: "USD",
+        buttonStyle: null,
+        commit: null,
+      },
+      paypalCredit: {
+        flow: "checkout",
+        amount: "10.00",
+        currency: "USD",
+        buttonStyle: null,
+        commit: null,
+      },
+      venmo: { allowNewBrowserTab: true },
+      applyPay: {
+        buttonStyle: null,
+        displayName: null,
+        applePaySessionVersion: null,
+        paymentRequest: null,
+      },
+      googlePay: {
+        merchantId: null,
+        googlePayVersion: null,
+        transactionInfo: null,
+        button: null,
+      },
+    }
     // Confirmation page
     if (this.state.submit && this.state.submit === true) {
       return <h4>Submitted!</h4>
@@ -90,7 +121,7 @@ class DonatePage extends React.Component {
         <Form.Group controlId="donationAmount">Amount</Form.Group>
         <Form.Group controlId="braintreeDropIn">
           <DropIn
-            options={{ authorization: this.state.clientToken }}
+            options={options}
             onInstance={instance => (this.instance = instance)}
           />
         </Form.Group>
