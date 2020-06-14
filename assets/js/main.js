@@ -147,6 +147,10 @@
           $('#mobile-nav-toggle i').toggleClass('fa-times fa-bars');
           $('#mobile-body-overly').fadeOut();
         }
+
+        // update the URL in location bar
+        window.location.hash = $.attr(this, 'href').substr(1);
+
         return false;
       }
     }

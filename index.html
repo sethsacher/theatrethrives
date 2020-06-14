@@ -46,6 +46,9 @@
           (ga.q = ga.q || []).push(arguments);
         };
       ga.l = +new Date();
+
+      window.ga_debug = { trace: true };
+
       ga('create', 'UA-169370620-1', 'auto');
 
       // Replace the following lines with the plugins you want to use.
@@ -54,7 +57,11 @@
       ga('require', 'urlChangeTracker');
       ga('send', 'pageview');
     </script>
-    <script async src="https://www.google-analytics.com/analytics.js"></script>
+    <!-- <script async src="https://www.google-analytics.com/analytics.js"></script> -->
+    <script
+      async
+      src="https://www.google-analytics.com/analytics_debug.js"
+    ></script>
     <script src="assets/vendor/google-analytics/autotrack.js"></script>
     <!-- =======================================================
   * Template Name: TheEvent - v2.1.0
