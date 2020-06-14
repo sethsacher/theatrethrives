@@ -18,9 +18,9 @@ braintree.dropin.create(
         $.ajax({
           type: 'POST',
           url:
-            'https://ioxxobym51.execute-api.us-east-1.amazonaws.com/test/Boston?time=evening',
+            'https://g31c2wlbrk.execute-api.us-east-1.amazonaws.com/default/donate?name=John&city=Seattle',
           data: JSON.stringify({
-            callerName: 'John',
+            time: 'evening',
           }),
           headers: {
             'content-type': 'application/json',
