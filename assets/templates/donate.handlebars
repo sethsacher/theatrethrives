@@ -31,62 +31,62 @@
     </div>
 
     <div class="form">
-        <form>
-            {{!-- AMOUNT --}}
-            <div class="container theme-background-white main-body">
-                <div class="col-md-12">
-                    <div class="row donate-bar">
-                        <div class="col-md-4 theme-blue">
-                            GIVE WHERE NEEDED MOST
-                        </div>
-                        <div class="col-md-8">
-                            <ul class="nav donate-buttons" id="donate-buttons">
-                                <li><a href="#">
-                                        <button class="btn-blue active" data-dollars='25'
-                                            data-impact="Covers housing or counseling services for one person">
-                                            $25
-                                        </button>
-                                    </a></li>
-                                <li><a href="#">
-                                        <button class="btn-blue" data-dollars='50'
-                                            data-impact="Covers housing or counseling services for two people">
-                                            $50
-                                        </button>
-                                    </a></li>
-                                <li><a href="#">
-                                        <button class="btn-blue" data-dollars='100'
-                                            data-impact="Covers housing or counseling services for four people">
-                                            $100
-                                        </button>
-                                    </a></li>
-                                <li><a href="#">
-                                        <button class="btn-blue" data-dollars='500'
-                                            data-impact="Covers housing or counseling services for twenty people">
-                                            $500
-                                        </button>
-                                    </a></li>
-                                <li id="doante-other"><a href="#">
-                                        <button class="btn-blue-other" data-dollars='other' data-impact="Thank you!">
-                                            OTHER
-                                        </button>
-                                    </a></li>
-                                <li id="donate-other-input">
-                                    <span>$</span>
-                                    <input data-impact="That’s great. Thank you!">
-                                </li>
-                            </ul>
-                            <p class="impact">
-                                Covers housing or counseling services for one person
-                            </p>
-                        </div>
+        {{!-- <form> --}}
+        {{!-- AMOUNT --}}
+        <div class="container theme-background-white main-body">
+            <div class="col-md-12">
+                <div class="row donate-bar">
+                    <div class="col-md-4 theme-blue">
+                        GIVE WHERE NEEDED MOST
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="nav donate-buttons" id="donate-buttons">
+                            <li><a href="#">
+                                    <button class="btn-blue active" data-dollars='25'
+                                        data-impact="Covers housing or counseling services for one person">
+                                        $25
+                                    </button>
+                                </a></li>
+                            <li><a href="#">
+                                    <button class="btn-blue" data-dollars='50'
+                                        data-impact="Covers housing or counseling services for two people">
+                                        $50
+                                    </button>
+                                </a></li>
+                            <li><a href="#">
+                                    <button class="btn-blue" data-dollars='100'
+                                        data-impact="Covers housing or counseling services for four people">
+                                        $100
+                                    </button>
+                                </a></li>
+                            <li><a href="#">
+                                    <button class="btn-blue" data-dollars='500'
+                                        data-impact="Covers housing or counseling services for twenty people">
+                                        $500
+                                    </button>
+                                </a></li>
+                            <li id="doante-other"><a href="#">
+                                    <button class="btn-blue-other" data-dollars='other' data-impact="Thank you!">
+                                        OTHER
+                                    </button>
+                                </a></li>
+                            <li id="donate-other-input">
+                                <span>$</span>
+                                <input data-impact="That’s great. Thank you!">
+                            </li>
+                        </ul>
+                        <p class="impact">
+                            Covers housing or counseling services for one person
+                        </p>
                     </div>
                 </div>
-                {{!-- BRAINTREE DROP IN PAYMENT --}}
-                <div id="dropin-wrapper">
-                    <div id="checkout-message"></div>
-                    <div id="dropin-container"></div>
-                    <button id="submit-button">Submit payment</button>
-                </div>
-        </form>
+            </div>
+            {{!-- BRAINTREE DROP IN PAYMENT --}}
+            <div id="dropin-wrapper">
+                <div id="checkout-message"></div>
+                <div id="dropin-container"></div>
+                <button id="submit-button">Submit payment</button>
+            </div>
+            {{!-- </form> --}}
+        </div>
     </div>
-</div>
