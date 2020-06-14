@@ -2,19 +2,22 @@
 var button = document.querySelector('#submit-button');
 
 button.addEventListener('click', function () {
-  $.ajax({
-    type: 'GET',
-    crossDomain: true,
-    timeout: 5000,
-    url:
-      'https://9o3xitpaai.execute-api.us-east-1.amazonaws.com/default/CheckoutTest',
-    success: function (result) {
-      console.log(result);
-    },
-    error: function (json, status, error) {
-      console.log(error);
-    },
-  });
+  //   $.ajax({
+  //     type: 'GET',
+  //     crossDomain: true,
+  //     timeout: 5000,
+  //     url:
+  //       'https://9o3xitpaai.execute-api.us-east-1.amazonaws.com/default/CheckoutTest',
+  //     success: function (result) {
+  //       console.log(result);
+  //     },
+  //     error: function (json, status, error) {
+  //       console.log(error);
+  //     },
+  //   });
+  fetch('https://50ddjdymi9.execute-api.us-east-1.amazonaws.com/', {
+    mode: 'cors',
+  }).then((data) => console.log(data));
 });
 
 // braintree.dropin.create(
