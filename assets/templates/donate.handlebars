@@ -1,23 +1,92 @@
-<head>
-    <meta charset="utf-8">
-    <script src="https://js.braintreegateway.com/web/dropin/1.14.1/js/dropin.min.js"></script>
-</head>
+<div class="container">
+    <div class="section-header">
+        <h2>Donate</h2>
+        <p>Support DC Community Theatre with your donation!</p>
+    </div>
 
-<body>
-    <div id="dropin-container"></div>
-    <button id="submit-button">Request payment method</button>
-    <script>
-        var button = document.querySelector('#submit-button');
+    <div class="row donate-info">
+        <div class="col-md-4">
+            <div class="donate-address">
+                <i class="ion-ios-location-outline"></i>
+                <h3>Address</h3>
+                <address>A108 Adam Street, NY 535022, USA</address>
+            </div>
+        </div>
 
-        braintree.dropin.create({
-            authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-            container: '#dropin-container'
-        }, function (createErr, instance) {
-            button.addEventListener('click', function () {
-                instance.requestPaymentMethod(function (err, payload) {
-                    // Submit payload.nonce to your server
-                });
-            });
-        });
-    </script>
-</body>
+        <div class="col-md-4">
+            <div class="donate-phone">
+                <i class="ion-ios-telephone-outline"></i>
+                <h3>Phone Number</h3>
+                <p><a href="tel:+1234567890">(123) 456-7890</a></p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="donate-email">
+                <i class="ion-ios-email-outline"></i>
+                <h3>Email</h3>
+                <p><a href="mailto:info@example.com">info@example.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form">
+        <form>
+            {{!-- AMOUNT --}}
+            <div class="container theme-background-white main-body">
+                <div class="col-md-12">
+                    <div class="row donate-bar">
+                        <div class="col-md-4 theme-blue">
+                            GIVE WHERE NEEDED MOST
+                        </div>
+                        <div class="col-md-8">
+                            <ul class="nav donate-buttons" id="donate-buttons">
+                                <li><a href="#">
+                                        <button class="btn-blue active" data-dollars='25'
+                                            data-impact="Covers housing or counseling services for one person">
+                                            $25
+                                        </button>
+                                    </a></li>
+                                <li><a href="#">
+                                        <button class="btn-blue" data-dollars='50'
+                                            data-impact="Covers housing or counseling services for two people">
+                                            $50
+                                        </button>
+                                    </a></li>
+                                <li><a href="#">
+                                        <button class="btn-blue" data-dollars='100'
+                                            data-impact="Covers housing or counseling services for four people">
+                                            $100
+                                        </button>
+                                    </a></li>
+                                <li><a href="#">
+                                        <button class="btn-blue" data-dollars='500'
+                                            data-impact="Covers housing or counseling services for twenty people">
+                                            $500
+                                        </button>
+                                    </a></li>
+                                <li id="doante-other"><a href="#">
+                                        <button class="btn-blue-other" data-dollars='other' data-impact="Thank you!">
+                                            OTHER
+                                        </button>
+                                    </a></li>
+                                <li id="donate-other-input">
+                                    <span>$</span>
+                                    <input data-impact="That’s great. Thank you!">
+                                </li>
+                            </ul>
+                            <p class="impact">
+                                Covers housing or counseling services for one person
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {{!-- BRAINTREE DROP IN PAYMENT --}}
+                <div id="dropin-wrapper">
+                    <div id="checkout-message"></div>
+                    <div id="dropin-container"></div>
+                    <button id="submit-button">Submit payment</button>
+                </div>
+        </form>
+    </div>
+</div>
