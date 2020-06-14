@@ -1371,6 +1371,86 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 /*--------------------------------------------------------------
+# Donate Section
+--------------------------------------------------------------*/
+#donate {
+  padding: 60px 0;
+}
+
+#donate .donate-info {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#donate .donate-info i {
+  font-size: 48px;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--accent-color);
+}
+
+#donate .donate-info address,
+#donate .donate-info p {
+  margin-bottom: 0;
+  color: #112363;
+}
+
+#donate .donate-info h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #112363;
+}
+
+#donate .donate-info a {
+  color: #4869df;
+}
+
+#donate .donate-info a:hover {
+  color: var(--accent-color);
+}
+
+#donate .donate-address,
+#donate .donate-phone,
+#donate .donate-email {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  #donate .donate-address,
+  #donate .donate-phone,
+  #donate .donate-email {
+    padding: 20px 0;
+  }
+}
+
+@media (min-width: 768px) {
+  #donate .donate-phone {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+}
+
+@-webkit-keyframes animate-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
 #contact {
