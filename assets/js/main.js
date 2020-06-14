@@ -175,6 +175,10 @@
           .find('a[href="#' + $(this).attr('id') + '"]')
           .parent('li')
           .addClass('menu-active');
+
+        if (window.location.hash !== '#' + $(this).attr('id')) {
+          window.history.pushState('', '', '#' + $(this).attr('id'));
+        }
       }
       if (cur_pos < 300) {
         $('.nav-menu ul:first li:first').addClass('menu-active');
