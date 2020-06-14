@@ -16,11 +16,16 @@ braintree.dropin.create(
         // When the user clicks on the 'Submit payment' button this code will send the
         // encrypted payment information in a variable called a payment method nonce
         $.ajax({
-          type: 'GET',
+          type: 'POST',
           url:
-            'https://ioxxobym51.execute-api.us-east-1.amazonaws.com/default/Boston',
-          data: {
-            time: 'morning',
+            'https://ioxxobym51.execute-api.us-east-1.amazonaws.com/default/Boston?time=evening',
+          data: JSON.stringify({
+            callerName: 'John',
+          }),
+          headers: {
+            'content-type': 'application/json',
+            day: 'Thursday',
+            'x-amz-docs-region': 'us-east-1',
           },
           //   data: { paymentMethodNonce: payload.nonce },
           //   data: JSON.stringify({
