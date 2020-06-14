@@ -2,6 +2,7 @@ var templates = Handlebars.templates;
 document.getElementById('header').innerHTML = templates.header();
 document.getElementById('intro').innerHTML = templates.intro();
 document.getElementById('about').innerHTML = templates.about();
+document.getElementById('why').innerHTML = templates.why();
 document.getElementById('speakers').innerHTML = templates.speakers({
   speakers: [
     {
