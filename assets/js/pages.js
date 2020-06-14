@@ -3,6 +3,7 @@ document.getElementById('header').innerHTML = templates.header();
 document.getElementById('intro').innerHTML = templates.intro();
 document.getElementById('about').innerHTML = templates.about();
 document.getElementById('why').innerHTML = templates.why();
+document.getElementById('contact').innerHTML = templates.contact();
 document.getElementById('speakers').innerHTML = templates.speakers({
   speakers: [
     {
