@@ -150,6 +150,7 @@
 
         // update the URL in location bar
         window.location.hash = $.attr(this, 'href').substr(1);
+        ga('send', 'pageview', window.location.hash);
 
         return false;
       }
@@ -178,6 +179,7 @@
 
         if (window.location.hash !== '#' + $(this).attr('id')) {
           window.history.pushState('', '', '#' + $(this).attr('id'));
+          ga('send', 'pageview', '#' + $(this).attr('id'));
         }
       }
       if (cur_pos < 300) {
