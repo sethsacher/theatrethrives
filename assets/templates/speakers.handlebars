@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="section-header">
+        <h2>Participants</h2>
+        <p>Featuring these awesome community theatres</p>
+    </div>
+
+    <div class="row">
+        {{#each speakers}}
+        <div class="col-lg-4 col-md-6">
+            <div class="speaker">
+                <img src={{ image }} alt={{ imageAlt }} class="img-fluid" />
+                <div class="details">
+                    <h3><a href="speaker-details.html">{{ name }}</a></h3>
+                    <p>{{ desc }}</p>
+                    <div class="social">
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

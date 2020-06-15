@@ -2,18 +2,13 @@
 
 http://theatre-thrives.s3-website-us-east-1.amazonaws.com/
 
-# Gatsby React Bootstrap Starter
+handlebars .\assets\templates -f .\assets\js\handlebars.js
 
-A GatsbyJS starter that includes
+# CORS
 
-- react-bootstrap
-- react-icons
-- sticky on scroll navbar
-- SASS compiler
-- basic layout
+Working with cors locally, you need to enable the Chrome extension that bypasses.
+In the prod S3 version, it's fine.
 
-# Hosted on S3
+# Template
 
-https://www.gatsbyjs.org/docs/deploying-to-s3-cloudfront/
-npm run build
-AWS_PROFILE=theatre-thrives npm run deploy
+https://bootstrapmade.com/help/dev-versions/

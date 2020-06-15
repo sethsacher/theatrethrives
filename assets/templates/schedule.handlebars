@@ -1,0 +1,83 @@
+<div class="container wow fadeInUp">
+    <div class="section-header">
+        <h2>Event Schedule</h2>
+        <p>Here is our event schedule</p>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#day-1" role="tab" data-toggle="tab">Day 1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#day-2" role="tab" data-toggle="tab">Day 2</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#day-3" role="tab" data-toggle="tab">Day 3</a>
+        </li>
+    </ul>
+
+    <h3 class="sub-heading">
+        Voluptatem nulla veniam soluta et corrupti consequatur neque eveniet
+        officia. Eius necessitatibus voluptatem quis labore perspiciatis
+        quia.
+    </h3>
+
+    <div class="tab-content row justify-content-center">
+        <!-- Schdule Day 1 -->
+        <div role="tabpanel" class="col-lg-9 tab-pane fade show active" id="day-1">
+            {{#each event1}}
+            <div class="row schedule-item">
+                <div class="col-md-2"><time>{{time}}</time></div>
+                <div class="col-md-10">
+                    {{#if image}}
+                    <div class="speaker">
+                        <img src={{image}} alt={{imageAlt}} />
+                    </div>
+                    {{/if}}
+                    <h4>{{title}} <span>{{speaker}}</span></h4>
+                    <p>{{desc}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <!-- End Schdule Day 1 -->
+
+        <!-- Schdule Day 2 -->
+        <div role="tabpanel" class="col-lg-9 tab-pane fade" id="day-2">
+            {{#each event2}}
+            <div class="row schedule-item">
+                <div class="col-md-2"><time>{{time}}</time></div>
+                <div class="col-md-10">
+                    {{#if image}}
+                    <div class="speaker">
+                        <img src={{image}} alt={{imageAlt}} />
+                    </div>
+                    {{/if}}
+                    <h4>{{title}} <span>{{speaker}}</span></h4>
+                    <p>{{desc}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <!-- End Schdule Day 2 -->
+
+        <!-- Schdule Day 3 -->
+        <div role="tabpanel" class="col-lg-9 tab-pane fade" id="day-3">
+            {{#each event3}}
+            <div class="row schedule-item">
+                <div class="col-md-2"><time>{{time}}</time></div>
+                <div class="col-md-10">
+                    {{#if image}}
+                    <div class="speaker">
+                        <img src={{image}} alt={{imageAlt}} />
+                    </div>
+                    {{/if}}
+                    <h4>{{title}} <span>{{speaker}}</span></h4>
+                    <p>{{desc}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <!-- End Schdule Day 2 -->
+    </div>
+</div>
