@@ -125,8 +125,11 @@
     $('#mobile-nav, #mobile-nav-toggle').hide();
   }
 
+  var scroll = true;
+
   // Smooth scroll for the menu and links with .scrollto classes
   $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function () {
+    scroll = false;
     if (
       location.pathname.replace(/^\//, '') ==
         this.pathname.replace(/^\//, '') &&
@@ -149,7 +152,10 @@
             scrollTop: target.offset().top - top_space,
           },
           1500,
-          'easeInOutExpo'
+          'easeInOutExpo',
+          function () {
+            scroll = true;
+          }
         );
 
         if ($(this).parents('.nav-menu').length) {
@@ -170,6 +176,7 @@
         return false;
       }
     }
+    scroll = true;
   });
 
   // Navigation active state on scroll
@@ -192,13 +199,20 @@
           .parent('li')
           .addClass('menu-active');
 
-        if (window.location.hash !== '#' + $(this).attr('id')) {
+        if (
+          scroll === true &&
+          window.location.hash !== '#' + $(this).attr('id')
+        ) {
           window.history.pushState('', '', '#' + $(this).attr('id'));
           ga('send', 'pageview', '#' + $(this).attr('id'));
         }
       }
       if (cur_pos < 300) {
         $('.nav-menu ul:first li:first').addClass('menu-active');
+        if (scroll === true) {
+          window.history.pushState('', '', '#home');
+          ga('send', 'pageview', '#home');
+        }
       }
     });
   });
