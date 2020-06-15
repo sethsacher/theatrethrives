@@ -42,11 +42,11 @@ templates['participants'] = template({"1":function(container,depth0,helpers,part
     + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":11,"column":25},"end":{"line":11,"column":36}}}) : helper)))
     + " alt="
     + alias4(((helper = (helper = lookupProperty(helpers,"imageAlt") || (depth0 != null ? lookupProperty(depth0,"imageAlt") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imageAlt","hash":{},"data":data,"loc":{"start":{"line":11,"column":41},"end":{"line":11,"column":55}}}) : helper)))
-    + " class=\"img-fluid\" />\r\n                <div class=\"details\">\r\n                    <h3><a href=\"speaker-details.html\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":13,"column":55},"end":{"line":13,"column":65}}}) : helper)))
-    + "</a></h3>\r\n                    <p>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"desc") || (depth0 != null ? lookupProperty(depth0,"desc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"desc","hash":{},"data":data,"loc":{"start":{"line":14,"column":23},"end":{"line":14,"column":33}}}) : helper)))
-    + "</p>\r\n                    <div class=\"social\">\r\n                        <a href=\"\"><i class=\"fa fa-twitter\"></i></a>\r\n                        <a href=\"\"><i class=\"fa fa-facebook\"></i></a>\r\n                        <a href=\"\"><i class=\"fa fa-google-plus\"></i></a>\r\n                        <a href=\"\"><i class=\"fa fa-linkedin\"></i></a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n";
+    + " class=\"img-fluid\" />\r\n                <div class=\"details\">\r\n                    <h3>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":14,"column":24},"end":{"line":14,"column":34}}}) : helper)))
+    + "</h3>\r\n                    <p>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"desc") || (depth0 != null ? lookupProperty(depth0,"desc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"desc","hash":{},"data":data,"loc":{"start":{"line":15,"column":23},"end":{"line":15,"column":33}}}) : helper)))
+    + "</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -56,7 +56,7 @@ templates['participants'] = template({"1":function(container,depth0,helpers,part
     };
 
   return "<div class=\"container\">\r\n    <div class=\"section-header\">\r\n        <h2>Participants</h2>\r\n        <p>Featuring these awesome community theatres</p>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n"
-    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"speakers") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":24,"column":17}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"speakers") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":25,"column":17}}})) != null ? stack1 : "")
     + "    </div>\r\n</div>";
 },"useData":true});
 templates['schedule'] = template({"1":function(container,depth0,helpers,partials,data) {

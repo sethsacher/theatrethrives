@@ -7,8 +7,8 @@ document.getElementById('contact').innerHTML = templates.contact();
 document.getElementById('participants').innerHTML = templates.participants({
   speakers: [
     {
-      name: 'Brenden Legros',
-      desc: 'What a great speaker',
+      name: 'Reston Community Players',
+      desc: 'Reston, VA',
       image: 'assets/img/speakers/1.jpg',
       imageAlt: 'Speaker 1',
     },
