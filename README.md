@@ -8,3 +8,7 @@ handlebars .\assets\templates -f .\assets\js\handlebars.js
 
 Working with cors locally, you need to enable the Chrome extension that bypasses.
 In the prod S3 version, it's fine.
+
+# Template
+
+https://bootstrapmade.com/help/dev-versions/

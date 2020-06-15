@@ -13,6 +13,7 @@
   --font-body-color: #2f3138;
   /* --header-background: #1188cc; */
   --header-background: rgba(17, 136, 204, 0.75);
+  --footer-background: rgba(17, 136, 204, 0.75);
   /* --header-background: rgba(6, 12, 34, 0.98); */
 }
 
@@ -1846,14 +1847,14 @@ input[type='number']::-webkit-outer-spin-button {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #101522;
+  background: var(--footer-background);
   padding: 0 0 25px 0;
   color: #eee;
   font-size: 14px;
 }
 
 #footer .footer-top {
-  background: #040919;
+  background: var(--footer-background);
   padding: 60px 0 30px 0;
 }
 
@@ -1872,7 +1873,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 #footer .footer-top .footer-info img {
-  height: 40px;
+  height: 80px;
   margin-bottom: 10px;
 }
 
