@@ -251,16 +251,6 @@ Resources:
           Properties:
             Path: /Donate
             Method: ANY
-        Api4:
-          Type: Api
-          Properties:
-            Path: /Donate
-            Method: ANY
-        Api5:
-          Type: Api
-          Properties:
-            Path: /Donate
-            Method: ANY
 Outputs:
   WebsiteURL:
     Value: !GetAtt

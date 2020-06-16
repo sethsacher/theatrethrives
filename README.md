@@ -21,6 +21,8 @@ aws cloudformation create-stack --stack-name TheatreThrivesStack --region us-eas
 
 aws cloudformation create-change-set --stack-name TheatreThrivesStack --region us-east-1 --template-body file://cloudformation.yml --change-set-name ChangeSet-1
 
+https://theatre-thrives-2.s3.amazonaws.com/cloudformation.yml
+
 ## MANUAL SETUP
 
 - Add secrets to AWS Secrets Manager
