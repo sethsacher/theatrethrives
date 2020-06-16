@@ -164,6 +164,11 @@ Resources:
                 - !Ref S3Bucket
                 - /*
       Bucket: !Ref S3Bucket
+  PipelineS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: theatrethrives-codepipeline
+    DeletionPolicy: Retain
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -171,7 +176,7 @@ Resources:
       RoleArn: !GetAtt PipelineRole.Arn
       ArtifactStore:
         Type: S3
-        Location: codepipeline-us-east-1-93338790939
+        Location: theatrethrives-codepipeline
       Stages:
         # https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-GitHub.html
         - Name: Source
