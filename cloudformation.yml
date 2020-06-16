@@ -137,7 +137,27 @@ Resources:
             Action:
               - ecr:DescribeImages
             Resource: "*"
-
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: arn:aws:logs:*:*:*
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -253,7 +273,7 @@ Resources:
       Description: ""
       MemorySize: 128
       Timeout: 3
-      Role: "arn:aws:iam::931999392149:role/service-role/Donate-role-c3ycvoff"
+      Role: !GetAtt LambdaExecutionRole.Arn
       Events:
         Api1:
           Type: Api
