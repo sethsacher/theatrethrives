@@ -162,7 +162,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: community-theatre-thrives
+      # BucketName: community-theatre-thrives
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -187,8 +187,8 @@ Resources:
       Bucket: !Ref S3Bucket
   PipelineS3Bucket:
     Type: AWS::S3::Bucket
-    Properties:
-      BucketName: communitytheatrethrives-codepipeline
+    # Properties:
+    # BucketName: communitytheatrethrives-codepipeline
     DeletionPolicy: Retain
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -197,7 +197,7 @@ Resources:
       RoleArn: !GetAtt PipelineRole.Arn
       ArtifactStore:
         Type: S3
-        Location: communitytheatrethrives-codepipeline
+        Location: !Ref PipelineS3Bucket
       Stages:
         # https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-GitHub.html
         - Name: Source
@@ -238,7 +238,7 @@ Resources:
                 Version: "1"
               RunOrder: 1
               Configuration:
-                BucketName: !Sub ${S3Bucket.Arn}/*
+                BucketName: !Ref S3Bucket
                 Extract: "true"
               OutputArtifacts: []
               InputArtifacts:
@@ -269,7 +269,9 @@ Resources:
       FunctionName: Donate
       Handler: index.handler
       Runtime: nodejs12.x
-      CodeUri: "s3://community-theatre-thrives/lambda-functions.zip"
+      CodeUri:
+        Bucket: !Ref S3Bucket
+        Key: lambda-functions.zip
       Description: ""
       MemorySize: 128
       Timeout: 3
