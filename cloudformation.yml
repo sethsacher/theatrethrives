@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: theatre-thrives-2
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: TheatreThrivesBucketPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref S3Bucket
+                - /*
+      Bucket: !Ref S3Bucket
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: theatrethrives-s3-deploy-2
+      RoleArn: arn:aws:iam::931999392149:role/service-role/theatrethrives-s3-pipeline-role
+      ArtifactStore:
+        Type: S3
+        Location: codepipeline-us-east-1-93338790939
+      Stages:
+        # https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-GitHub.html
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: "1"
+              RunOrder: 1
+              Configuration:
+                Branch: master
+                OAuthToken: "{{resolve:secretsmanager:GitHubPersonalAccessToken:SecretString:GitHubPersonalAccessToken}}"
+                Owner: sethsacher
+                PollForSourceChanges: "false"
+                Repo: theatrethrives
+              OutputArtifacts:
+                - Name: SourceArtifact
+              InputArtifacts: []
+              Region: us-east-1
+              Namespace: SourceVariables
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: S3
+                Version: "1"
+              RunOrder: 1
+              Configuration:
+                BucketName: theatre-thrives-2
+                Extract: "true"
+              OutputArtifacts: []
+              InputArtifacts:
+                - Name: SourceArtifact
+              Region: us-east-1
+              Namespace: DeployVariables
+Outputs:
+  WebsiteURL:
+    Value: !GetAtt
+      - S3Bucket
+      - WebsiteURL
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value: !Join
+      - ""
+      - - "https://"
+        - !GetAtt
+          - S3Bucket
+          - DomainName
+    Description: Name of S3 bucket to hold website content
