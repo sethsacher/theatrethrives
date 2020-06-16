@@ -239,7 +239,7 @@ Resources:
       Filters:
         - JsonPath: "$.ref"
           MatchEquals: refs/heads/{Branch}
-      TargetPipeline: !Ref AppPipeline
+      TargetPipeline: !Ref CodePipeline
       TargetAction: SourceAction
       TargetPipelineVersion: !GetAtt CodePipeline.Version
       RegisterWithThirdParty: true
