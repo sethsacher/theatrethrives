@@ -246,6 +246,7 @@ Resources:
   LambdaDonate:
     Type: "AWS::Serverless::Function"
     Properties:
+      FunctionName: Donate-2
       Handler: index.handler
       Runtime: nodejs12.x
       CodeUri: "s3://theatre-thrives-2/lambda-functions.zip"
