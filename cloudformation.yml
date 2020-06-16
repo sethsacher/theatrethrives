@@ -243,16 +243,16 @@ Resources:
       TargetAction: Source
       TargetPipelineVersion: !GetAtt CodePipeline.Version
       RegisterWithThirdParty: true
-  # LambdaDonate:
-  #   Type: "AWS::Serverless::Function"
-  #   Properties:
-  #     Handler: index.handler
-  #     Runtime: nodejs12.x
-  #     CodeUri: "s3://theatre-thrives-2/lambda-functions.zip"
-  #     Description: ""
-  #     MemorySize: 128
-  #     Timeout: 3
-  #     Role: "arn:aws:iam::931999392149:role/service-role/Donate-role-c3ycvoff"
+  LambdaDonate:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: "s3://theatre-thrives-2/lambda-functions.zip"
+      Description: ""
+      MemorySize: 128
+      Timeout: 3
+      Role: "arn:aws:iam::931999392149:role/service-role/Donate-role-c3ycvoff"
   # Events:
   #   Api1:
   #     Type: Api
