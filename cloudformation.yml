@@ -263,35 +263,35 @@ Resources:
       TargetAction: Source
       TargetPipelineVersion: !GetAtt CodePipeline.Version
       RegisterWithThirdParty: true
-  LambdaDonate:
-    Type: "AWS::Serverless::Function"
-    Properties:
-      FunctionName: Donate
-      Handler: index.handler
-      Runtime: nodejs12.x
-      CodeUri:
-        Bucket: !Ref S3Bucket
-        Key: lambda-functions.zip
-      Description: ""
-      MemorySize: 128
-      Timeout: 3
-      Role: !GetAtt LambdaExecutionRole.Arn
-      Events:
-        Api1:
-          Type: Api
-          Properties:
-            Path: "/{city}"
-            Method: ANY
-        Api2:
-          Type: Api
-          Properties:
-            Path: /donate
-            Method: ANY
-        Api3:
-          Type: Api
-          Properties:
-            Path: /Donate
-            Method: ANY
+  # LambdaDonate:
+  #   Type: "AWS::Serverless::Function"
+  #   Properties:
+  #     FunctionName: Donate
+  #     Handler: index.handler
+  #     Runtime: nodejs12.x
+  #     CodeUri:
+  #       Bucket: !Ref S3Bucket
+  #       Key: lambda-functions.zip
+  #     Description: ""
+  #     MemorySize: 128
+  #     Timeout: 3
+  #     Role: !GetAtt LambdaExecutionRole.Arn
+  #     Events:
+  #       Api1:
+  #         Type: Api
+  #         Properties:
+  #           Path: "/{city}"
+  #           Method: ANY
+  #       Api2:
+  #         Type: Api
+  #         Properties:
+  #           Path: /donate
+  #           Method: ANY
+  #       Api3:
+  #         Type: Api
+  #         Properties:
+  #           Path: /Donate
+  #           Method: ANY
 Outputs:
   WebsiteURL:
     Value: !GetAtt
