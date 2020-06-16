@@ -232,7 +232,7 @@ Resources:
       Runtime: nodejs12.x
       Code:
         S3Bucket: theatre-thrives-2
-        S3Key: index.js
+        S3Key: lambda-functions.zip
       Description: ""
       MemorySize: 128
       Timeout: 3
