@@ -8,7 +8,7 @@ Resources:
   GitHubSecret:
     Type: "AWS::SecretsManager::Secret"
     Properties:
-      Name: GitHubPersonalAccessToken2
+      Name: GitHubPersonalAccessToken
       Description: Personal Access token for GitHub
       SecretString:
         Ref: GitHubPersonalAccessToken
@@ -162,7 +162,7 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: theatre-thrives-2
+      BucketName: theatre-thrives
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -193,7 +193,7 @@ Resources:
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: theatrethrives-s3-deploy-2
+      Name: theatrethrives-deploy
       RoleArn: !GetAtt PipelineRole.Arn
       ArtifactStore:
         Type: S3
@@ -238,7 +238,7 @@ Resources:
                 Version: "1"
               RunOrder: 1
               Configuration:
-                BucketName: theatre-thrives-2
+                BucketName: !Sub ${S3Bucket.Arn}/*
                 Extract: "true"
               OutputArtifacts: []
               InputArtifacts:
@@ -266,10 +266,10 @@ Resources:
   LambdaDonate:
     Type: "AWS::Serverless::Function"
     Properties:
-      FunctionName: Donate-2
+      FunctionName: Donate
       Handler: index.handler
       Runtime: nodejs12.x
-      CodeUri: "s3://theatre-thrives-2/lambda-functions.zip"
+      CodeUri: "s3://theatre-thrives/lambda-functions.zip"
       Description: ""
       MemorySize: 128
       Timeout: 3
