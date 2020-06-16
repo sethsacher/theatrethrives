@@ -210,7 +210,7 @@ Resources:
                 Version: "1"
               RunOrder: 1
               Configuration:
-                Branch: cloud-formation
+                Branch: master
                 OAuthToken:
                   !Join [
                     "",
