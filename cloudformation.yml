@@ -224,45 +224,45 @@ Resources:
                 - Name: SourceArtifact
               Region: us-east-1
               Namespace: DeployVariables
-  LambdaDonate:
-    Type: "AWS::Lambda::Function"
-    Properties:
-      FunctionName: Donate-2
-      Handler: index.handler
-      Runtime: nodejs12.x
-      Code:
-        S3Bucket: theatre-thrives-2
-        S3Key: index.js
-      Description: ""
-      MemorySize: 128
-      Timeout: 3
-      Role: "arn:aws:iam::931999392149:role/service-role/Donate-role-c3ycvoff"
-      # Events:
-      #   Api1:
-      #     Type: Api
-      #     Properties:
-      #       Path: '/{city}'
-      #       Method: ANY
-      #   Api2:
-      #     Type: Api
-      #     Properties:
-      #       Path: /donate
-      #       Method: ANY
-      #   Api3:
-      #     Type: Api
-      #     Properties:
-      #       Path: /Donate
-      #       Method: ANY
-      #   Api4:
-      #     Type: Api
-      #     Properties:
-      #       Path: /Donate
-      #       Method: ANY
-      #   Api5:
-      #     Type: Api
-      #     Properties:
-      #       Path: /Donate
-      #       Method: ANY
+  # LambdaDonate:
+  #   Type: "AWS::Lambda::Function"
+  #   Properties:
+  #     FunctionName: Donate-2
+  #     Handler: index.handler
+  #     Runtime: nodejs12.x
+  #     Code:
+  #       S3Bucket: theatre-thrives-2
+  #       S3Key: index.js
+  #     Description: ""
+  #     MemorySize: 128
+  #     Timeout: 3
+  #     Role: "arn:aws:iam::931999392149:role/service-role/Donate-role-c3ycvoff"
+  # Events:
+  #   Api1:
+  #     Type: Api
+  #     Properties:
+  #       Path: '/{city}'
+  #       Method: ANY
+  #   Api2:
+  #     Type: Api
+  #     Properties:
+  #       Path: /donate
+  #       Method: ANY
+  #   Api3:
+  #     Type: Api
+  #     Properties:
+  #       Path: /Donate
+  #       Method: ANY
+  #   Api4:
+  #     Type: Api
+  #     Properties:
+  #       Path: /Donate
+  #       Method: ANY
+  #   Api5:
+  #     Type: Api
+  #     Properties:
+  #       Path: /Donate
+  #       Method: ANY
 Outputs:
   WebsiteURL:
     Value: !GetAtt
