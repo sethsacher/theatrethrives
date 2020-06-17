@@ -159,7 +159,7 @@ Resources:
                   - logs:*
                 Resource: arn:aws:logs:*:*:*
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html
-  S3Bucket:
+  S3BucketTest:
     Type: AWS::S3::Bucket
     Properties:
       # BucketName: community-theatre-thrives
@@ -168,11 +168,11 @@ Resources:
         IndexDocument: index.html
         ErrorDocument: error.html
     DeletionPolicy: Retain
-  BucketPolicy:
+  BucketPolicyTest:
     Type: AWS::S3::BucketPolicy
     Properties:
       PolicyDocument:
-        Id: TheatreThrivesBucketPolicy
+        Id: TheatreThrivesBucketPolicyTest
         Version: 2012-10-17
         Statement:
           - Sid: PublicReadForGetBucketObjects
@@ -182,18 +182,44 @@ Resources:
             Resource: !Join
               - ""
               - - "arn:aws:s3:::"
-                - !Ref S3Bucket
+                - !Ref S3BucketTest
                 - /*
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref S3BucketTest
+  S3BucketProd:
+    Type: AWS::S3::Bucket
+    Properties:
+      # BucketName: community-theatre-thrives
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+    DeletionPolicy: Retain
+  BucketPolicyProd:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: TheatreThrivesBucketPolicyProd
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Join
+              - ""
+              - - "arn:aws:s3:::"
+                - !Ref S3BucketProd
+                - /*
+      Bucket: !Ref S3BucketProd
   PipelineS3Bucket:
     Type: AWS::S3::Bucket
     # Properties:
     # BucketName: communitytheatrethrives-codepipeline
     DeletionPolicy: Retain
-  CodePipeline:
+  CodePipelineTest:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: theatrethrives-deploy
+      Name: theatrethrives-deploy-test
       RoleArn: !GetAtt PipelineRole.Arn
       ArtifactStore:
         Type: S3
@@ -238,7 +264,62 @@ Resources:
                 Version: "1"
               RunOrder: 1
               Configuration:
-                BucketName: !Ref S3Bucket
+                BucketName: !Ref S3BucketTest
+                Extract: "true"
+              OutputArtifacts: []
+              InputArtifacts:
+                - Name: SourceArtifact
+              Region: us-east-1
+              Namespace: DeployVariables
+  CodePipelineProd:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: theatrethrives-deploy-prod
+      RoleArn: !GetAtt PipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref PipelineS3Bucket
+      Stages:
+        # https://docs.aws.amazon.com/codepipeline/latest/userguide/action-reference-GitHub.html
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: "1"
+              RunOrder: 1
+              Configuration:
+                Branch: master
+                OAuthToken:
+                  !Join [
+                    "",
+                    [
+                      "{{resolve:secretsmanager:",
+                      !Ref GitHubSecret,
+                      ":SecretString}}",
+                    ],
+                  ]
+                Owner: sethsacher
+                PollForSourceChanges: "false"
+                Repo: theatrethrives
+              OutputArtifacts:
+                - Name: SourceArtifact
+              InputArtifacts: []
+              Region: us-east-1
+              Namespace: SourceVariables
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: S3
+                Version: "1"
+              RunOrder: 1
+              Configuration:
+                BucketName: !Ref S3BucketProd
                 Extract: "true"
               OutputArtifacts: []
               InputArtifacts:
@@ -259,9 +340,9 @@ Resources:
       Filters:
         - JsonPath: "$.ref"
           MatchEquals: refs/heads/{Branch}
-      TargetPipeline: !Ref CodePipeline
+      TargetPipeline: !Ref CodePipelineTest
       TargetAction: Source
-      TargetPipelineVersion: !GetAtt CodePipeline.Version
+      TargetPipelineVersion: !GetAtt CodePipelineTest.Version
       RegisterWithThirdParty: true
   # LambdaDonate:
   #   Type: "AWS::Serverless::Function"
@@ -293,16 +374,13 @@ Resources:
   #           Path: /Donate
   #           Method: ANY
 Outputs:
-  WebsiteURL:
+  WebsiteURLTest:
     Value: !GetAtt
-      - S3Bucket
+      - S3BucketTest
       - WebsiteURL
-    Description: URL for website hosted on S3
-  S3BucketSecureURL:
-    Value: !Join
-      - ""
-      - - "https://"
-        - !GetAtt
-          - S3Bucket
-          - DomainName
-    Description: Name of S3 bucket to hold website content
+    Description: TEST URL for website hosted on S3
+  WebsiteURLProd:
+    Value: !GetAtt
+      - S3BucketProd
+      - WebsiteURL
+    Description: PROD URL for website hosted on S3
