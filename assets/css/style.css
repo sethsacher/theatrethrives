@@ -20,6 +20,13 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
+.fit-image {
+  width: 100%;
+  object-fit: cover;
+  /* height: 300px; */
+}
+
 body {
   background: #fff;
   color: var(--font-body-color);
@@ -295,7 +302,7 @@ h6 {
   padding: 8px;
   text-decoration: none;
   display: inline-block;
-  color: rgba(202, 206, 221, 0.8);
+  /* color: rgba(202, 206, 221, 0.8); */
   font-family: var(--font-header), sans-serif;
   font-weight: 600;
   font-size: 14px;
@@ -310,7 +317,8 @@ h6 {
 
 .nav-menu .menu-active a,
 .nav-menu a:hover {
-  color: #fff;
+  /* color: var(--accent-darker); */
+  color: #000;
 }
 
 .nav-menu > li {
@@ -507,7 +515,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 #intro {
   width: 100%;
   height: 100vh;
-  background: url(../img/intro-bg.jpg) top center;
+  /* background: url(../img/intro-bg.jpg) top center; */
+  background: url(../img/background-test.png) top center;
+  /* background: url(../img/web-pic.jpg) top center; */
   background-size: cover;
   overflow: hidden;
   position: relative;
@@ -521,7 +531,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #intro:before {
   content: '';
-  background: rgba(6, 12, 34, 0.3);
+  /* background: rgba(6, 12, 34, 0.3); */
   position: absolute;
   bottom: 0;
   top: 0;
@@ -568,7 +578,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 #intro p {
-  color: #ebebeb;
+  /* color: #ebebeb; */
   font-weight: 700;
   font-size: 20px;
 }
@@ -1741,7 +1751,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 @media (min-width: 768px) {
   #contact .contact-phone {
-    border-left: 1px solid #ddd;
+    /* border-left: 1px solid #ddd; */
     border-right: 1px solid #ddd;
   }
 }
@@ -2010,7 +2020,8 @@ input[type='number']::-webkit-outer-spin-button {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  /* background: rgba(255, 255, 255, 0.2); */
+  background: rgba(43, 171, 226, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
