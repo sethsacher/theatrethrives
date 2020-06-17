@@ -545,11 +545,12 @@ body.mobile-nav-active #mobile-nav-toggle {
   left: 0;
   top: 90px;
   right: 0;
-  display: flex;
+  margin-top: 10px;
+  /* display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  text-align: center;
+  text-align: center; */
   padding: 0 15px;
 }
 
