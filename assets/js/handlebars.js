@@ -55,7 +55,7 @@ templates['participants'] = template({"1":function(container,depth0,helpers,part
         return undefined
     };
 
-  return "<div class=\"container\">\n    <div class=\"section-header\">\n        <h2>Participants</h2>\n        <p>Featuring these awesome community theatres</p>\n    </div>\n\n    <div class=\"row\">\n"
+  return "<div class=\"container\">\n    <div class=\"section-header\">\n        <h2>Participants</h2>\n        <p>Meet the participating organizations of Community Theatre Thrives</p>\n    </div>\n\n    <div class=\"row\">\n"
     + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"speakers") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":25,"column":17}}})) != null ? stack1 : "")
     + "    </div>\n</div>";
 },"useData":true});
