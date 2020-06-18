@@ -395,7 +395,7 @@ Resources:
   Route53Prod:
     Type: AWS::Route53::RecordSetGroup
     Properties:
-      HostedZoneId: Z027376331TSCWSN8D34P
+      HostedZoneId: Z03958111PUAAWEYUBR50
       RecordSets:
         - Name: "*.theatrethrives.org"
           Type: A
