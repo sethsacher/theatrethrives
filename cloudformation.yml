@@ -344,52 +344,44 @@ Resources:
       TargetAction: Source
       TargetPipelineVersion: !GetAtt CodePipelineTest.Version
       RegisterWithThirdParty: true
-  CloudFrontDistributionProd:
-    Type: AWS::CloudFront::Distribution
-    Properties:
-      DistributionConfig:
-        Origins:
-          - DomainName: !GetAtt S3BucketProd.DomainName
-            Id: theatrethrives-s3-prod
-            CustomOriginConfig:
-              OriginProtocolPolicy: https-only
-        Enabled: "true"
-        Comment: Prod CDN for Community Theatre Thrives website
-        DefaultRootObject: index.html
-        Logging:
-          IncludeCookies: "false"
-          Bucket: !GetAtt PipelineS3Bucket.DomainName
-          Prefix: ctt
-        # Aliases:
-        #   - mysite.example.com
-        #   - yoursite.example.com
-        DefaultCacheBehavior:
-          AllowedMethods:
-            - DELETE
-            - GET
-            - HEAD
-            - OPTIONS
-            - PATCH
-            - POST
-            - PUT
-          TargetOriginId: theatrethrives-s3-prod
-          ForwardedValues:
-            QueryString: "false"
-            Cookies:
-              Forward: none
-          # TrustedSigners:
-          #   - 1234567890EX
-          #   - 1234567891EX
-          ViewerProtocolPolicy: redirect-to-https
-        PriceClass: PriceClass_100
-        # Restrictions:
-        #   GeoRestriction:
-        #     RestrictionType: whitelist
-        #     Locations:
-        #       - AQ
-        #       - CV
-        ViewerCertificate:
-          CloudFrontDefaultCertificate: "true"
+  ### 20200617 - Removing CloudFront from the stack.
+  ### Cache refreshes every 24 hours, which means I can't push updates during the event
+  ### CDN ensures faster response by geography. Since we'll largely be US, and largely US East, I think it's okay.
+  ### S3 static site should handle high traffic just fine on its own.
+  # CloudFrontDistributionProd:
+  #   Type: AWS::CloudFront::Distribution
+  #   Properties:
+  #     DistributionConfig:
+  #       Origins:
+  #         - DomainName: !GetAtt S3BucketProd.DomainName
+  #           Id: theatrethrives-s3-prod
+  #           CustomOriginConfig:
+  #             OriginProtocolPolicy: https-only
+  #       Enabled: "true"
+  #       Comment: Prod CDN for Community Theatre Thrives website
+  #       DefaultRootObject: index.html
+  #       Logging:
+  #         IncludeCookies: "false"
+  #         Bucket: !GetAtt PipelineS3Bucket.DomainName
+  #         Prefix: ctt
+  #       DefaultCacheBehavior:
+  #         AllowedMethods:
+  #           - DELETE
+  #           - GET
+  #           - HEAD
+  #           - OPTIONS
+  #           - PATCH
+  #           - POST
+  #           - PUT
+  #         TargetOriginId: theatrethrives-s3-prod
+  #         ForwardedValues:
+  #           QueryString: "false"
+  #           Cookies:
+  #             Forward: none
+  #         ViewerProtocolPolicy: redirect-to-https
+  #       PriceClass: PriceClass_100
+  #       ViewerCertificate:
+  #         CloudFrontDefaultCertificate: "true"
   # LambdaDonate:
   #   Type: "AWS::Serverless::Function"
   #   Properties:
