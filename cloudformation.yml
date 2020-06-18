@@ -144,27 +144,27 @@ Resources:
             Action:
               - ecr:DescribeImages
             Resource: "*"
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Policies:
-        - PolicyName: root
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:*
-                Resource: arn:aws:logs:*:*:*
+  # LambdaExecutionRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: "2012-10-17"
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service:
+  #               - lambda.amazonaws.com
+  #           Action:
+  #             - sts:AssumeRole
+  #     Policies:
+  #       - PolicyName: root
+  #         PolicyDocument:
+  #           Version: "2012-10-17"
+  #           Statement:
+  #             - Effect: Allow
+  #               Action:
+  #                 - logs:*
+  #               Resource: arn:aws:logs:*:*:*
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html
   S3BucketTest:
     Type: AWS::S3::Bucket
@@ -363,7 +363,7 @@ Resources:
               OriginProtocolPolicy: https-only
               # OriginProtocolPolicy: match-viewer
         Aliases:
-          - "*.sethsacher.org"
+          - "*.theatrethrives.org"
         Enabled: "true"
         Comment: Prod CDN for Community Theatre Thrives website
         DefaultRootObject: index.html
@@ -397,7 +397,7 @@ Resources:
     Properties:
       HostedZoneId: Z027376331TSCWSN8D34P
       RecordSets:
-        - Name: www.sethsacher.org
+        - Name: "*.theatrethrives.org"
           Type: A
           AliasTarget:
             # Intentionally hard-coded, specific AWS thing
@@ -406,7 +406,7 @@ Resources:
   CertificateProd:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: "*.sethsacher.org"
+      DomainName: "*.theatrethrives.org"
       ValidationMethod: DNS
   # LambdaDonate:
   #   Type: "AWS::Serverless::Function"
