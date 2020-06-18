@@ -345,7 +345,8 @@ Resources:
       TargetPipelineVersion: !GetAtt CodePipelineTest.Version
       RegisterWithThirdParty: true
   ### 20200617 - Removing CloudFront from the stack.
-  ### Cache refreshes every 24 hours, which means I can't push updates during the event
+  ### Cache refreshes every 24 hours, which means I can't push updates during the event.
+  ### You can invalidate the cache and force the changes, but it might get expensive.
   ### CDN ensures faster response by geography. Since we'll largely be US, and largely US East, I think it's okay.
   ### S3 static site should handle high traffic just fine on its own.
   # CloudFrontDistributionProd:
