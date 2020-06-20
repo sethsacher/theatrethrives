@@ -31,7 +31,7 @@ templates['intro'] = template({"compiler":[8,">= 4.3.0"],"main":function(contain
     return "<div class=\"intro-container wow fadeIn\">\n\n\n    <div class=\"row justify-content-center\">\n        <div class=\"col-lg-7\">\n            <img src=\"assets/img/logo.png\" class=\"img-responsive fit-image\">\n\n            <div class=\"col p-5 text-center mb-5\">\n                <h2 class=\"mb-4 font-weight-bold\">July 17-19, 2020</h2>\n                <h4 class=\"mb-4 font-weight-bold text-uppercase\">The live event begins in</h4>\n                <div id=\"clock\" class=\"countdown-circles d-flex flex-wrap justify-content-center pt-4\"></div>\n            </div>\n        </div>\n    </div>\n\n\n</div>";
 },"useData":true});
 templates['participants'] = template({"1":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
         }
@@ -39,14 +39,40 @@ templates['participants'] = template({"1":function(container,depth0,helpers,part
     };
 
   return "        <div class=\"col-lg-4 col-md-6\">\n            <div class=\"speaker\">\n                <img src="
-    + alias4(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"image","hash":{},"data":data,"loc":{"start":{"line":11,"column":25},"end":{"line":11,"column":36}}}) : helper)))
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"image") : depth0),{"name":"if","hash":{},"fn":container.program(2, data, 0),"inverse":container.program(4, data, 0),"data":data,"loc":{"start":{"line":11,"column":25},"end":{"line":11,"column":102}}})) != null ? stack1 : "")
     + " alt="
-    + alias4(((helper = (helper = lookupProperty(helpers,"imageAlt") || (depth0 != null ? lookupProperty(depth0,"imageAlt") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"imageAlt","hash":{},"data":data,"loc":{"start":{"line":11,"column":41},"end":{"line":11,"column":55}}}) : helper)))
-    + " class=\"img-fluid\" />\n                <div class=\"details\">\n                    <h3>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":14,"column":24},"end":{"line":14,"column":34}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":11,"column":107},"end":{"line":11,"column":117}}}) : helper)))
+    + "\n                    class=\"img-fluid\" />\n                <div class=\"details\">\n                    <h3>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":15,"column":24},"end":{"line":15,"column":34}}}) : helper)))
     + "</h3>\n                    <p>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"desc") || (depth0 != null ? lookupProperty(depth0,"desc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"desc","hash":{},"data":data,"loc":{"start":{"line":15,"column":23},"end":{"line":15,"column":33}}}) : helper)))
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"desc") : depth0),{"name":"if","hash":{},"fn":container.program(6, data, 0),"inverse":container.program(8, data, 0),"data":data,"loc":{"start":{"line":16,"column":23},"end":{"line":16,"column":68}}})) != null ? stack1 : "")
     + "</p>\n                </div>\n            </div>\n        </div>\n";
+},"2":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return " "
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"image") || (depth0 != null ? lookupProperty(depth0,"image") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"image","hash":{},"data":data,"loc":{"start":{"line":11,"column":40},"end":{"line":11,"column":51}}}) : helper)))
+    + " ";
+},"4":function(container,depth0,helpers,partials,data) {
+    return " 'assets/img/speakers/default.png' ";
+},"6":function(container,depth0,helpers,partials,data) {
+    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return " "
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"desc") || (depth0 != null ? lookupProperty(depth0,"desc") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"desc","hash":{},"data":data,"loc":{"start":{"line":16,"column":37},"end":{"line":16,"column":47}}}) : helper)))
+    + " ";
+},"8":function(container,depth0,helpers,partials,data) {
+    return " TBD ";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -56,7 +82,7 @@ templates['participants'] = template({"1":function(container,depth0,helpers,part
     };
 
   return "<div class=\"container\">\n    <div class=\"section-header\">\n        <h2>Participants</h2>\n        <p>Meet the participating organizations of Community Theatre Thrives</p>\n    </div>\n\n    <div class=\"row\">\n"
-    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"speakers") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":25,"column":17}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"each").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"speakers") : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":8,"column":8},"end":{"line":26,"column":17}}})) != null ? stack1 : "")
     + "    </div>\n</div>";
 },"useData":true});
 templates['schedule'] = template({"1":function(container,depth0,helpers,partials,data) {

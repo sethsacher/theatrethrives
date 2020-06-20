@@ -7,10 +7,39 @@ document.getElementById('contact').innerHTML = templates.contact();
 document.getElementById('participants').innerHTML = templates.participants({
   speakers: [
     {
+      name: 'Annapolis Summer Garden Theatre',
+    },
+    {
+      name: 'Hard Bargain Players',
+    },
+    {
+      name: 'Kensington Arts Theatre',
+    },
+    {
+      name: 'Laurel Mill Playhouse',
+    },
+    {
+      name: 'Port Tobacco Players',
+    },
+    {
+      name: 'Prince William Little Theatre',
+    },
+    {
       name: 'Reston Community Players',
       desc: 'Reston, VA',
       image: 'assets/img/speakers/rcp.jpg',
-      imageAlt: 'Reston Community Players',
+    },
+    {
+      name: 'Rockville Little Theatre',
+    },
+    {
+      name: 'Sterling Playmakers',
+    },
+    {
+      name: 'Silver Spring Stage',
+    },
+    {
+      name: 'The Victorian Lyric Opera Company',
     },
   ],
 });

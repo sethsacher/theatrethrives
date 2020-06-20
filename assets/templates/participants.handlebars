@@ -8,11 +8,12 @@
         {{#each speakers}}
         <div class="col-lg-4 col-md-6">
             <div class="speaker">
-                <img src={{ image }} alt={{ imageAlt }} class="img-fluid" />
+                <img src={{#if image }} {{ image }} {{else}} 'assets/img/speakers/default.png' {{/if}} alt={{ name }}
+                    class="img-fluid" />
                 <div class="details">
                     {{!-- <h3><a href="speaker-details.html">{{ name }}</a></h3> --}}
                     <h3>{{ name }}</h3>
-                    <p>{{ desc }}</p>
+                    <p>{{#if desc }} {{ desc }} {{else}} TBD {{/if}}</p>
                     {{!-- <div class="social">
                         <a href=""><i class="fa fa-twitter"></i></a>
                         <a href=""><i class="fa fa-facebook"></i></a>
