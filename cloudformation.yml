@@ -363,6 +363,7 @@ Resources:
               OriginProtocolPolicy: https-only
               # OriginProtocolPolicy: match-viewer
         Aliases:
+          - "theatrethrives.org"
           - "*.theatrethrives.org"
         Enabled: "true"
         Comment: Prod CDN for Community Theatre Thrives website
@@ -397,6 +398,12 @@ Resources:
     Properties:
       HostedZoneId: Z03958111PUAAWEYUBR50
       RecordSets:
+        - Name: "theatrethrives.org"
+          Type: A
+          AliasTarget:
+            # Intentionally hard-coded, specific AWS thing
+            HostedZoneId: Z2FDTNDATAQYW2
+            DNSName: !GetAtt CloudFrontDistributionProd.DomainName
         - Name: "*.theatrethrives.org"
           Type: A
           AliasTarget:
@@ -406,8 +413,11 @@ Resources:
   CertificateProd:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: "*.theatrethrives.org"
+      DomainName: "www.theatrethrives.org"
       ValidationMethod: DNS
+      SubjectAlternativeNames:
+        - "*.theatrethrives.org"
+        - "theatrethrives.org"
   # LambdaDonate:
   #   Type: "AWS::Serverless::Function"
   #   Properties:
