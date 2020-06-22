@@ -427,15 +427,19 @@ Resources:
       SubjectAlternativeNames:
         - '*.theatrethrives.org'
         - 'theatrethrives.org'
+  LambdaS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
   LambdaDonate:
     Type: 'AWS::Serverless::Function'
     Properties:
       FunctionName: Donate
       Handler: index.handler
       Runtime: nodejs12.x
-      CodeUri:
-        Bucket: !Ref S3BucketTest
-        Key: lambda-functions.zip
+      CodeUri: ./lambda-functions
+      # CodeUri:
+      #   Bucket: !Ref S3BucketTest
+      #   Key: lambda-functions.zip
       Description: ''
       MemorySize: 128
       Timeout: 3
@@ -446,21 +450,59 @@ Resources:
           BT_PUBLIC_KEY: !Ref BTPublicKey
           BT_PRIVATE_KEY: !Ref BTPrivateKey
       Events:
-        # Api1:
-        #   Type: Api
-        #   Properties:
-        #     Path: "/{city}"
-        #     Method: ANY
         Api1:
           Type: Api
           Properties:
             Path: /donate
             Method: ANY
-        # Api3:
-        #   Type: Api
-        #   Properties:
-        #     Path: /Donate
-        #     Method: ANY
+  CodePipelineInfra:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: theatrethrives-infra
+      RoleArn: !GetAtt PipelineRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref PipelineS3Bucket
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: '1'
+              RunOrder: 1
+              Configuration:
+                Branch: master
+                OAuthToken:
+                  !Join [
+                    '',
+                    [
+                      '{{resolve:secretsmanager:',
+                      !Ref GitHubSecret,
+                      ':SecretString}}',
+                    ],
+                  ]
+                Owner: sethsacher
+                PollForSourceChanges: 'false'
+                Repo: theatrethrives
+              OutputArtifacts:
+                - Name: SourceArtifact
+              InputArtifacts: []
+              Region: us-east-1
+              Namespace: SourceVariables
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: AWS CodeBuild
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
