@@ -8,21 +8,39 @@ document.getElementById('participants').innerHTML = templates.participants({
   speakers: [
     {
       name: 'Annapolis Summer Garden Theatre',
+      desc: 'Annapolis, MD',
+      image: 'assets/img/speakers/asgt.jpg',
+    },
+    {
+      name: 'City of Fairfax Theatre Company',
+      desc: 'Fairfax, VA',
+      image: 'assets/img/speakers/cftc.jpg',
+    },
+    {
+      name: 'Colonial Players of Annapolis',
+      desc: 'Annapolis, MD',
+      image: 'assets/img/speakers/cpa.png',
     },
     {
       name: 'Hard Bargain Players',
+      desc: 'Accokeek, MD',
     },
     {
       name: 'Kensington Arts Theatre',
+      desc: 'Kensington, MD',
+      image: 'assets/img/speakers/kat.jpg',
     },
     {
       name: 'Laurel Mill Playhouse',
+      desc: 'Laurel, MD',
     },
     {
       name: 'Port Tobacco Players',
+      desc: 'La Plata, MD',
     },
     {
       name: 'Prince William Little Theatre',
+      desc: 'Manassas, VA',
     },
     {
       name: 'Reston Community Players',
@@ -31,15 +49,21 @@ document.getElementById('participants').innerHTML = templates.participants({
     },
     {
       name: 'Rockville Little Theatre',
-    },
-    {
-      name: 'Sterling Playmakers',
+      desc: 'Rockville, MD',
     },
     {
       name: 'Silver Spring Stage',
+      desc: 'Silver Spring, MD',
+    },
+    {
+      name: 'Sterling Playmakers',
+      desc: 'Sterling, VA',
+      image: 'assets/img/speakers/sp.png',
     },
     {
       name: 'The Victorian Lyric Opera Company',
+      desc: 'Rockville, MD',
+      image: 'assets/img/speakers/vloc.jpg',
     },
   ],
 });
