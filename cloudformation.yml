@@ -144,27 +144,27 @@ Resources:
             Action:
               - ecr:DescribeImages
             Resource: "*"
-  # LambdaExecutionRole:
-  #   Type: AWS::IAM::Role
-  #   Properties:
-  #     AssumeRolePolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service:
-  #               - lambda.amazonaws.com
-  #           Action:
-  #             - sts:AssumeRole
-  #     Policies:
-  #       - PolicyName: root
-  #         PolicyDocument:
-  #           Version: "2012-10-17"
-  #           Statement:
-  #             - Effect: Allow
-  #               Action:
-  #                 - logs:*
-  #               Resource: arn:aws:logs:*:*:*
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:*
+                Resource: arn:aws:logs:*:*:*
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-s3.html
   S3BucketTest:
     Type: AWS::S3::Bucket
@@ -418,35 +418,35 @@ Resources:
       SubjectAlternativeNames:
         - "*.theatrethrives.org"
         - "theatrethrives.org"
-  # LambdaDonate:
-  #   Type: "AWS::Serverless::Function"
-  #   Properties:
-  #     FunctionName: Donate
-  #     Handler: index.handler
-  #     Runtime: nodejs12.x
-  #     CodeUri:
-  #       Bucket: !Ref S3Bucket
-  #       Key: lambda-functions.zip
-  #     Description: ""
-  #     MemorySize: 128
-  #     Timeout: 3
-  #     Role: !GetAtt LambdaExecutionRole.Arn
-  #     Events:
-  #       Api1:
-  #         Type: Api
-  #         Properties:
-  #           Path: "/{city}"
-  #           Method: ANY
-  #       Api2:
-  #         Type: Api
-  #         Properties:
-  #           Path: /donate
-  #           Method: ANY
-  #       Api3:
-  #         Type: Api
-  #         Properties:
-  #           Path: /Donate
-  #           Method: ANY
+  LambdaDonate:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: Donate
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri:
+        Bucket: !Ref S3BucketTest
+        Key: lambda-functions.zip
+      Description: ""
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: "/{city}"
+            Method: ANY
+        Api2:
+          Type: Api
+          Properties:
+            Path: /donate
+            Method: ANY
+        Api3:
+          Type: Api
+          Properties:
+            Path: /Donate
+            Method: ANY
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
