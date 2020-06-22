@@ -6,25 +6,34 @@
 ### https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html
 ### "You cannot programmatically request that ACM automatically create your record in Route 53"
 AWSTemplateFormatVersion: 2010-09-09
-Transform: "AWS::Serverless-2016-10-31"
+Transform: 'AWS::Serverless-2016-10-31'
 Parameters:
   GitHubPersonalAccessToken:
     Type: String
     Description: GitHub Personal Access Token
+  BTMerchantID:
+    Type: String
+    Description: Braintree Merchant ID
+  BTPublicKey:
+    Type: String
+    Description: Braintree Public Key
+  BTPrivateKey:
+    Type: String
+    Description: Braintree PrivateKey
 Resources:
   GitHubSecret:
-    Type: "AWS::SecretsManager::Secret"
+    Type: 'AWS::SecretsManager::Secret'
     Properties:
       Name: GitHubPersonalAccessToken
       Description: Personal Access token for GitHub
       SecretString:
         Ref: GitHubPersonalAccessToken
   PipelineRole:
-    Type: "AWS::IAM::Role"
+    Type: 'AWS::IAM::Role'
     Properties:
       RoleName: CodePipelineTheatreThrivesRole
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -35,13 +44,13 @@ Resources:
     Properties:
       PolicyName: CodePipelineTheatreThrivesPolicy
       Roles:
-        - Ref: "PipelineRole"
+        - Ref: 'PipelineRole'
       PolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Action:
               - iam:PassRole
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
             Condition:
               StringEqualsIfExists:
@@ -56,7 +65,7 @@ Resources:
               - codecommit:GetCommit
               - codecommit:GetUploadArchiveStatus
               - codecommit:UploadArchive
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - codedeploy:CreateDeployment
@@ -65,11 +74,11 @@ Resources:
               - codedeploy:GetDeployment
               - codedeploy:GetDeploymentConfig
               - codedeploy:RegisterApplicationRevision
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - codestar-connections:UseConnection
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - elasticbeanstalk:*
@@ -83,12 +92,12 @@ Resources:
               - rds:*
               - sqs:*
               - ecs:*
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - lambda:InvokeFunction
               - lambda:ListFunctions
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - opsworks:CreateDeployment
@@ -99,7 +108,7 @@ Resources:
               - opsworks:DescribeStacks
               - opsworks:UpdateApp
               - opsworks:UpdateStack
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - cloudformation:CreateStack
@@ -112,12 +121,12 @@ Resources:
               - cloudformation:ExecuteChangeSet
               - cloudformation:SetStackPolicy
               - cloudformation:ValidateTemplate
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Action:
               - codebuild:BatchGetBuilds
               - codebuild:StartBuild
-            Resource: "*"
+            Resource: '*'
             Effect: Allow
           - Effect: Allow
             Action:
@@ -127,7 +136,7 @@ Resources:
               - devicefarm:GetUpload
               - devicefarm:CreateUpload
               - devicefarm:ScheduleRun
-            Resource: "*"
+            Resource: '*'
           - Effect: Allow
             Action:
               - servicecatalog:ListProvisioningArtifacts
@@ -135,20 +144,20 @@ Resources:
               - servicecatalog:DescribeProvisioningArtifact
               - servicecatalog:DeleteProvisioningArtifact
               - servicecatalog:UpdateProduct
-            Resource: "*"
+            Resource: '*'
           - Effect: Allow
             Action:
               - cloudformation:ValidateTemplate
-            Resource: "*"
+            Resource: '*'
           - Effect: Allow
             Action:
               - ecr:DescribeImages
-            Resource: "*"
+            Resource: '*'
   LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
@@ -159,7 +168,7 @@ Resources:
       Policies:
         - PolicyName: root
           PolicyDocument:
-            Version: "2012-10-17"
+            Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
@@ -184,11 +193,11 @@ Resources:
         Statement:
           - Sid: PublicReadForGetBucketObjects
             Effect: Allow
-            Principal: "*"
-            Action: "s3:GetObject"
+            Principal: '*'
+            Action: 's3:GetObject'
             Resource: !Join
-              - ""
-              - - "arn:aws:s3:::"
+              - ''
+              - - 'arn:aws:s3:::'
                 - !Ref S3BucketTest
                 - /*
       Bucket: !Ref S3BucketTest
@@ -210,11 +219,11 @@ Resources:
         Statement:
           - Sid: PublicReadForGetBucketObjects
             Effect: Allow
-            Principal: "*"
-            Action: "s3:GetObject"
+            Principal: '*'
+            Action: 's3:GetObject'
             Resource: !Join
-              - ""
-              - - "arn:aws:s3:::"
+              - ''
+              - - 'arn:aws:s3:::'
                 - !Ref S3BucketProd
                 - /*
       Bucket: !Ref S3BucketProd
@@ -240,21 +249,21 @@ Resources:
                 Category: Source
                 Owner: ThirdParty
                 Provider: GitHub
-                Version: "1"
+                Version: '1'
               RunOrder: 1
               Configuration:
                 Branch: master
                 OAuthToken:
                   !Join [
-                    "",
+                    '',
                     [
-                      "{{resolve:secretsmanager:",
+                      '{{resolve:secretsmanager:',
                       !Ref GitHubSecret,
-                      ":SecretString}}",
+                      ':SecretString}}',
                     ],
                   ]
                 Owner: sethsacher
-                PollForSourceChanges: "false"
+                PollForSourceChanges: 'false'
                 Repo: theatrethrives
               OutputArtifacts:
                 - Name: SourceArtifact
@@ -268,11 +277,11 @@ Resources:
                 Category: Deploy
                 Owner: AWS
                 Provider: S3
-                Version: "1"
+                Version: '1'
               RunOrder: 1
               Configuration:
                 BucketName: !Ref S3BucketTest
-                Extract: "true"
+                Extract: 'true'
               OutputArtifacts: []
               InputArtifacts:
                 - Name: SourceArtifact
@@ -295,21 +304,21 @@ Resources:
                 Category: Source
                 Owner: ThirdParty
                 Provider: GitHub
-                Version: "1"
+                Version: '1'
               RunOrder: 1
               Configuration:
                 Branch: master
                 OAuthToken:
                   !Join [
-                    "",
+                    '',
                     [
-                      "{{resolve:secretsmanager:",
+                      '{{resolve:secretsmanager:',
                       !Ref GitHubSecret,
-                      ":SecretString}}",
+                      ':SecretString}}',
                     ],
                   ]
                 Owner: sethsacher
-                PollForSourceChanges: "false"
+                PollForSourceChanges: 'false'
                 Repo: theatrethrives
               OutputArtifacts:
                 - Name: SourceArtifact
@@ -323,11 +332,11 @@ Resources:
                 Category: Deploy
                 Owner: AWS
                 Provider: S3
-                Version: "1"
+                Version: '1'
               RunOrder: 1
               Configuration:
                 BucketName: !Ref S3BucketProd
-                Extract: "true"
+                Extract: 'true'
               OutputArtifacts: []
               InputArtifacts:
                 - Name: SourceArtifact
@@ -341,11 +350,11 @@ Resources:
       AuthenticationConfiguration:
         SecretToken:
           !Join [
-            "",
-            ["{{resolve:secretsmanager:", !Ref GitHubSecret, ":SecretString}}"],
+            '',
+            ['{{resolve:secretsmanager:', !Ref GitHubSecret, ':SecretString}}'],
           ]
       Filters:
-        - JsonPath: "$.ref"
+        - JsonPath: '$.ref'
           MatchEquals: refs/heads/{Branch}
       TargetPipeline: !Ref CodePipelineTest
       TargetAction: Source
@@ -363,13 +372,13 @@ Resources:
               OriginProtocolPolicy: https-only
               # OriginProtocolPolicy: match-viewer
         Aliases:
-          - "theatrethrives.org"
-          - "*.theatrethrives.org"
-        Enabled: "true"
+          - 'theatrethrives.org'
+          - '*.theatrethrives.org'
+        Enabled: 'true'
         Comment: Prod CDN for Community Theatre Thrives website
         DefaultRootObject: index.html
         Logging:
-          IncludeCookies: "false"
+          IncludeCookies: 'false'
           Bucket: !GetAtt PipelineS3Bucket.DomainName
           Prefix: ctt
         DefaultCacheBehavior:
@@ -383,7 +392,7 @@ Resources:
             - PUT
           TargetOriginId: theatrethrives-s3-prod
           ForwardedValues:
-            QueryString: "false"
+            QueryString: 'false'
             Cookies:
               Forward: none
           ViewerProtocolPolicy: redirect-to-https
@@ -398,13 +407,13 @@ Resources:
     Properties:
       HostedZoneId: Z03958111PUAAWEYUBR50
       RecordSets:
-        - Name: "theatrethrives.org"
+        - Name: 'theatrethrives.org'
           Type: A
           AliasTarget:
             # Intentionally hard-coded, specific AWS thing
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt CloudFrontDistributionProd.DomainName
-        - Name: "*.theatrethrives.org"
+        - Name: '*.theatrethrives.org'
           Type: A
           AliasTarget:
             # Intentionally hard-coded, specific AWS thing
@@ -413,13 +422,13 @@ Resources:
   CertificateProd:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: "www.theatrethrives.org"
+      DomainName: 'www.theatrethrives.org'
       ValidationMethod: DNS
       SubjectAlternativeNames:
-        - "*.theatrethrives.org"
-        - "theatrethrives.org"
+        - '*.theatrethrives.org'
+        - 'theatrethrives.org'
   LambdaDonate:
-    Type: "AWS::Serverless::Function"
+    Type: 'AWS::Serverless::Function'
     Properties:
       FunctionName: Donate
       Handler: index.handler
@@ -427,26 +436,31 @@ Resources:
       CodeUri:
         Bucket: !Ref S3BucketTest
         Key: lambda-functions.zip
-      Description: ""
+      Description: ''
       MemorySize: 128
       Timeout: 3
       Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          BT_MERCHANT_ID: !Ref BTMerchantID
+          BT_PUBLIC_KEY: !Ref BTPublicKey
+          BT_PRIVATE_KEY: !Ref BTPrivateKey
       Events:
+        # Api1:
+        #   Type: Api
+        #   Properties:
+        #     Path: "/{city}"
+        #     Method: ANY
         Api1:
-          Type: Api
-          Properties:
-            Path: "/{city}"
-            Method: ANY
-        Api2:
           Type: Api
           Properties:
             Path: /donate
             Method: ANY
-        Api3:
-          Type: Api
-          Properties:
-            Path: /Donate
-            Method: ANY
+        # Api3:
+        #   Type: Api
+        #   Properties:
+        #     Path: /Donate
+        #     Method: ANY
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
