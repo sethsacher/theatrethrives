@@ -18,42 +18,37 @@ braintree.dropin.create(
         $.ajax({
           type: 'POST',
           url:
-            'https://g31c2wlbrk.execute-api.us-east-1.amazonaws.com/default/donate?name=John&city=Seattle',
-          data: JSON.stringify({
-            time: 'evening',
-          }),
+            'https://isohkkvws2.execute-api.us-east-1.amazonaws.com/Prod/donate',
+          // data: JSON.stringify({
+          //   nonce: payload.nonce,
+          // }),
           headers: {
             'content-type': 'application/json',
-            day: 'Thursday',
             'x-amz-docs-region': 'us-east-1',
           },
-          //   data: { paymentMethodNonce: payload.nonce },
-          //   data: JSON.stringify({
-          //     name: 'Bob Smith',
-          //   }),
         }).done(function (result) {
           console.log(result);
           // Tear down the Drop-in UI
-          //   instance.teardown(function (teardownErr) {
-          //     if (teardownErr) {
-          //       console.error('Could not tear down Drop-in UI!');
-          //     } else {
-          //       console.info('Drop-in UI has been torn down!');
-          //       // Remove the 'Submit payment' button
-          //       $('#submit-button').remove();
-          //     }
-          //   });
-
-          //   if (result.success) {
-          //     $('#checkout-message').html(
-          //       '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
-          //     );
+          // instance.teardown(function (teardownErr) {
+          //   if (teardownErr) {
+          //     console.error('Could not tear down Drop-in UI!');
           //   } else {
-          //     console.log(result);
-          //     $('#checkout-message').html(
-          //       '<h1>Error</h1><p>Check your console.</p>'
-          //     );
+          //     console.info('Drop-in UI has been torn down!');
+          //     // Remove the 'Submit payment' button
+          //     $('#submit-button').remove();
           //   }
+          // });
+
+          // if (result.success) {
+          //   $('#checkout-message').html(
+          //     '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
+          //   );
+          // } else {
+          //   console.log(result);
+          //   $('#checkout-message').html(
+          //     '<h1>Error</h1><p>Check your console.</p>'
+          //   );
+          // }
         });
       });
     });
