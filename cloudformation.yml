@@ -433,6 +433,7 @@ Resources:
       StageName: Prod
       Cors:
         AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
   LambdaDonate:
     Type: "AWS::Serverless::Function"
     Properties:
