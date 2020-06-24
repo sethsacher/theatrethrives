@@ -40,7 +40,7 @@ exports.handler = async (event) => {
 
   console.log('transaction: ' + JSON.stringify(newTransaction));
 
-  if (newTransaction.success && newTransaction.success === true) {
+  if (newTransaction.success) {
     return {
       statusCode: 200,
       headers: headers,

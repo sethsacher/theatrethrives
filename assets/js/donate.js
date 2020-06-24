@@ -7,6 +7,11 @@ braintree.dropin
   .create({
     authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
     container: '#dropin-container',
+    card: {
+      cardholderName: {
+        required: true,
+      },
+    },
   })
   .then(function (dropinInstance) {
     submitButton.addEventListener('click', function () {
@@ -27,7 +32,7 @@ braintree.dropin
               'x-amz-docs-region': 'us-east-1',
             },
           }).done(function (result) {
-            console.log(result);
+            // console.log(result);
             // Tear down the Drop-in UI
             dropinInstance.teardown(function (teardownErr) {
               if (teardownErr) {
