@@ -439,14 +439,14 @@ Resources:
   LambdaApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: test
+      StageName: Test
       Cors:
         AllowOrigin: "'*'"
         AllowHeaders: "'*'"
   LambdaDonate:
     Type: "AWS::Serverless::Function"
     Properties:
-      FunctionName: Donate
+      FunctionName: Donate-Test
       Handler: index.handler
       Runtime: nodejs12.x
       CodeUri:
@@ -471,14 +471,14 @@ Resources:
   LambdaApiProd:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: prod
+      StageName: Prod
       Cors:
         AllowOrigin: "'*'"
         AllowHeaders: "'*'"
   LambdaDonateProd:
     Type: "AWS::Serverless::Function"
     Properties:
-      FunctionName: Donate
+      FunctionName: Donate-Prod
       Handler: index.handler
       Runtime: nodejs12.x
       CodeUri:

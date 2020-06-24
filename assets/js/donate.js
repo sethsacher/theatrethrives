@@ -27,8 +27,8 @@ braintree.dropin
           $.ajax({
             type: 'POST',
             url: isProd
-              ? 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate'
-              : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate',
+              ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+              : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
             data: JSON.stringify({
               nonce: payload.nonce,
               amount: amount,
