@@ -104,6 +104,7 @@ braintree.dropin
 // );
 
 // AMOUNT
+// https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
   $('#searchbar').focus();
 
