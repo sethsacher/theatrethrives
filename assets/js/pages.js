@@ -12,18 +12,23 @@ document.getElementById('participants').innerHTML = templates.participants({
       image: 'assets/img/speakers/asgt.jpg',
     },
     {
-      name: 'City of Fairfax Theatre Company',
+      name: 'The Arlington Players',
+      desc: 'Arlington, VA',
+    },
+    {
+      name: 'The City of Fairfax Theatre Company',
       desc: 'Fairfax, VA',
       image: 'assets/img/speakers/cftc.jpg',
     },
     {
-      name: 'Colonial Players of Annapolis',
+      name: 'The Colonial Players of Annapolis',
       desc: 'Annapolis, MD',
       image: 'assets/img/speakers/cpa.png',
     },
     {
-      name: 'Hard Bargain Players',
+      name: 'The Hard Bargain Players',
       desc: 'Accokeek, MD',
+      image: 'assets/img/speakers/hbp.jpg',
     },
     {
       name: 'Kensington Arts Theatre',
@@ -33,6 +38,7 @@ document.getElementById('participants').innerHTML = templates.participants({
     {
       name: 'Laurel Mill Playhouse',
       desc: 'Laurel, MD',
+      image: 'assets/img/speakers/lmp.jpg',
     },
     {
       name: 'Port Tobacco Players',
@@ -41,6 +47,7 @@ document.getElementById('participants').innerHTML = templates.participants({
     {
       name: 'Prince William Little Theatre',
       desc: 'Manassas, VA',
+      image: 'assets/img/speakers/pwlt.png',
     },
     {
       name: 'Reston Community Players',
