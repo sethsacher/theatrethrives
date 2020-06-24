@@ -4,11 +4,6 @@ http://theatre-thrives.s3-website-us-east-1.amazonaws.com/
 
 handlebars .\assets\templates -f .\assets\js\handlebars.js
 
-# CORS
-
-Working with cors locally, you need to enable the Chrome extension that bypasses.
-In the prod S3 version, it's fine.
-
 # Template
 
 https://bootstrapmade.com/help/dev-versions/
@@ -27,3 +22,8 @@ https://theatre-thrives-2.s3.amazonaws.com/cloudformation.yml
 
 - Add secrets to AWS Secrets Manager
 - Create TheatreThrivesStack in CloudFormation using cloudformation.yml
+
+# Braintree
+
+- Need to run http-server locally
+- For Chrome, in Network, select "disable cache" to allow for changing content

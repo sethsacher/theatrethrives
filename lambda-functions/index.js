@@ -44,8 +44,7 @@ exports.handler = async (event) => {
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        error: null,
-        result: newTransaction.transaction,
+        ...newTransaction,
       }),
     };
   }
@@ -55,11 +54,7 @@ exports.handler = async (event) => {
     headers: headers,
     isBase64Encoded: false,
     body: JSON.stringify({
-      error:
-        'An error occurred. ' + newTransaction.message
-          ? newTransaction.message
-          : 'Please contact the administrator.',
-      result: null,
+      ...newTransaction,
     }),
   };
 };

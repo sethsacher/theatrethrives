@@ -25,6 +25,27 @@ braintree.dropin
             },
           }).done(function (result) {
             console.log(result);
+            console.log(result.result);
+            // Tear down the Drop-in UI
+            dropinInstance.teardown(function (teardownErr) {
+              if (teardownErr) {
+                console.error('Could not tear down Drop-in UI!');
+              } else {
+                console.info('Drop-in UI has been torn down!');
+                // Remove the 'Submit payment' button
+                $('#submit-button').remove();
+              }
+            });
+
+            if (result.success) {
+              $('#checkout-message').html(
+                '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
+              );
+            } else {
+              $('#checkout-message').html(
+                '<h1>Error</h1><p>Check your console.</p>'
+              );
+            }
           });
         })
         .catch(function (err) {
