@@ -5,6 +5,7 @@ console.log('Loading Braintree payment function');
 
 exports.handler = async (event) => {
   let nonce = '';
+  let amount = '0';
   let headers = {
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*',
@@ -15,6 +16,7 @@ exports.handler = async (event) => {
   if (event.body) {
     let body = JSON.parse(event.body);
     if (body.nonce) nonce = body.nonce;
+    if (body.amount) amount = body.amount;
   }
 
   var gateway = braintree.connect({
@@ -27,7 +29,7 @@ exports.handler = async (event) => {
 
   // Create a new transaction for $10
   var newTransaction = await gateway.transaction.sale({
-    amount: '10.00',
+    amount: amount,
     paymentMethodNonce: nonce,
     options: {
       // This option requests the funds from the transaction

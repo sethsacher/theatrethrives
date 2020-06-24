@@ -1,4 +1,5 @@
 // PAYMENT
+var amount = 25;
 var submitButton = document.querySelector('#submit-button');
 
 braintree.dropin
@@ -18,6 +19,7 @@ braintree.dropin
               'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate',
             data: JSON.stringify({
               nonce: payload.nonce,
+              amount: amount,
             }),
             headers: {
               'content-type': 'application/json',
@@ -25,7 +27,6 @@ braintree.dropin
             },
           }).done(function (result) {
             console.log(result);
-            console.log(result.result);
             // Tear down the Drop-in UI
             dropinInstance.teardown(function (teardownErr) {
               if (teardownErr) {
@@ -39,11 +40,14 @@ braintree.dropin
 
             if (result.success) {
               $('#checkout-message').html(
-                '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
+                `<h2>Thank you for your donation!</h2>
+                <p>Your generous donation of $${result.transaction.amount} goes a long way 
+                in supporting DC-area community theatres. Thank you for supporting the arts!</p>
+                <p>Refresh to make another donation.</p>`
               );
             } else {
               $('#checkout-message').html(
-                '<h1>Error</h1><p>Check your console.</p>'
+                '<h2>Error</h2><p>An error has occurred. Please contact your administrator.</p>'
               );
             }
           });
@@ -59,75 +63,10 @@ braintree.dropin
     console.error(err);
   });
 
-// var dropin = braintree.dropin.create({
-//   authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-//   container: '#dropin-container',
-// });
-
-// console.log(dropin);
-
-// var method = dropin.requestPaymentMethod();
-
-// console.log(method);
-
-// braintree.dropin.create(
-//   {
-//     // Insert your tokenization key here
-//     authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-//     container: '#dropin-container',
-//   },
-//   function (createErr, instance) {
-//     button.addEventListener('click', function () {
-//       instance.requestPaymentMethod(function (
-//         requestPaymentMethodErr,
-//         payload
-//       ) {
-//         // When the user clicks on the 'Submit payment' button this code will send the
-//         // encrypted payment information in a variable called a payment method nonce
-//         $.ajax({
-//           type: 'POST',
-//           url:
-//             'https://isohkkvws2.execute-api.us-east-1.amazonaws.com/Prod/donate',
-//           // data: JSON.stringify({
-//           //   nonce: payload.nonce,
-//           // }),
-//           headers: {
-//             'content-type': 'application/json',
-//             'x-amz-docs-region': 'us-east-1',
-//           },
-//         }).done(function (result) {
-//           console.log(result);
-//           // Tear down the Drop-in UI
-//           // instance.teardown(function (teardownErr) {
-//           //   if (teardownErr) {
-//           //     console.error('Could not tear down Drop-in UI!');
-//           //   } else {
-//           //     console.info('Drop-in UI has been torn down!');
-//           //     // Remove the 'Submit payment' button
-//           //     $('#submit-button').remove();
-//           //   }
-//           // });
-
-//           // if (result.success) {
-//           //   $('#checkout-message').html(
-//           //     '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
-//           //   );
-//           // } else {
-//           //   console.log(result);
-//           //   $('#checkout-message').html(
-//           //     '<h1>Error</h1><p>Check your console.</p>'
-//           //   );
-//           // }
-//         });
-//       });
-//     });
-//   }
-// );
-
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
-  $('#searchbar').focus();
+  // $('#searchbar').focus();
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
     e.preventDefault();
@@ -135,6 +74,7 @@ $(document).ready(function () {
     $('#donate-other-input').hide().siblings('#donate-other').show();
     $(this).filter('.btn-blue').addClass('active');
     var value = $(this).data('impact');
+    amount = $(this).data('dollars');
     $(this)
       .closest('div')
       .find('p')
@@ -142,27 +82,27 @@ $(document).ready(function () {
     $('#donate-other-input').find('input').val('');
   });
 
-  $('.btn-green').on('click', function () {
-    var dollar;
-    var input = $('#donate-other-input').find('input').val();
-    if (!input) {
-      dollar = $('.active').data('dollars');
-    } else if ($.trim(input) === '' || isNaN(input)) {
-      // empty space leaves value = 'undefined'.
-      // Have to fix $.trim(input) == '' above so that it works.
-      console.log('Yes');
-      dollar = 'Please enter a number.';
-    } else {
-      dollar = input;
-    }
-    $('#price').text('' + dollar);
-  });
+  // $('.btn-green').on('click', function () {
+  //   var dollar;
+  //   var input = $('#donate-other-input').find('input').val();
+  //   if (!input) {
+  //     dollar = $('.active').data('dollars');
+  //   } else if ($.trim(input) === '' || isNaN(input)) {
+  //     // empty space leaves value = 'undefined'.
+  //     // Have to fix $.trim(input) == '' above so that it works.
+  //     console.log('Yes');
+  //     dollar = 'Please enter a number.';
+  //   } else {
+  //     dollar = input;
+  //   }
+  //   $('#price').text('' + dollar);
+  // });
 
   $('#donate-other').on('click', function (e) {
     e.preventDefault();
     var buttons = $(this).parent('#donate-buttons');
     buttons.find('.active').removeClass('active');
-    var other = $(this).hide().siblings('#donate-ther-input');
+    var other = $(this).hide().siblings('#donate-other-input');
     other.show();
     other.find('input').focus();
     var pText = buttons.siblings('p');
