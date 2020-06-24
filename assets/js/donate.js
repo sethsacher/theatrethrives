@@ -3,9 +3,14 @@ var amount = 25;
 var submitButton = document.querySelector('#submit-button');
 submitButton.disabled = false;
 
+var isProd = window.location.hostname.includes('theatrethrives.org');
+console.log('Prod environment? ' + isProd);
+
 braintree.dropin
   .create({
-    authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
+    authorization: isProd
+      ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
+      : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
     container: '#dropin-container',
     card: {
       cardholderName: {
@@ -21,8 +26,9 @@ braintree.dropin
           // Send payload.nonce to your server
           $.ajax({
             type: 'POST',
-            url:
-              'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate',
+            url: isProd
+              ? 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate'
+              : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Prod/donate',
             data: JSON.stringify({
               nonce: payload.nonce,
               amount: amount,
