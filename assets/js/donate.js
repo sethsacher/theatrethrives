@@ -1,6 +1,7 @@
 // PAYMENT
 var amount = 25;
 var submitButton = document.querySelector('#submit-button');
+submitButton.disabled = false;
 
 braintree.dropin
   .create({
@@ -100,6 +101,7 @@ $(document).ready(function () {
 
   $('#donate-other').on('click', function (e) {
     e.preventDefault();
+    submitButton.disabled = true;
     var buttons = $(this).parent('#donate-buttons');
     buttons.find('.active').removeClass('active');
     var other = $(this).hide().siblings('#donate-other-input');
@@ -109,16 +111,30 @@ $(document).ready(function () {
     pText.text('Thank you!');
     var oValue = other.find('input');
     oValue.keyup(function () {
-      if (oValue.val() > 50) {
-        pText.text(
-          'Thank you!' +
-            " You're donation covers housing and counseling services for " +
-            oValue.val() / 25 +
-            ' people.'
-        );
+      if (
+        oValue.val() === undefined ||
+        oValue.val() === null ||
+        $.trim(oValue.val()) === '' ||
+        isNaN(oValue.val()) ||
+        oValue.val() <= 0
+      ) {
+        $('#validation').html('<p>Please enter a valid number.</p>');
+        submitButton.disabled = true;
       } else {
-        pText.text('Thank you!');
+        $('#validation').html('<p></p>');
+        submitButton.disabled = false;
+        amount = oValue.val();
       }
+      // if (oValue.val() > 50) {
+      //   pText.text(
+      //     'Thank you!' +
+      //       " You're donation covers housing and counseling services for " +
+      //       oValue.val() / 25 +
+      //       ' people.'
+      //   );
+      // } else {
+      //   pText.text('Thank you!');
+      // }
     });
   });
 });
