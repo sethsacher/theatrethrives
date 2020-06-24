@@ -8,8 +8,9 @@
   'use strict';
 
   // Countdown Timer
+  var endTime = moment.tz('2020-07-17 18:30', 'America/New_York');
   $('#clock')
-    .countdown('2020/07/17')
+    .countdown(endTime.toDate())
     .on('update.countdown', function (event) {
       var $this = $(this).html(
         event.strftime(
