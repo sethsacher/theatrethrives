@@ -391,6 +391,30 @@ h6 {
   visibility: hidden;
 }
 
+.nav-menu li.donate-header a {
+  color: #fff;
+  background: var(--accent-color);
+  padding: 7px 22px;
+  border-radius: 50px;
+  border: 2px solid var(--accent-color);
+  transition: all ease-in-out 0.3s;
+  font-weight: 500;
+  margin-left: 8px;
+  margin-top: 2px;
+  line-height: 1;
+  font-size: 13px;
+}
+
+.nav-menu li.donate-header a:hover {
+  background: none;
+  color: var(--accent-color);
+}
+
+.nav-menu li.donate-header:hover a:before,
+.nav-menu li.donate-header.menu-active a:before {
+  visibility: hidden;
+}
+
 .nav-menu ul {
   margin: 4px 0 0 0;
   padding: 10px;
