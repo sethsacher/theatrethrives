@@ -137,5 +137,5 @@ document.getElementById('participants').innerHTML = templates.participants({
 // document.getElementById('faq').innerHTML = templates.faq();
 // document.getElementById('subscribe').innerHTML = templates.subscribe();
 // document.getElementById('buy-tickets').innerHTML = templates.buyTickets();
-// document.getElementById('donate').innerHTML = templates.donate();
+document.getElementById('donate').innerHTML = templates.donate();
 // document.getElementById('footer').innerHTML = templates.footer();

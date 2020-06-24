@@ -1,64 +1,107 @@
 // PAYMENT
-var button = document.querySelector('#submit-button');
+var submitButton = document.querySelector('#submit-button');
 
-braintree.dropin.create(
-  {
-    // Insert your tokenization key here
+braintree.dropin
+  .create({
     authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
     container: '#dropin-container',
-  },
-  function (createErr, instance) {
-    button.addEventListener('click', function () {
-      instance.requestPaymentMethod(function (
-        requestPaymentMethodErr,
-        payload
-      ) {
-        // When the user clicks on the 'Submit payment' button this code will send the
-        // encrypted payment information in a variable called a payment method nonce
-        $.ajax({
-          type: 'POST',
-          url:
-            'https://g31c2wlbrk.execute-api.us-east-1.amazonaws.com/default/donate?name=John&city=Seattle',
-          data: JSON.stringify({
-            time: 'evening',
-          }),
-          headers: {
-            'content-type': 'application/json',
-            day: 'Thursday',
-            'x-amz-docs-region': 'us-east-1',
-          },
-          //   data: { paymentMethodNonce: payload.nonce },
-          //   data: JSON.stringify({
-          //     name: 'Bob Smith',
-          //   }),
-        }).done(function (result) {
-          console.log(result);
-          // Tear down the Drop-in UI
-          //   instance.teardown(function (teardownErr) {
-          //     if (teardownErr) {
-          //       console.error('Could not tear down Drop-in UI!');
-          //     } else {
-          //       console.info('Drop-in UI has been torn down!');
-          //       // Remove the 'Submit payment' button
-          //       $('#submit-button').remove();
-          //     }
-          //   });
-
-          //   if (result.success) {
-          //     $('#checkout-message').html(
-          //       '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
-          //     );
-          //   } else {
-          //     console.log(result);
-          //     $('#checkout-message').html(
-          //       '<h1>Error</h1><p>Check your console.</p>'
-          //     );
-          //   }
+  })
+  .then(function (dropinInstance) {
+    submitButton.addEventListener('click', function () {
+      dropinInstance
+        .requestPaymentMethod()
+        .then(function (payload) {
+          // Send payload.nonce to your server
+          $.ajax({
+            type: 'POST',
+            url:
+              'https://isohkkvws2.execute-api.us-east-1.amazonaws.com/Prod/donate',
+            data: JSON.stringify({
+              nonce: payload.nonce,
+            }),
+            headers: {
+              'content-type': 'application/json',
+              'x-amz-docs-region': 'us-east-1',
+            },
+          }).done(function (result) {
+            console.log(result);
+          });
+        })
+        .catch(function (err) {
+          // Handle errors in requesting payment method
+          console.error(err);
         });
-      });
     });
-  }
-);
+  })
+  .catch(function (err) {
+    // Handle any errors that might've occurred when creating Drop-in
+    console.error(err);
+  });
+
+// var dropin = braintree.dropin.create({
+//   authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
+//   container: '#dropin-container',
+// });
+
+// console.log(dropin);
+
+// var method = dropin.requestPaymentMethod();
+
+// console.log(method);
+
+// braintree.dropin.create(
+//   {
+//     // Insert your tokenization key here
+//     authorization: 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
+//     container: '#dropin-container',
+//   },
+//   function (createErr, instance) {
+//     button.addEventListener('click', function () {
+//       instance.requestPaymentMethod(function (
+//         requestPaymentMethodErr,
+//         payload
+//       ) {
+//         // When the user clicks on the 'Submit payment' button this code will send the
+//         // encrypted payment information in a variable called a payment method nonce
+//         $.ajax({
+//           type: 'POST',
+//           url:
+//             'https://isohkkvws2.execute-api.us-east-1.amazonaws.com/Prod/donate',
+//           // data: JSON.stringify({
+//           //   nonce: payload.nonce,
+//           // }),
+//           headers: {
+//             'content-type': 'application/json',
+//             'x-amz-docs-region': 'us-east-1',
+//           },
+//         }).done(function (result) {
+//           console.log(result);
+//           // Tear down the Drop-in UI
+//           // instance.teardown(function (teardownErr) {
+//           //   if (teardownErr) {
+//           //     console.error('Could not tear down Drop-in UI!');
+//           //   } else {
+//           //     console.info('Drop-in UI has been torn down!');
+//           //     // Remove the 'Submit payment' button
+//           //     $('#submit-button').remove();
+//           //   }
+//           // });
+
+//           // if (result.success) {
+//           //   $('#checkout-message').html(
+//           //     '<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>'
+//           //   );
+//           // } else {
+//           //   console.log(result);
+//           //   $('#checkout-message').html(
+//           //     '<h1>Error</h1><p>Check your console.</p>'
+//           //   );
+//           // }
+//         });
+//       });
+//     });
+//   }
+// );
 
 // AMOUNT
 $(document).ready(function () {
