@@ -11,15 +11,24 @@ Parameters:
   GitHubPersonalAccessToken:
     Type: String
     Description: GitHub Personal Access Token
-  BTMerchantID:
+  BTMerchantIDTest:
     Type: String
-    Description: Braintree Merchant ID
-  BTPublicKey:
+    Description: TEST - Braintree Merchant ID
+  BTPublicKeyTest:
     Type: String
-    Description: Braintree Public Key
-  BTPrivateKey:
+    Description: TEST - Braintree Public Key
+  BTPrivateKeyTest:
     Type: String
-    Description: Braintree PrivateKey
+    Description: TEST - Braintree PrivateKey
+  BTMerchantIDProd:
+    Type: String
+    Description: PROD - Braintree Merchant ID
+  BTPublicKeyProd:
+    Type: String
+    Description: PROD - Braintree Public Key
+  BTPrivateKeyProd:
+    Type: String
+    Description: PROD - Braintree PrivateKey
 Resources:
   GitHubSecret:
     Type: "AWS::SecretsManager::Secret"
@@ -430,7 +439,7 @@ Resources:
   LambdaApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: Prod
+      StageName: test
       Cors:
         AllowOrigin: "'*'"
         AllowHeaders: "'*'"
@@ -449,9 +458,9 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       Environment:
         Variables:
-          BT_MERCHANT_ID: !Ref BTMerchantID
-          BT_PUBLIC_KEY: !Ref BTPublicKey
-          BT_PRIVATE_KEY: !Ref BTPrivateKey
+          BT_MERCHANT_ID: !Ref BTMerchantIDTest
+          BT_PUBLIC_KEY: !Ref BTPublicKeyTest
+          BT_PRIVATE_KEY: !Ref BTPrivateKeyTest
       Events:
         Api1:
           Type: Api
@@ -459,6 +468,38 @@ Resources:
             Path: /donate
             Method: ANY
             RestApiId: !Ref LambdaApi
+  LambdaApiProd:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+  LambdaDonateProd:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      FunctionName: Donate
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri:
+        Bucket: !Ref S3BucketProd
+        Key: lambda-functions.zip
+      Description: ""
+      MemorySize: 128
+      Timeout: 3
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Environment:
+        Variables:
+          BT_MERCHANT_ID: !Ref BTMerchantIDProd
+          BT_PUBLIC_KEY: !Ref BTPublicKeyProd
+          BT_PRIVATE_KEY: !Ref BTPrivateKeyProd
+      Events:
+        Api1:
+          Type: Api
+          Properties:
+            Path: /donate
+            Method: ANY
+            RestApiId: !Ref LambdaApiProd
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
