@@ -391,6 +391,7 @@ Resources:
           Bucket: !GetAtt PipelineS3Bucket.DomainName
           Prefix: ctt
         DefaultCacheBehavior:
+          Compress: true
           AllowedMethods:
             - DELETE
             - GET
