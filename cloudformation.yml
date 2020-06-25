@@ -429,6 +429,59 @@ Resources:
             # Intentionally hard-coded, specific AWS thing
             HostedZoneId: Z2FDTNDATAQYW2
             DNSName: !GetAtt CloudFrontDistributionProd.DomainName
+  # S3BucketSite2:
+  #   Type: AWS::S3::Bucket
+  #   Properties:
+  #     BucketName: theaterthrives.com
+  #     AccessControl: BucketOwnerFullControl
+  #     WebsiteConfiguration:
+  #       RedirectAllRequestsTo:
+  #         HostName: theatrethrives.org
+  # Route53Prod2:
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     HostedZoneId: Z08348143PFBZN2HSBGH5
+  #     RecordSets:
+  #       - Name: "theaterthrives.com"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z3AQBSTGFYJSTF
+  #           DNSName: !GetAtt S3BucketSite2.DomainName
+  #       - Name: "*.theaterthrives.com"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z3AQBSTGFYJSTF
+  #           DNSName: !GetAtt S3BucketSite2.DomainName
+  # Route53Prod3:
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     HostedZoneId: Z083750234WWLB9BAPQ4Y
+  #     RecordSets:
+  #       - Name: "theaterthrives.org"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z2FDTNDATAQYW2
+  #           DNSName: !GetAtt CloudFrontDistributionProd.DomainName
+  #       - Name: "*.theaterthrives.org"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z2FDTNDATAQYW2
+  #           DNSName: !GetAtt CloudFrontDistributionProd.DomainName
+  # Route53Prod4:
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     HostedZoneId: Z094723225SKKESU1JBIL
+  #     RecordSets:
+  #       - Name: "theatrethrives.com"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z2FDTNDATAQYW2
+  #           DNSName: !GetAtt CloudFrontDistributionProd.DomainName
+  #       - Name: "*.theatrethrives.com"
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId: Z2FDTNDATAQYW2
+  #           DNSName: !GetAtt CloudFrontDistributionProd.DomainName
   CertificateProd:
     Type: AWS::CertificateManager::Certificate
     Properties:
