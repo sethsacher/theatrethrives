@@ -103,6 +103,11 @@ document.getElementById('schedule').innerHTML = templates.schedule({
   ],
   event2: [
     {
+      time: '10:00 AM',
+      title: 'Reston Community Players',
+      image: 'assets/img/speakers/rcp.jpg',
+    },
+    {
       time: '11:00 AM',
       title: 'The Colonial Players of Annapolis',
       image: 'assets/img/speakers/cpa.png',
@@ -147,6 +152,10 @@ document.getElementById('schedule').innerHTML = templates.schedule({
       time: '8:00 PM',
       title: 'Annapolis Summer Garden Theatre',
       image: 'assets/img/speakers/asgt.jpg',
+    },
+    {
+      time: '09:00 PM',
+      title: 'Thanks for watching!',
     },
   ],
 });
