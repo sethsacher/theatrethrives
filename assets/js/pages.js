@@ -91,17 +91,17 @@ document.getElementById('schedule').innerHTML = templates.schedule({
     {
       time: '8:00 PM',
       title: 'City of Fairfax Theatre Company',
-      image: 'assets/img/speakers/cftc.jpg',
+      image: 'assets/img/speakers/logo_square/CFTC.png',
     },
     {
       time: '9:00 PM',
       title: 'Laurel Mill Playhouse',
-      image: 'assets/img/speakers/lmp.jpg',
+      image: 'assets/img/speakers/logo_square/LMP.png',
     },
     {
       time: '10:00 PM',
       title: 'The Victorian Lyric Opera Company',
-      image: 'assets/img/speakers/vloc.jpg',
+      image: 'assets/img/speakers/logo_square/VLOC.png',
     },
   ],
   event2: [
@@ -113,51 +113,52 @@ document.getElementById('schedule').innerHTML = templates.schedule({
     {
       time: '11:00 AM',
       title: 'The Colonial Players of Annapolis',
-      image: 'assets/img/speakers/cpa.png',
+      image: 'assets/img/speakers/logo_square/CP.png',
     },
     {
       time: '12:00 PM',
       title: 'Silver Spring Stage',
-      image: 'assets/img/speakers/sss.png',
+      image: 'assets/img/speakers/logo_square/SSS.png',
     },
     {
       time: '1:00 PM',
       title: 'The Arlington Players',
-      image: 'assets/img/speakers/tap.png',
+      image: 'assets/img/speakers/logo_square/TAP.png',
     },
     {
       time: '2:00 PM',
       title: 'Rockville Little Theatre',
-      image: 'assets/img/speakers/rlt.png',
+      image: 'assets/img/speakers/logo_square/RLT.png',
     },
     {
       time: '3:00 PM',
       title: 'Port Tobacco Players',
+      image: 'assets/img/speakers/logo_square/PTP.png',
     },
     {
       time: '4:00 PM',
       title: 'Sterling Playmakers',
-      image: 'assets/img/speakers/sp.png',
+      image: 'assets/img/speakers/logo_square/SP.png',
     },
     {
       time: '5:00 PM',
       title: 'Prince William Little Theatre',
-      image: 'assets/img/speakers/pwlt.png',
+      image: 'assets/img/speakers/logo_square/PWLT.png',
     },
     {
       time: '6:00 PM',
       title: 'The Hard Bargain Players',
-      image: 'assets/img/speakers/hbp.jpg',
+      image: 'assets/img/speakers/logo_square/HBP.png',
     },
     {
       time: '7:00 PM',
       title: 'Kensington Arts Theatre',
-      image: 'assets/img/speakers/kat.jpg',
+      image: 'assets/img/speakers/logo_square/KAT.png',
     },
     {
       time: '8:00 PM',
       title: 'Annapolis Summer Garden Theatre',
-      image: 'assets/img/speakers/asgt.jpg',
+      image: 'assets/img/speakers/logo_square/ASGT.png',
     },
     {
       time: '09:00 PM',
