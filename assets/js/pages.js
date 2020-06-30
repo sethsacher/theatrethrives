@@ -74,62 +74,82 @@ document.getElementById('participants').innerHTML = templates.participants({
     },
   ],
 });
-// document.getElementById('schedule').innerHTML = templates.schedule({
-//   event1: [
-//     {
-//       time: '09:30 AM',
-//       title: 'Registration',
-//       desc: 'Fugit voluptas iusto maiores temporibus autem numquam magnam.',
-//       image: null,
-//       imageAlt: null,
-//       speaker: null,
-//     },
-//     {
-//       time: '10:00 AM',
-//       title: 'Keynote',
-//       desc: 'Facere provident incidunt quos voluptas.',
-//       image: 'assets/img/speakers/1.jpg',
-//       imageAlt: 'Brenden Legros',
-//       speaker: 'Brenden Legros',
-//     },
-//   ],
-//   event2: [
-//     {
-//       time: '09:30 AM',
-//       title: 'Start Day 2',
-//       desc: 'Fugit voluptas iusto maiores temporibus autem numquam magnam.',
-//       image: null,
-//       imageAlt: null,
-//       speaker: null,
-//     },
-//     {
-//       time: '10:00 AM',
-//       title: 'Keynote',
-//       desc: 'gewefewfewfew.',
-//       image: 'assets/img/speakers/1.jpg',
-//       imageAlt: 'Brenden Legros',
-//       speaker: 'Brenden Legros',
-//     },
-//   ],
-//   event3: [
-//     {
-//       time: '09:30 AM',
-//       title: 'Start Day 3',
-//       desc: 'feqwfewfe3524wrfsbcswfwewe.',
-//       image: null,
-//       imageAlt: null,
-//       speaker: null,
-//     },
-//     {
-//       time: '10:00 AM',
-//       title: 'Keynote',
-//       desc: 'Facere provident incidunt quos voluptas.',
-//       image: 'assets/img/speakers/1.jpg',
-//       imageAlt: 'Brenden Legros',
-//       speaker: 'Brenden Legros',
-//     },
-//   ],
-// });
+document.getElementById('schedule').innerHTML = templates.schedule({
+  event1: [
+    {
+      time: '06:30 PM',
+      title: 'Welcome to the event!',
+    },
+    {
+      time: '7:00 PM',
+      title: 'Reston Community Players',
+      image: 'assets/img/speakers/rcp.jpg',
+    },
+    {
+      time: '8:00 PM',
+      title: 'City of Fairfax Theatre Company',
+      image: 'assets/img/speakers/cftc.jpg',
+    },
+    {
+      time: '9:00 PM',
+      title: 'Laurel Mill Playhouse',
+      image: 'assets/img/speakers/lmp.jpg',
+    },
+    {
+      time: '10:00 PM',
+      title: 'The Victorian Lyric Opera Company',
+      image: 'assets/img/speakers/vloc.jpg',
+    },
+  ],
+  event2: [
+    {
+      time: '11:00 AM',
+      title: 'The Colonial Players of Annapolis',
+      image: 'assets/img/speakers/cpa.png',
+    },
+    {
+      time: '12:00 PM',
+      title: 'Silver Spring Stage',
+    },
+    {
+      time: '1:00 PM',
+      title: 'The Arlington Players',
+    },
+    {
+      time: '2:00 PM',
+      title: 'Rockville Little Theatre',
+    },
+    {
+      time: '3:00 PM',
+      title: 'Port Tobacco Players',
+    },
+    {
+      time: '4:00 PM',
+      title: 'Sterling Playmakers',
+      image: 'assets/img/speakers/sp.png',
+    },
+    {
+      time: '5:00 PM',
+      title: 'Prince William Little Theatre',
+      image: 'assets/img/speakers/pwlt.png',
+    },
+    {
+      time: '6:00 PM',
+      title: 'The Hard Bargain Players',
+      image: 'assets/img/speakers/hbp.jpg',
+    },
+    {
+      time: '7:00 PM',
+      title: 'Kensington Arts Theatre',
+      image: 'assets/img/speakers/kat.jpg',
+    },
+    {
+      time: '8:00 PM',
+      title: 'Annapolis Summer Garden Theatre',
+      image: 'assets/img/speakers/asgt.jpg',
+    },
+  ],
+});
 // document.getElementById('venue').innerHTML = templates.venue();
 // document.getElementById('hotels').innerHTML = templates.hotels();
 // document.getElementById('gallery').innerHTML = templates.gallery();
