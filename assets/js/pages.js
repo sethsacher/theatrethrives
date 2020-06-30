@@ -14,6 +14,7 @@ document.getElementById('participants').innerHTML = templates.participants({
     {
       name: 'The Arlington Players',
       desc: 'Arlington, VA',
+      image: 'assets/img/speakers/tap.png',
     },
     {
       name: 'The City of Fairfax Theatre Company',
@@ -57,10 +58,12 @@ document.getElementById('participants').innerHTML = templates.participants({
     {
       name: 'Rockville Little Theatre',
       desc: 'Rockville, MD',
+      image: 'assets/img/speakers/rlt.png',
     },
     {
       name: 'Silver Spring Stage',
       desc: 'Silver Spring, MD',
+      image: 'assets/img/speakers/sss.png',
     },
     {
       name: 'Sterling Playmakers',
@@ -115,14 +118,17 @@ document.getElementById('schedule').innerHTML = templates.schedule({
     {
       time: '12:00 PM',
       title: 'Silver Spring Stage',
+      image: 'assets/img/speakers/sss.png',
     },
     {
       time: '1:00 PM',
       title: 'The Arlington Players',
+      image: 'assets/img/speakers/tap.png',
     },
     {
       time: '2:00 PM',
       title: 'Rockville Little Theatre',
+      image: 'assets/img/speakers/rlt.png',
     },
     {
       time: '3:00 PM',
