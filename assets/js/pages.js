@@ -41,10 +41,10 @@ document.getElementById('participants').innerHTML = templates.participants({
       desc: 'Laurel, MD',
       image: 'assets/img/speakers/lmp.jpg',
     },
-    {
-      name: 'Port Tobacco Players',
-      desc: 'La Plata, MD',
-    },
+    // {
+    //   name: 'Port Tobacco Players',
+    //   desc: 'La Plata, MD',
+    // },
     {
       name: 'Prince William Little Theatre',
       desc: 'Manassas, VA',
@@ -130,11 +130,11 @@ document.getElementById('schedule').innerHTML = templates.schedule({
       title: 'Rockville Little Theatre',
       image: 'assets/img/speakers/logo_square/RLT.png',
     },
-    {
-      time: '3:00 PM',
-      title: 'Port Tobacco Players',
-      image: 'assets/img/speakers/logo_square/PTP.png',
-    },
+    // {
+    //   time: '3:00 PM',
+    //   title: 'Port Tobacco Players',
+    //   image: 'assets/img/speakers/logo_square/PTP.png',
+    // },
     {
       time: '4:00 PM',
       title: 'Sterling Playmakers',
