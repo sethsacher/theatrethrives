@@ -27,3 +27,7 @@ https://theatre-thrives-2.s3.amazonaws.com/cloudformation.yml
 
 - Need to run http-server locally
 - For Chrome, in Network, select "disable cache" to allow for changing content
+
+# Navigation
+
+- Need to run http-server locally (otherwise relative links don't work)

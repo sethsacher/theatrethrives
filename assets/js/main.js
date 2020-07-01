@@ -126,7 +126,9 @@
     $('#mobile-nav, #mobile-nav-toggle').hide();
   }
 
-  var scroll = true;
+  // Disable scroll animation when not on the root page
+  var is_root = location.pathname == '/';
+  var scroll = is_root;
 
   // Smooth scroll for the menu and links with .scrollto classes
   $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function () {
@@ -196,7 +198,7 @@
           main_nav.find('li').removeClass('menu-active');
         }
         main_nav
-          .find('a[href="#' + $(this).attr('id') + '"]')
+          .find('a[href="/#' + $(this).attr('id') + '"]')
           .parent('li')
           .addClass('menu-active');
 
