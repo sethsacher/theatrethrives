@@ -15,12 +15,15 @@
                     <h3>{{ name }}</h3>
                     <p>{{#if desc }} {{ desc }} {{else}} TBD {{/if}}</p>
                     <div class="social">
-                        {{#if website }}<a href={{ website }}><i class="fa fa-globe"></i></a>{{/if}}
-                        {{#if email }}<a href={{ email }}><i class="fa fa-envelope"></i></a>{{/if}}
-                        {{#if phone }}<a href={{ phone }}><i class="fa fa-phone"></i></a>{{/if}}
-                        {{#if facebook }}<a href={{ facebook }}><i class="fa fa-facebook"></i></a>{{/if}}
-                        {{#if twitter }}<a href={{ twitter }}><i class="fa fa-twitter"></i></a>{{/if}}
-                        {{#if instagram }}<a href={{ instagram }}><i class="fa fa-instagram"></i></a>{{/if}}
+                        {{#if website }}<a href={{ website }} target="_blank"><i class="fa fa-globe"></i></a>{{/if}}
+                        {{#if email }}<a href="mailto:{{ email }}" target="_blank"><i
+                                class="fa fa-envelope"></i></a>{{/if}}
+                        {{#if phone }}<a href="tel:{{ phone }}" target="_blank"><i class="fa fa-phone"></i></a>{{/if}}
+                        {{#if facebook }}<a href={{ facebook }} target="_blank"><i
+                                class="fa fa-facebook"></i></a>{{/if}}
+                        {{#if twitter }}<a href={{ twitter }} target="_blank"><i class="fa fa-twitter"></i></a>{{/if}}
+                        {{#if instagram }}<a href={{ instagram }} target="_blank"><i
+                                class="fa fa-instagram"></i></a>{{/if}}
                     </div>
                 </div>
             </div>
