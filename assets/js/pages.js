@@ -25,7 +25,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'tap@thearlingtonplayers.org',
       phone: '703-549-1063',
       facebook: 'https://www.facebook.com/TheArlingtonPlayers',
-      twitter: null,
+      twitter: 'https://twitter.com/TheArlPlayers',
       instagram: null,
     },
     {
@@ -36,7 +36,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'fairfaxcitytheatre@gmail.com',
       phone: null,
       facebook: 'https://www.facebook.com/CityofFairfaxTheatre',
-      twitter: null,
+      twitter: 'https://twitter.com/CFTC_Fairfax',
       instagram: null,
     },
     {
@@ -47,7 +47,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'info@thecolonialplayers.org',
       phone: '410-268-7373',
       facebook: 'https://www.facebook.com/thecolonialplayers',
-      twitter: null,
+      twitter: 'https://twitter.com/CFTC_Fairfax',
       instagram: null,
     },
     {
@@ -58,7 +58,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'hbpartisticdirector@gmail.com',
       phone: '301-653-4806',
       facebook: 'https://www.facebook.com/HardBargainPlayers',
-      twitter: null,
+      twitter: 'https://twitter.com/HBPlayers',
       instagram: null,
     },
     {
@@ -69,7 +69,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'PR@katonline.org',
       phone: '240-621-0528',
       facebook: 'https://www.facebook.com/kensingtonartstheatre',
-      twitter: null,
+      twitter: 'https://twitter.com/kensingtonarts',
       instagram: null,
     },
     {
@@ -95,7 +95,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'info@pwlt.org',
       phone: '571-208-2560',
       facebook: 'https://www.facebook.com/PrinceWilliamLittleTheatre',
-      twitter: null,
+      twitter: 'https://twitter.com/PWLT1984',
       instagram: null,
     },
     {
@@ -106,7 +106,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'communityrelations@restonplayers.org',
       phone: null,
       facebook: 'https://www.facebook.com/restonplayers',
-      twitter: null,
+      twitter: 'https://twitter.com/RestonPlayers',
       instagram: null,
     },
     {
@@ -129,7 +129,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'contact@ssstage.org',
       phone: '301-593-6036',
       facebook: 'https://www.facebook.com/SilverSprStage',
-      twitter: null,
+      twitter: 'https://twitter.com/SilverSprStage',
       instagram: null,
     },
     {
@@ -140,7 +140,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'membership@sterlingplaymakers.org',
       phone: '703-437-6117',
       facebook: null,
-      twitter: null,
+      twitter: 'https://twitter.com/SPlaymakers',
       instagram: null,
     },
     {
@@ -151,7 +151,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       email: 'victorianlyricopera@gmail.com',
       phone: null,
       facebook: 'https://www.facebook.com/VictorianLyricOperaCompany',
-      twitter: null,
+      twitter: 'https://twitter.com/TheVLOC',
       instagram: null,
     },
   ],
