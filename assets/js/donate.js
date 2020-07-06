@@ -9,12 +9,76 @@ submitButton.disabled = false;
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
 
+// PATRON INFORMATION
+var billingFields = [
+  'email',
+  'billing-phone',
+  'billing-given-name',
+  'billing-surname',
+  'billing-street-address',
+  'billing-extended-address',
+  'billing-locality',
+  'billing-region',
+  'billing-postal-code',
+  'billing-country-code'
+].reduce(function (fields, fieldName) {
+  var field = fields[fieldName] = {
+    input: document.getElementById(fieldName),
+    help: document.getElementById('help-' + fieldName)
+  };
+
+  field.input.addEventListener('focus', function () {
+    clearFieldValidations(field);
+  });
+
+  return fields;
+}, {});
+
+function clearFieldValidations(field) {
+  field.help.innerText = '';
+  field.help.parentNode.classList.remove('has-error');
+}
+
+billingFields['billing-extended-address'].optional = true;
+
+function validateBillingFields() {
+  var isValid = true;
+
+  Object.keys(billingFields).forEach(function (fieldName) {
+    var fieldEmpty = false;
+    var field = billingFields[fieldName];
+
+    if (field.optional) {
+      return;
+    }
+
+    fieldEmpty = field.input.value.trim() === '';
+
+    if (fieldEmpty) {
+      isValid = false;
+      field.help.innerText = 'Field cannot be blank.';
+      field.help.parentNode.classList.add('has-error');
+    } else {
+      clearFieldValidations(field);
+    }
+  });
+
+  return isValid;
+}
+
+function enablePayNow() {
+  submitButton.value = 'Submit Payment';
+  submitButton.removeAttribute('disabled');
+}
+
+// BRAINTREE PAYMENT
 braintree.dropin
   .create({
     authorization: isProd
       ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
       : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
     container: '#dropin-container',
+    threeDSecure: true,
     card: {
       cardholderName: {
         required: true,
@@ -22,9 +86,37 @@ braintree.dropin
     },
   })
   .then(function (dropinInstance) {
+    enablePayNow();
+
     submitButton.addEventListener('click', function () {
+      submitButton.setAttribute('disabled', 'disabled');
+      submitButton.value = 'Processing...';
+
+      var billingIsValid = validateBillingFields();
+
+      if (!billingIsValid) {
+        enablePayNow();
+        return;
+      }
+
       dropinInstance
-        .requestPaymentMethod()
+        .requestPaymentMethod({
+          threeDSecure: {
+            amount: amount,
+            email: billingFields.email.input.value,
+            billingAddress: {
+              givenName: billingFields['billing-given-name'].input.value,
+              surname: billingFields['billing-surname'].input.value,
+              phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+              streetAddress: billingFields['billing-street-address'].input.value,
+              extendedAddress: billingFields['billing-extended-address'].input.value,
+              locality: billingFields['billing-locality'].input.value,
+              region: billingFields['billing-region'].input.value,
+              postalCode: billingFields['billing-postal-code'].input.value,
+              countryCodeAlpha2: billingFields['billing-country-code'].input.value
+            }
+          }
+        })
         .then(function (payload) {
           // Send payload.nonce to your server
           $.ajax({
@@ -69,7 +161,12 @@ braintree.dropin
         })
         .catch(function (err) {
           // Handle errors in requesting payment method
-          console.error(err);
+          console.log('tokenization error:');
+          console.log(err);
+          dropinInstance.clearSelectedPaymentMethod();
+          enablePayNow();
+
+          return;
         });
     });
   })
