@@ -368,22 +368,13 @@ h6 {
 }
 
 .nav-menu li.social a {
-  color: #fff;
-  background: var(--accent-color);
-  padding: 7px 22px;
-  border-radius: 50px;
-  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
   transition: all ease-in-out 0.3s;
-  font-weight: 500;
-  margin-left: 8px;
-  margin-top: 2px;
-  line-height: 1;
   font-size: 13px;
 }
 
 .nav-menu li.social a:hover {
-  background: none;
-  color: var(--accent-color);
+  color: #000;
 }
 
 .nav-menu li.social:hover a:before,
