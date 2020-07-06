@@ -15,7 +15,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: null,
       facebook: null,
       twitter: null,
-      instagram: null,
+      instagram: 'https://www.instagram.com/asgtannapolis/',
     },
     {
       name: 'The Arlington Players',
@@ -26,7 +26,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '703-549-1063',
       facebook: 'https://www.facebook.com/TheArlingtonPlayers',
       twitter: 'https://twitter.com/TheArlPlayers',
-      instagram: null,
+      instagram: 'https://www.instagram.com/thearlingtonplayers/',
     },
     {
       name: 'The City of Fairfax Theatre Company',
@@ -37,7 +37,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: null,
       facebook: 'https://www.facebook.com/CityofFairfaxTheatre',
       twitter: 'https://twitter.com/CFTC_Fairfax',
-      instagram: null,
+      instagram: 'https://www.instagram.com/fairfaxcitytheatre/',
     },
     {
       name: 'The Colonial Players of Annapolis',
@@ -48,7 +48,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '410-268-7373',
       facebook: 'https://www.facebook.com/thecolonialplayers',
       twitter: 'https://twitter.com/CFTC_Fairfax',
-      instagram: null,
+      instagram: 'https://www.instagram.com/thecolonialplayers/',
     },
     {
       name: 'The Hard Bargain Players',
@@ -59,7 +59,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '301-653-4806',
       facebook: 'https://www.facebook.com/HardBargainPlayers',
       twitter: 'https://twitter.com/HBPlayers',
-      instagram: null,
+      instagram: 'https://www.instagram.com/HBPlayers/',
     },
     {
       name: 'Kensington Arts Theatre',
@@ -70,7 +70,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '240-621-0528',
       facebook: 'https://www.facebook.com/kensingtonartstheatre',
       twitter: 'https://twitter.com/kensingtonarts',
-      instagram: null,
+      instagram: 'https://www.instagram.com/kensingtonartstheatre/',
     },
     {
       name: 'Laurel Mill Playhouse',
@@ -96,7 +96,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '571-208-2560',
       facebook: 'https://www.facebook.com/PrinceWilliamLittleTheatre',
       twitter: 'https://twitter.com/PWLT1984',
-      instagram: null,
+      instagram: 'https://www.instagram.com/prince_william_little_theatre/',
     },
     {
       name: 'Reston Community Players',
@@ -107,7 +107,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: null,
       facebook: 'https://www.facebook.com/restonplayers',
       twitter: 'https://twitter.com/RestonPlayers',
-      instagram: null,
+      instagram: 'https://www.instagram.com/restonplayers/',
     },
     {
       name: 'Rockville Little Theatre',
@@ -130,7 +130,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '301-593-6036',
       facebook: 'https://www.facebook.com/SilverSprStage',
       twitter: 'https://twitter.com/SilverSprStage',
-      instagram: null,
+      instagram: 'https://www.instagram.com/silverspringstage/',
     },
     {
       name: 'Sterling Playmakers',
@@ -141,7 +141,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: '703-437-6117',
       facebook: null,
       twitter: 'https://twitter.com/SPlaymakers',
-      instagram: null,
+      instagram: 'https://www.instagram.com/splaymakers/',
     },
     {
       name: 'The Victorian Lyric Opera Company',
@@ -152,7 +152,7 @@ document.getElementById('participants').innerHTML = templates.participants({
       phone: null,
       facebook: 'https://www.facebook.com/VictorianLyricOperaCompany',
       twitter: 'https://twitter.com/TheVLOC',
-      instagram: null,
+      instagram: 'https://www.instagram.com/victorianlyricoperacompany/',
     },
   ],
 });
