@@ -1,11 +1,12 @@
 'use strict';
 
 var braintree = require('braintree');
-console.log('Loading Braintree payment function');
+console.log('Loading Braintree function');
 
 exports.handler = async (event) => {
   let nonce = '';
   let amount = '0';
+  let type = '';
   let headers = {
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*',
@@ -15,6 +16,8 @@ exports.handler = async (event) => {
 
   if (event.body) {
     let body = JSON.parse(event.body);
+    // TYPE is either TOKEN or PAYMENT
+    if (body.type) type = body.type;
     if (body.nonce) nonce = body.nonce;
     if (body.amount) amount = body.amount;
   }
@@ -27,36 +30,50 @@ exports.handler = async (event) => {
     privateKey: process.env.BT_PRIVATE_KEY,
   });
 
-  // Create a new transaction for $10
-  var newTransaction = await gateway.transaction.sale({
-    amount: amount,
-    paymentMethodNonce: nonce,
-    options: {
-      // This option requests the funds from the transaction
-      // once it has been authorized successfully
-      submitForSettlement: true,
-    },
-  });
+  if (type === 'TOKEN') {
+    var generateToken = await gateway.clientToken.generate({});
 
-  console.log('transaction: ' + JSON.stringify(newTransaction));
-
-  if (newTransaction.success) {
     return {
-      statusCode: 200,
+      statusCode: (generateToken.success) ? 200 : 500,
+      headers: headers,
+      isBase64Encoded: false,
+      body: JSON.stringify({
+        ...generateToken,
+      }),
+    };
+
+  } else if (type === 'PAYMENT') {
+    // Create a new transaction
+    var newTransaction = await gateway.transaction.sale({
+      amount: amount,
+      paymentMethodNonce: nonce,
+      options: {
+        // This option requests the funds from the transaction
+        // once it has been authorized successfully
+        submitForSettlement: true,
+      },
+    });
+
+    console.log('transaction: ' + JSON.stringify(newTransaction));
+
+    return {
+      statusCode: (newTransaction.success) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
         ...newTransaction,
       }),
     };
+
+  } else {
+    return {
+      statusCode: 500,
+      headers: headers,
+      isBase64Encoded: false,
+      body: JSON.stringify({
+        error: 'No transaction type was passed',
+      }),
+    };
   }
 
-  return {
-    statusCode: 500,
-    headers: headers,
-    isBase64Encoded: false,
-    body: JSON.stringify({
-      ...newTransaction,
-    }),
-  };
 };

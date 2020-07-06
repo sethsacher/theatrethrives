@@ -71,109 +71,130 @@ function enablePayNow() {
   submitButton.removeAttribute('disabled');
 }
 
-// BRAINTREE PAYMENT
-braintree.dropin
-  .create({
-    authorization: isProd
-      ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
-      : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-    container: '#dropin-container',
-    threeDSecure: true,
-    card: {
-      cardholderName: {
-        required: true,
+// BRAINTREE CLIENT TOKEN
+$.ajax({
+  type: 'POST',
+  url: isProd
+    ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+    : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
+  data: JSON.stringify({
+    type: 'TOKEN'
+  }),
+  headers: {
+    'content-type': 'application/json',
+    'x-amz-docs-region': 'us-east-1',
+  },
+}).done(function (result) {
+
+  // BRAINTREE PAYMENT
+  braintree.dropin
+    .create({
+      // authorization: isProd
+      //   ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
+      //   : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
+      authorization: result.clientToken,
+      container: '#dropin-container',
+      threeDSecure: true,
+      card: {
+        cardholderName: {
+          required: true,
+        },
       },
-    },
-  })
-  .then(function (dropinInstance) {
-    enablePayNow();
+    })
+    .then(function (dropinInstance) {
+      enablePayNow();
 
-    submitButton.addEventListener('click', function () {
-      submitButton.setAttribute('disabled', 'disabled');
-      submitButton.value = 'Processing...';
+      submitButton.addEventListener('click', function () {
+        submitButton.setAttribute('disabled', 'disabled');
+        submitButton.value = 'Processing...';
 
-      var billingIsValid = validateBillingFields();
+        var billingIsValid = validateBillingFields();
 
-      if (!billingIsValid) {
-        enablePayNow();
-        return;
-      }
+        if (!billingIsValid) {
+          enablePayNow();
+          return;
+        }
 
-      dropinInstance
-        .requestPaymentMethod({
-          threeDSecure: {
-            amount: amount,
-            email: billingFields.email.input.value,
-            billingAddress: {
-              givenName: billingFields['billing-given-name'].input.value,
-              surname: billingFields['billing-surname'].input.value,
-              phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
-              streetAddress: billingFields['billing-street-address'].input.value,
-              extendedAddress: billingFields['billing-extended-address'].input.value,
-              locality: billingFields['billing-locality'].input.value,
-              region: billingFields['billing-region'].input.value,
-              postalCode: billingFields['billing-postal-code'].input.value,
-              countryCodeAlpha2: billingFields['billing-country-code'].input.value
-            }
-          }
-        })
-        .then(function (payload) {
-          // Send payload.nonce to your server
-          $.ajax({
-            type: 'POST',
-            url: isProd
-              ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-              : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
-            data: JSON.stringify({
-              nonce: payload.nonce,
+        dropinInstance
+          .requestPaymentMethod({
+            threeDSecure: {
               amount: amount,
-            }),
-            headers: {
-              'content-type': 'application/json',
-              'x-amz-docs-region': 'us-east-1',
-            },
-          }).done(function (result) {
-            // console.log(result);
-            // Tear down the Drop-in UI
-            dropinInstance.teardown(function (teardownErr) {
-              if (teardownErr) {
-                console.error('Could not tear down Drop-in UI!');
+              email: billingFields.email.input.value,
+              billingAddress: {
+                givenName: billingFields['billing-given-name'].input.value,
+                surname: billingFields['billing-surname'].input.value,
+                phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+                streetAddress: billingFields['billing-street-address'].input.value,
+                extendedAddress: billingFields['billing-extended-address'].input.value,
+                locality: billingFields['billing-locality'].input.value,
+                region: billingFields['billing-region'].input.value,
+                postalCode: billingFields['billing-postal-code'].input.value,
+                countryCodeAlpha2: billingFields['billing-country-code'].input.value
+              }
+            }
+          })
+          .then(function (payload) {
+            // Send payload.nonce to your server
+            $.ajax({
+              type: 'POST',
+              url: isProd
+                ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+                : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
+              data: JSON.stringify({
+                type: 'PAYMENT',
+                nonce: payload.nonce,
+                amount: amount,
+              }),
+              headers: {
+                'content-type': 'application/json',
+                'x-amz-docs-region': 'us-east-1',
+              },
+            }).done(function (result) {
+              // console.log(result);
+              // Tear down the Drop-in UI
+              dropinInstance.teardown(function (teardownErr) {
+                if (teardownErr) {
+                  console.error('Could not tear down Drop-in UI!');
+                } else {
+                  console.info('Drop-in UI has been torn down!');
+                  // Remove the 'Submit payment' button
+                  $('#submit-button').remove();
+                }
+              });
+
+              if (result.success) {
+                $('#checkout-message').html(
+                  `<h2>Thank you for your donation!</h2>
+              <p>Your generous donation of $${result.transaction.amount} goes a long way 
+              in supporting DC-area community theatres. Thank you for supporting the arts!</p>
+              <p>Refresh to make another donation.</p>`
+                );
               } else {
-                console.info('Drop-in UI has been torn down!');
-                // Remove the 'Submit payment' button
-                $('#submit-button').remove();
+                $('#checkout-message').html(
+                  '<h2>Error</h2><p>An error has occurred. Please contact your administrator.</p>'
+                );
               }
             });
+          })
+          .catch(function (err) {
+            // Handle errors in requesting payment method
+            console.log('tokenization error:');
+            console.log(err);
+            dropinInstance.clearSelectedPaymentMethod();
+            enablePayNow();
 
-            if (result.success) {
-              $('#checkout-message').html(
-                `<h2>Thank you for your donation!</h2>
-                <p>Your generous donation of $${result.transaction.amount} goes a long way 
-                in supporting DC-area community theatres. Thank you for supporting the arts!</p>
-                <p>Refresh to make another donation.</p>`
-              );
-            } else {
-              $('#checkout-message').html(
-                '<h2>Error</h2><p>An error has occurred. Please contact your administrator.</p>'
-              );
-            }
+            return;
           });
-        })
-        .catch(function (err) {
-          // Handle errors in requesting payment method
-          console.log('tokenization error:');
-          console.log(err);
-          dropinInstance.clearSelectedPaymentMethod();
-          enablePayNow();
-
-          return;
-        });
+      });
+    })
+    .catch(function (err) {
+      // Handle any errors that might've occurred when creating Drop-in
+      console.error(err);
     });
-  })
-  .catch(function (err) {
-    // Handle any errors that might've occurred when creating Drop-in
-    console.error(err);
-  });
+}).catch(function (err) {
+  console.log(err);
+  return;
+});
 
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
