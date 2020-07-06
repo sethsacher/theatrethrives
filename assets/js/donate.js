@@ -1,5 +1,8 @@
 // PAYMENT
 var amount = 25;
+var rawAmount = amount;
+var feeAmount = 1.03;
+var coverFees = true;
 var submitButton = document.querySelector('#submit-button');
 submitButton.disabled = false;
 
@@ -80,18 +83,39 @@ braintree.dropin
 $(document).ready(function () {
   // $('#searchbar').focus();
 
+  // Set initial donation amount
+  amount = rawAmount * feeAmount;
+  $('#amount').html(amount);
+
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
     e.preventDefault();
     $('.active').removeClass('active');
     $('#donate-other-input').hide().siblings('#donate-other').show();
     $(this).filter('.btn-blue').addClass('active');
     var value = $(this).data('impact');
-    amount = $(this).data('dollars');
+    rawAmount = $(this).data('dollars');
+    amount = coverFees ? rawAmount * feeAmount : rawAmount;
     $(this)
       .closest('div')
       .find('p')
       .text('' + value);
     $('#donate-other-input').find('input').val('');
+    $('#amount').html(amount);
+  });
+
+  $('#fees').on('change', function (e) {
+    e.preventDefault();
+    if ($(this).is(':checked')) {
+      $(this).attr('value', 'true');
+      coverFees = true;
+      amount = rawAmount * feeAmount;
+      $('#amount').html(amount);
+    } else {
+      $(this).attr('value', 'false');
+      coverFees = false;
+      amount = rawAmount;
+      $('#amount').html(amount);
+    }
   });
 
   // $('.btn-green').on('click', function () {
@@ -134,7 +158,9 @@ $(document).ready(function () {
       } else {
         $('#validation').html('<p></p>');
         submitButton.disabled = false;
-        amount = oValue.val();
+        rawAmount = oValue.val();
+        amount = coverFees ? rawAmount * feeAmount : rawAmount;
+        $('#amount').html(amount);
       }
       // if (oValue.val() > 50) {
       //   pText.text(
