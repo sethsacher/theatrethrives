@@ -150,7 +150,8 @@ $.ajax({
                 'x-amz-docs-region': 'us-east-1',
               },
             }).done(function (result) {
-              // console.log(result);
+              console.log(result);
+
               // Tear down the Drop-in UI
               dropinInstance.teardown(function (teardownErr) {
                 if (teardownErr) {
