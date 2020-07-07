@@ -6,6 +6,8 @@ var coverFees = true;
 var submitButton = document.querySelector('#submit-button');
 submitButton.disabled = false;
 
+var sameAddress = document.querySelector('#same-address');
+
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
 
@@ -35,7 +37,6 @@ var billingFields = [
 }, {});
 
 var shippingFields = [
-  'email',
   'shipping-phone',
   'shipping-given-name',
   'shipping-surname',
@@ -94,9 +95,22 @@ function validateFields(fields) {
 function toggleDisableFields(fields) {
   Object.keys(fields).forEach(function (fieldName) {
     var field = fields[fieldName];
-    field.disabled = !field.disabled
+    field.input.disabled = !field.input.disabled
   });
 
+  return;
+}
+
+function mapBillingToShipping() {
+  shippingFields['shipping-given-name'].input.value = billingFields['billing-given-name'].input.value;
+  shippingFields['shipping-surname'].input.value = billingFields['billing-surname'].input.value;
+  shippingFields['shipping-phone'].input.value = billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '');
+  shippingFields['shipping-street-address'].input.value = billingFields['billing-street-address'].input.value;
+  shippingFields['shipping-extended-address'].input.value = billingFields['billing-extended-address'].input.value;
+  shippingFields['shipping-locality'].input.value = billingFields['billing-locality'].input.value;
+  shippingFields['shipping-region'].input.value = billingFields['billing-region'].input.value;
+  shippingFields['shipping-postal-code'].input.value = billingFields['billing-postal-code'].input.value;
+  shippingFields['shipping-country-code'].input.value = billingFields['billing-country-code'].input.value;
   return;
 }
 
@@ -110,7 +124,6 @@ $(document).ready(function () {
     e.preventDefault();
     if ($(this).is(':checked')) {
       $(this).attr('value', 'true');
-      shippingFields = billingFields;
       toggleDisableFields(shippingFields);
     } else {
       $(this).attr('value', 'false');
@@ -162,6 +175,10 @@ $.ajax({
         if (!billingIsValid || !shippingIsValid) {
           enablePayNow();
           return;
+        }
+
+        if (sameAddress.value === true) {
+          mapBillingToShipping()
         }
 
         var customer = {
