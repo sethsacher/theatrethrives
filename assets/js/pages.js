@@ -51,6 +51,17 @@ document.getElementById('participants').innerHTML = templates.participants({
       instagram: 'https://www.instagram.com/thecolonialplayers/',
     },
     {
+      name: 'Fauquier Community Theatre',
+      desc: 'Warrenton, VA',
+      image: 'assets/img/speakers/fct.jpg',
+      website: 'https://fctstage.org/',
+      email: null,
+      phone: null,
+      facebook: null,
+      twitter: null,
+      instagram: null
+    },
+    {
       name: 'The Hard Bargain Players',
       desc: 'Accokeek, MD',
       image: 'assets/img/speakers/hbp.jpg',
@@ -209,11 +220,11 @@ document.getElementById('schedule').innerHTML = templates.schedule({
       title: 'Rockville Little Theatre',
       image: 'assets/img/speakers/logo_square/RLT.png',
     },
-    // {
-    //   time: '3:00 PM',
-    //   title: 'Port Tobacco Players',
-    //   image: 'assets/img/speakers/logo_square/PTP.png',
-    // },
+    {
+      time: '3:00 PM',
+      title: 'Fauquier Community Theatre',
+      image: 'assets/img/speakers/fct.jpg',
+    },
     {
       time: '4:00 PM',
       title: 'Sterling Playmakers',
