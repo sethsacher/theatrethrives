@@ -7,6 +7,7 @@ var submitButton = document.querySelector('#submit-button');
 submitButton.disabled = false;
 
 var sameAddress = document.querySelector('#same-address');
+sameAddress.value = 'false'
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
@@ -101,6 +102,20 @@ function toggleDisableFields(fields) {
   return;
 }
 
+function setBillingTestData() {
+  billingFields.email.input.value = "test@test.com";
+  billingFields['billing-given-name'].input.value = "Seth";
+  billingFields['billing-surname'].input.value = "Sacher";
+  billingFields['billing-phone'].input.value = "1231231234";
+  billingFields['billing-street-address'].input.value = "123 Fake St";
+  billingFields['billing-extended-address'].input.value = "Apt 100";
+  billingFields['billing-locality'].input.value = "Arlington";
+  billingFields['billing-region'].input.value = "VA";
+  billingFields['billing-postal-code'].input.value = "12345";
+  billingFields['billing-country-code'].input.value = "US";
+  return;
+}
+
 function mapBillingToShipping() {
   shippingFields['shipping-given-name'].input.value = billingFields['billing-given-name'].input.value;
   shippingFields['shipping-surname'].input.value = billingFields['billing-surname'].input.value;
@@ -169,16 +184,16 @@ $.ajax({
         submitButton.setAttribute('disabled', 'disabled');
         submitButton.value = 'Processing...';
 
+        if (sameAddress.value === 'true') {
+          mapBillingToShipping()
+        }
+
         var billingIsValid = validateFields(billingFields);
         var shippingIsValid = validateFields(shippingFields);
 
         if (!billingIsValid || !shippingIsValid) {
           enablePayNow();
           return;
-        }
-
-        if (sameAddress.value === true) {
-          mapBillingToShipping()
         }
 
         var customer = {
@@ -189,9 +204,8 @@ $.ajax({
         }
 
         var billingAddress = {
-          givenName: billingFields['billing-given-name'].input.value,
-          surname: billingFields['billing-surname'].input.value,
-          phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+          firstName: billingFields['billing-given-name'].input.value,
+          lastName: billingFields['billing-surname'].input.value,
           streetAddress: billingFields['billing-street-address'].input.value,
           extendedAddress: billingFields['billing-extended-address'].input.value,
           locality: billingFields['billing-locality'].input.value,
@@ -201,9 +215,8 @@ $.ajax({
         };
 
         var shippingAddress = {
-          givenName: shippingFields['shipping-given-name'].input.value,
-          surname: shippingFields['shipping-surname'].input.value,
-          phoneNumber: shippingFields['shipping-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+          firstName: shippingFields['shipping-given-name'].input.value,
+          lastName: shippingFields['shipping-surname'].input.value,
           streetAddress: shippingFields['shipping-street-address'].input.value,
           extendedAddress: shippingFields['shipping-extended-address'].input.value,
           locality: shippingFields['shipping-locality'].input.value,
@@ -290,6 +303,7 @@ $.ajax({
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
+  setBillingTestData()
   // $('#searchbar').focus();
 
   // Set initial donation amount
