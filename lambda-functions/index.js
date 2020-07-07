@@ -7,6 +7,9 @@ exports.handler = async (event) => {
   let nonce = '';
   let amount = '0';
   let type = '';
+  let customer;
+  let billing;
+  let shipping;
   let headers = {
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*',
@@ -20,6 +23,9 @@ exports.handler = async (event) => {
     if (body.type) type = body.type;
     if (body.nonce) nonce = body.nonce;
     if (body.amount) amount = body.amount;
+    if (body.customer) customer = body.customer;
+    if (body.billingAddress) billing = body.billingAddress;
+    if (body.shippingAddress) shipping = body.shippingAddress;
   }
 
   var gateway = braintree.connect({
@@ -47,6 +53,9 @@ exports.handler = async (event) => {
     var newTransaction = await gateway.transaction.sale({
       amount: amount,
       paymentMethodNonce: nonce,
+      customer,
+      billing,
+      shipping,
       options: {
         // This option requests the funds from the transaction
         // once it has been authorized successfully

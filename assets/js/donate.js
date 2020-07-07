@@ -34,19 +34,44 @@ var billingFields = [
   return fields;
 }, {});
 
+var shippingFields = [
+  'email',
+  'shipping-phone',
+  'shipping-given-name',
+  'shipping-surname',
+  'shipping-street-address',
+  'shipping-extended-address',
+  'shipping-locality',
+  'shipping-region',
+  'shipping-postal-code',
+  'shipping-country-code'
+].reduce(function (fields, fieldName) {
+  var field = fields[fieldName] = {
+    input: document.getElementById(fieldName),
+    help: document.getElementById('help-' + fieldName)
+  };
+
+  field.input.addEventListener('focus', function () {
+    clearFieldValidations(field);
+  });
+
+  return fields;
+}, {});
+
 function clearFieldValidations(field) {
   field.help.innerText = '';
   field.help.parentNode.classList.remove('has-error');
 }
 
 billingFields['billing-extended-address'].optional = true;
+shippingFields['shipping-extended-address'].optional = true;
 
-function validateBillingFields() {
+function validateFields(fields) {
   var isValid = true;
 
-  Object.keys(billingFields).forEach(function (fieldName) {
+  Object.keys(fields).forEach(function (fieldName) {
     var fieldEmpty = false;
-    var field = billingFields[fieldName];
+    var field = fields[fieldName];
 
     if (field.optional) {
       return;
@@ -66,10 +91,33 @@ function validateBillingFields() {
   return isValid;
 }
 
+function toggleDisableFields(fields) {
+  Object.keys(fields).forEach(function (fieldName) {
+    var field = fields[fieldName];
+    field.disabled = !field.disabled
+  });
+
+  return;
+}
+
 function enablePayNow() {
   submitButton.value = 'Submit Payment';
   submitButton.removeAttribute('disabled');
 }
+
+$(document).ready(function () {
+  $('#same-address').on('change', function (e) {
+    e.preventDefault();
+    if ($(this).is(':checked')) {
+      $(this).attr('value', 'true');
+      shippingFields = billingFields;
+      toggleDisableFields(shippingFields);
+    } else {
+      $(this).attr('value', 'false');
+      toggleDisableFields(shippingFields);
+    }
+  });
+})
 
 // BRAINTREE CLIENT TOKEN
 $.ajax({
@@ -108,29 +156,51 @@ $.ajax({
         submitButton.setAttribute('disabled', 'disabled');
         submitButton.value = 'Processing...';
 
-        var billingIsValid = validateBillingFields();
+        var billingIsValid = validateFields(billingFields);
+        var shippingIsValid = validateFields(shippingFields);
 
-        if (!billingIsValid) {
+        if (!billingIsValid || !shippingIsValid) {
           enablePayNow();
           return;
         }
 
+        var customer = {
+          firstName: billingFields['billing-given-name'].input.value,
+          lastName: billingFields['billing-surname'].input.value,
+          phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+          email: billingFields.email.input.value
+        }
+
+        var billingAddress = {
+          givenName: billingFields['billing-given-name'].input.value,
+          surname: billingFields['billing-surname'].input.value,
+          phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+          streetAddress: billingFields['billing-street-address'].input.value,
+          extendedAddress: billingFields['billing-extended-address'].input.value,
+          locality: billingFields['billing-locality'].input.value,
+          region: billingFields['billing-region'].input.value,
+          postalCode: billingFields['billing-postal-code'].input.value,
+          countryCodeAlpha2: billingFields['billing-country-code'].input.value
+        };
+
+        var shippingAddress = {
+          givenName: shippingFields['shipping-given-name'].input.value,
+          surname: shippingFields['shipping-surname'].input.value,
+          phoneNumber: shippingFields['shipping-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
+          streetAddress: shippingFields['shipping-street-address'].input.value,
+          extendedAddress: shippingFields['shipping-extended-address'].input.value,
+          locality: shippingFields['shipping-locality'].input.value,
+          region: shippingFields['shipping-region'].input.value,
+          postalCode: shippingFields['shipping-postal-code'].input.value,
+          countryCodeAlpha2: shippingFields['shipping-country-code'].input.value
+        };
+
         dropinInstance
           .requestPaymentMethod({
             threeDSecure: {
-              amount: amount,
+              amount,
               email: billingFields.email.input.value,
-              billingAddress: {
-                givenName: billingFields['billing-given-name'].input.value,
-                surname: billingFields['billing-surname'].input.value,
-                phoneNumber: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
-                streetAddress: billingFields['billing-street-address'].input.value,
-                extendedAddress: billingFields['billing-extended-address'].input.value,
-                locality: billingFields['billing-locality'].input.value,
-                region: billingFields['billing-region'].input.value,
-                postalCode: billingFields['billing-postal-code'].input.value,
-                countryCodeAlpha2: billingFields['billing-country-code'].input.value
-              }
+              billingAddress
             }
           })
           .then(function (payload) {
@@ -144,6 +214,9 @@ $.ajax({
                 type: 'PAYMENT',
                 nonce: payload.nonce,
                 amount: amount,
+                customer,
+                billingAddress,
+                shippingAddress
               }),
               headers: {
                 'content-type': 'application/json',
