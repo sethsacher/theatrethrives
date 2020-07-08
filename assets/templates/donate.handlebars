@@ -53,16 +53,23 @@
                         </p> --}}
                 </div>
             </div>
-            <div class="row">
-                <input type="checkbox" id="fees" name="fees" value="true" checked>
-                <label for="fees"> I'd like to cover all transaction fees so 100% of my donation goes to
-                    Community Theatre
-                    Thrives.</label>
+
+            <input type="checkbox" id="fees" name="fees" value="true" checked>
+            <label for="fees"> I'd like to cover all transaction fees so 100% of my donation goes to
+                Community Theatre
+                Thrives.</label>
+
+
+            <div id="row">
+                <div class="col-md-6 mb-3">
+                    <h5>Donation Amount:</h5>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <h3 id="amount"></h3>
+                </div>
             </div>
-            <div class="row">
-                Donation Amount:
-                <p id="amount"></p>
-            </div>
+            <hr />
+
             {{!-- PATRON INFORMATION --}}
             {{!-- Billing Address --}}
             <h4 class="mb-3">Billing address</h4>
@@ -203,6 +210,8 @@
                     </div>
                 </div>
             </div>
+            <hr />
+
             {{!-- Shipping Address --}}
             <h4 class="mb-3">Shipping address</h4>
             <div class="form-group">
@@ -330,6 +339,8 @@
                     </div>
                 </div>
             </div>
+            <hr />
+
             {{!-- BRAINTREE DROP IN PAYMENT --}}
             <div id="dropin-wrapper">
                 <div id="checkout-message"></div>
