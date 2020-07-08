@@ -38,7 +38,6 @@ var billingFields = [
 }, {});
 
 var shippingFields = [
-  'shipping-phone',
   'shipping-given-name',
   'shipping-surname',
   'shipping-street-address',
@@ -97,8 +96,10 @@ function validateFields(fields) {
 
 function toggleDisableFields(fields) {
   Object.keys(fields).forEach(function (fieldName) {
-    var field = fields[fieldName];
-    field.input.disabled = !field.input.disabled
+    if (!fieldName.includes('country-code')) {
+      var field = fields[fieldName];
+      field.input.disabled = !field.input.disabled
+    }
   });
 
   return;
