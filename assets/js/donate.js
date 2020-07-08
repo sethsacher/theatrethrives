@@ -65,6 +65,8 @@ function clearFieldValidations(field) {
   field.help.parentNode.classList.remove('has-error');
 }
 
+billingFields['billing-country-code'].input.value = "US";
+shippingFields['shipping-country-code'].input.value = "US";
 billingFields['billing-extended-address'].optional = true;
 shippingFields['shipping-extended-address'].optional = true;
 
