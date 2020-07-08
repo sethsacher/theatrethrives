@@ -64,57 +64,139 @@
                 <p id="amount"></p>
             </div>
             {{!-- PATRON INFORMATION --}}
+            {{!-- Billing Address --}}
+            <h4 class="mb-3">Billing address</h4>
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                        <span id="help-email" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="billing-phone">Billing phone number</label>
-                        <input type="billing-phone" class="form-control" id="billing-phone" placeholder="123-456-7890">
-                        <span id="help-billing-phone" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="billing-given-name">Billing given name</label>
+                        <label for="billing-given-name">First Name</label>
                         <input type="billing-given-name" class="form-control" id="billing-given-name"
                             placeholder="First">
                         <span id="help-billing-given-name" class="help-block"></span>
                     </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-surname">Billing surname</label>
+                        <label for="billing-surname">Last Name</label>
                         <input type="billing-surname" class="form-control" id="billing-surname" placeholder="Last">
                         <span id="help-billing-surname" class="help-block"></span>
                     </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-street-address">Billing street address</label>
-                        <input type="billing-street-address" class="form-control" id="billing-street-address"
-                            placeholder="123 Street">
-                        <span id="help-billing-street-address" class="help-block"></span>
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        <span id="help-email" class="help-block"></span>
                     </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-extended-address">Billing extended address</label>
-                        <input type="billing-extended-address" class="form-control" id="billing-extended-address"
-                            placeholder="Unit 1">
-                        <span id="help-billing-extended-address" class="help-block"></span>
+                        <label for="billing-phone">Phone</label>
+                        <input type="billing-phone" class="form-control" id="billing-phone" placeholder="123-456-7890">
+                        <span id="help-billing-phone" class="help-block"></span>
                     </div>
+                </div>
+
+
+            </div>
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="billing-street-address">Address</label>
+                    <input type="billing-street-address" class="form-control" id="billing-street-address"
+                        placeholder="123 Street">
+                    <span id="help-billing-street-address" class="help-block"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="form-group">
+                    <label for="billing-extended-address">Address 2 (Optional)</label>
+                    <input type="billing-extended-address" class="form-control" id="billing-extended-address"
+                        placeholder="Unit 1">
+                    <span id="help-billing-extended-address" class="help-block"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-locality">Billing locality</label>
+                        <label for="billing-locality">City</label>
                         <input type="billing-locality" class="form-control" id="billing-locality" placeholder="City">
                         <span id="help-billing-locality" class="help-block"></span>
                     </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-region">Billing region</label>
-                        <input type="billing-region" class="form-control" id="billing-region" placeholder="State">
+                        <label for="billing-region">State</label>
+                        {{!-- <input type="billing-region" class="form-control" id="billing-region" placeholder="State"> --}}
+                        <select class="form-control" id="billing-region" name="billing-region">
+                            <option value="AK">Alaska</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DC">District of Columbia</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="IA">Iowa</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MD">Maryland</option>
+                            <option value="ME">Maine</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MT">Montana</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NY">New York</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="PR">Puerto Rico</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VA">Virginia</option>
+                            <option value="VT">Vermont</option>
+                            <option value="WA">Washington</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
                         <span id="help-billing-region" class="help-block"></span>
                     </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
-                        <label for="billing-postal-code">Billing postal code</label>
+                        <label for="billing-postal-code">Zip</label>
                         <input type="billing-postal-code" class="form-control" id="billing-postal-code"
                             placeholder="12345">
                         <span id="help-billing-postal-code" class="help-block"></span>
                     </div>
+                </div>
+                <div class="col-md-6 mb-3">
                     <div class="form-group">
                         <label for="billing-country-code">Billing country code (Alpha 2)</label>
                         <input type="billing-country-code" class="form-control" id="billing-country-code"
@@ -122,64 +204,64 @@
                         <span id="help-billing-country-code" class="help-block"></span>
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <input type="checkbox" id="same-address" name="same-address" value="true">
-                        <label for="fees"> Shipping Address is same as Billing</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-phone">Shipping phone number</label>
-                        <input type="shipping-phone" class="form-control" id="shipping-phone"
-                            placeholder="123-456-7890">
-                        <span id="help-shipping-phone" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-given-name">Shipping given name</label>
-                        <input type="shipping-given-name" class="form-control" id="shipping-given-name"
-                            placeholder="First">
-                        <span id="help-shipping-given-name" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-surname">Shipping surname</label>
-                        <input type="shipping-surname" class="form-control" id="shipping-surname" placeholder="Last">
-                        <span id="help-shipping-surname" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-street-address">Shipping street address</label>
-                        <input type="shipping-street-address" class="form-control" id="shipping-street-address"
-                            placeholder="123 Street">
-                        <span id="help-shipping-street-address" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-extended-address">Shipping extended address</label>
-                        <input type="shipping-extended-address" class="form-control" id="shipping-extended-address"
-                            placeholder="Unit 1">
-                        <span id="help-shipping-extended-address" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-locality">Shipping locality</label>
-                        <input type="shipping-locality" class="form-control" id="shipping-locality" placeholder="City">
-                        <span id="help-shipping-locality" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-region">Shipping region</label>
-                        <input type="shipping-region" class="form-control" id="shipping-region" placeholder="State">
-                        <span id="help-shipping-region" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-postal-code">Shipping postal code</label>
-                        <input type="shipping-postal-code" class="form-control" id="shipping-postal-code"
-                            placeholder="12345">
-                        <span id="help-shipping-postal-code" class="help-block"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="shipping-country-code">Shipping country code (Alpha 2)</label>
-                        <input type="shipping-country-code" class="form-control" id="shipping-country-code"
-                            placeholder="US">
-                        <span id="help-shipping-country-code" class="help-block"></span>
-                    </div>
+            </div>
+            {{!-- Shipping Address --}}
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <input type="checkbox" id="same-address" name="same-address" value="true">
+                    <label for="fees"> Shipping Address is same as Billing</label>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-phone">Shipping phone number</label>
+                    <input type="shipping-phone" class="form-control" id="shipping-phone" placeholder="123-456-7890">
+                    <span id="help-shipping-phone" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-given-name">Shipping given name</label>
+                    <input type="shipping-given-name" class="form-control" id="shipping-given-name" placeholder="First">
+                    <span id="help-shipping-given-name" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-surname">Shipping surname</label>
+                    <input type="shipping-surname" class="form-control" id="shipping-surname" placeholder="Last">
+                    <span id="help-shipping-surname" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-street-address">Shipping street address</label>
+                    <input type="shipping-street-address" class="form-control" id="shipping-street-address"
+                        placeholder="123 Street">
+                    <span id="help-shipping-street-address" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-extended-address">Shipping extended address</label>
+                    <input type="shipping-extended-address" class="form-control" id="shipping-extended-address"
+                        placeholder="Unit 1">
+                    <span id="help-shipping-extended-address" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-locality">Shipping locality</label>
+                    <input type="shipping-locality" class="form-control" id="shipping-locality" placeholder="City">
+                    <span id="help-shipping-locality" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-region">Shipping region</label>
+                    <input type="shipping-region" class="form-control" id="shipping-region" placeholder="State">
+                    <span id="help-shipping-region" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-postal-code">Shipping postal code</label>
+                    <input type="shipping-postal-code" class="form-control" id="shipping-postal-code"
+                        placeholder="12345">
+                    <span id="help-shipping-postal-code" class="help-block"></span>
+                </div>
+                <div class="form-group">
+                    <label for="shipping-country-code">Shipping country code (Alpha 2)</label>
+                    <input type="shipping-country-code" class="form-control" id="shipping-country-code"
+                        placeholder="US">
+                    <span id="help-shipping-country-code" class="help-block"></span>
                 </div>
             </div>
+
             {{!-- BRAINTREE DROP IN PAYMENT --}}
             <div id="dropin-wrapper">
                 <div id="checkout-message"></div>
