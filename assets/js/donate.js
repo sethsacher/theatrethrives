@@ -148,6 +148,16 @@ $(document).ready(function () {
       toggleDisableFields(shippingFields);
     }
   });
+
+
+  $('#contact').on('change', function (e) {
+    e.preventDefault();
+    if ($(this).is(':checked')) {
+      $(this).attr('value', 'true');
+    } else {
+      $(this).attr('value', 'false');
+    }
+  });
 })
 
 // BRAINTREE CLIENT TOKEN
