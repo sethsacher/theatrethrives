@@ -62,13 +62,13 @@ exports.handler = async (event) => {
     // response.each(function (err, transaction) {
     //   counter++;
     // });
-    completeData = ""
-    someWritableStream.on("data", function (chunk) {
+    let completeData = ""
+    stream.on("data", function (chunk) {
       //Do Something With the chunk of data. You might want to concat the stream
       completeData += chunk;
     });
 
-    someWritableStream.on("end", function () {
+    stream.on("end", function () {
       //Do Something after the all the chunks are received.
       console.log(completeData);
     });
@@ -77,7 +77,7 @@ exports.handler = async (event) => {
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        test: stream,
+        test: completeData,
       }),
     };
   } else if (type === 'PAYMENT') {
