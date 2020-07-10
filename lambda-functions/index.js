@@ -17,6 +17,7 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Methods': '*',
   };
   let theatres;
+  let tshirt;
   console.log('request: ' + JSON.stringify(event));
 
   if (event.body) {
@@ -30,6 +31,7 @@ exports.handler = async (event) => {
     if (body.shippingAddress) shipping = body.shippingAddress;
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
+    if (body.tshirt) tshirt = body.tshirt;
   }
 
   var gateway = braintree.connect({
@@ -59,7 +61,8 @@ exports.handler = async (event) => {
       paymentMethodNonce: nonce,
       customFields: {
         share_contact_info: shareContactInfo,
-        theatres_of_interest: theatres
+        theatres_of_interest: theatres,
+        tshirt_size: tshirt
       },
       customer,
       billing,
