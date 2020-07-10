@@ -7,6 +7,7 @@ exports.handler = async (event) => {
   let nonce = '';
   let amount = '0';
   let type = '';
+  let shareContactInfo = 'false';
   let customer;
   let billing;
   let shipping;
@@ -26,6 +27,7 @@ exports.handler = async (event) => {
     if (body.customer) customer = body.customer;
     if (body.billingAddress) billing = body.billingAddress;
     if (body.shippingAddress) shipping = body.shippingAddress;
+    if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
   }
 
   var gateway = braintree.connect({
@@ -53,6 +55,9 @@ exports.handler = async (event) => {
     var newTransaction = await gateway.transaction.sale({
       amount: amount,
       paymentMethodNonce: nonce,
+      customFields: {
+        share_contact_info: shareContactInfo
+      },
       customer,
       billing,
       shipping,

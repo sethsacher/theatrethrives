@@ -3,6 +3,7 @@ var amount = 25;
 var rawAmount = amount;
 var feeAmount = 1.03;
 var coverFees = true;
+var shareContactInfo = 'true';
 var submitButton = document.querySelector('#submit-button');
 submitButton.disabled = false;
 
@@ -122,7 +123,6 @@ function setBillingTestData() {
 function mapBillingToShipping() {
   shippingFields['shipping-given-name'].input.value = billingFields['billing-given-name'].input.value;
   shippingFields['shipping-surname'].input.value = billingFields['billing-surname'].input.value;
-  shippingFields['shipping-phone'].input.value = billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '');
   shippingFields['shipping-street-address'].input.value = billingFields['billing-street-address'].input.value;
   shippingFields['shipping-extended-address'].input.value = billingFields['billing-extended-address'].input.value;
   shippingFields['shipping-locality'].input.value = billingFields['billing-locality'].input.value;
@@ -154,8 +154,10 @@ $(document).ready(function () {
     e.preventDefault();
     if ($(this).is(':checked')) {
       $(this).attr('value', 'true');
+      shareContactInfo = 'true';
     } else {
       $(this).attr('value', 'false');
+      shareContactInfo = 'false';
     }
   });
 })
@@ -257,6 +259,7 @@ $.ajax({
                 type: 'PAYMENT',
                 nonce: payload.nonce,
                 amount: amount,
+                shareContactInfo: shareContactInfo,
                 customer,
                 billingAddress,
                 shippingAddress
