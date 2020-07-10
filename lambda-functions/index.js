@@ -54,6 +54,32 @@ exports.handler = async (event) => {
       }),
     };
 
+  } else if (type === 'SEARCH') {
+    let counter = 1;
+    var stream = await gateway.transaction.search(function (search) {
+      search.merchantAccountId().is(process.env.BT_MERCHANT_ID);
+    });
+    // response.each(function (err, transaction) {
+    //   counter++;
+    // });
+    completeData = ""
+    someWritableStream.on("data", function (chunk) {
+      //Do Something With the chunk of data. You might want to concat the stream
+      completeData += chunk;
+    });
+
+    someWritableStream.on("end", function () {
+      //Do Something after the all the chunks are received.
+      console.log(completeData);
+    });
+    return {
+      statusCode: 200,
+      headers: headers,
+      isBase64Encoded: false,
+      body: JSON.stringify({
+        test: stream,
+      }),
+    };
   } else if (type === 'PAYMENT') {
     // Create a new transaction
     var newTransaction = await gateway.transaction.sale({
