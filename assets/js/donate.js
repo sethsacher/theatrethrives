@@ -13,6 +13,8 @@ sameAddress.value = 'false'
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
 
+var theatres = [];
+
 // PATRON INFORMATION
 var billingFields = [
   'email',
@@ -160,6 +162,11 @@ $(document).ready(function () {
       shareContactInfo = 'false';
     }
   });
+
+  $('#theatre').on('change', function (e) {
+    e.preventDefault();
+    theatres = $(this).val();
+  });
 })
 
 // BRAINTREE CLIENT TOKEN
@@ -260,6 +267,7 @@ $.ajax({
                 nonce: payload.nonce,
                 amount: amount,
                 shareContactInfo: shareContactInfo,
+                theatres,
                 customer,
                 billingAddress,
                 shippingAddress
