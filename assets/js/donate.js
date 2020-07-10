@@ -292,8 +292,14 @@ $.ajax({
                   console.error('Could not tear down Drop-in UI!');
                 } else {
                   console.info('Drop-in UI has been torn down!');
-                  // Remove the 'Submit payment' button
+                  // Remove the 'Submit payment' button and page contents
                   $('#submit-button').remove();
+                  $('#donation-amount').remove();
+                  $('#donation-theatres').remove();
+                  $('#donation-tshirt').remove();
+                  $('#donation-billing').remove();
+                  $('#donation-shipping').remove();
+                  $('#donation-legal').remove();
                 }
               });
 
