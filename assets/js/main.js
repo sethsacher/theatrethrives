@@ -15,10 +15,10 @@
       var $this = $(this).html(
         event.strftime(
           '' +
-            '<span class="h1 font-weight-bold">%D</span> Day%!d' +
-            '<span class="h1 font-weight-bold">%H</span> Hr' +
-            '<span class="h1 font-weight-bold">%M</span> Min' +
-            '<span class="h1 font-weight-bold">%S</span> Sec'
+          '<span class="h1 font-weight-bold">%D</span> Day%!d' +
+          '<span class="h1 font-weight-bold">%H</span> Hr' +
+          '<span class="h1 font-weight-bold">%M</span> Min' +
+          '<span class="h1 font-weight-bold">%S</span> Sec'
         )
       );
     });
@@ -40,6 +40,25 @@
       'easeInOutExpo'
     );
     return false;
+  });
+
+  function toggleChat(win) {
+    if (win.width() <= 850) {
+      $("#chat").hide();
+    } else {
+      $("#chat").show();
+    }
+    return;
+  }
+
+  // Hide video chat when window is too small
+  $(document).ready(function () {
+    toggleChat($(this));
+  });
+
+  $(window).on('resize', function () {
+    var win = $(this); //this = window
+    toggleChat(win);
   });
 
   // Header fixed on scroll
@@ -135,7 +154,7 @@
     scroll = false;
     if (
       location.pathname.replace(/^\//, '') ==
-        this.pathname.replace(/^\//, '') &&
+      this.pathname.replace(/^\//, '') &&
       location.hostname == this.hostname
     ) {
       var target = $(this.hash);
