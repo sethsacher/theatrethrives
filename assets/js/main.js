@@ -8,8 +8,26 @@
   'use strict';
 
   // Notification Banner
+  // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+  // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+  function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          var allText = rawFile.responseText;
+          console.log(allText);
+        }
+      }
+    }
+    rawFile.send(null);
+  }
+
   $(document).ready(function () {
     $('#header').css("top", "25px");
+    $('#notification').text('Updated banner')
+    console.log(readTextFile('file:///C:/Users/SethSacher/Projects/theatrethrives/index.html'))
   });
 
   // Countdown Timer
