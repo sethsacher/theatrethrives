@@ -17,7 +17,7 @@
       if (rawFile.readyState === 4) {
         if (rawFile.status === 200 || rawFile.status == 0) {
           var allText = rawFile.responseText;
-          console.log(allText);
+          $('#notification').text(allText)
         }
       }
     }
@@ -26,8 +26,7 @@
 
   $(document).ready(function () {
     $('#header').css("top", "25px");
-    $('#notification').text('Updated banner')
-    console.log(readTextFile('file:///C:/Users/SethSacher/Projects/theatrethrives/index.html'))
+    readTextFile('http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/assets/txt/banner.txt')
   });
 
   // Countdown Timer
