@@ -1,7 +1,7 @@
 'use strict';
 
-var braintree = require('braintree');
-console.log('Loading Braintree function');
+const stripe = require("stripe")(process.env.STRIPE_SK);
+console.log('Loading Stripe function');
 
 exports.handler = async (event) => {
   let nonce = '';
@@ -34,54 +34,29 @@ exports.handler = async (event) => {
     if (body.tshirt) tshirt = body.tshirt;
   }
 
-  var gateway = braintree.connect({
-    environment: braintree.Environment.Sandbox,
-    // Use your own credentials from the sandbox Control Panel here
-    merchantId: process.env.BT_MERCHANT_ID,
-    publicKey: process.env.BT_PUBLIC_KEY,
-    privateKey: process.env.BT_PRIVATE_KEY,
-  });
+  var response = {
+    status: 'Success!'
+  }
 
   if (type === 'TOKEN') {
-    var generateToken = await gateway.clientToken.generate({});
 
     return {
-      statusCode: (generateToken.success) ? 200 : 500,
+      statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...generateToken,
+        ...response,
       }),
     };
 
   } else if (type === 'PAYMENT') {
-    // Create a new transaction
-    var newTransaction = await gateway.transaction.sale({
-      amount: amount,
-      paymentMethodNonce: nonce,
-      customFields: {
-        share_contact_info: shareContactInfo,
-        theatres_of_interest: theatres,
-        tshirt_size: tshirt
-      },
-      customer,
-      billing,
-      shipping,
-      options: {
-        // This option requests the funds from the transaction
-        // once it has been authorized successfully
-        submitForSettlement: true,
-      },
-    });
-
-    console.log('transaction: ' + JSON.stringify(newTransaction));
 
     return {
-      statusCode: (newTransaction.success) ? 200 : 500,
+      statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...newTransaction,
+        ...response,
       }),
     };
 
