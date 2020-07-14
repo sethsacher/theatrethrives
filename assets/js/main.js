@@ -7,6 +7,11 @@
 !(function ($) {
   'use strict';
 
+  // Notification Banner
+  $(document).ready(function () {
+    $('#header').css("top", "25px");
+  });
+
   // Countdown Timer
   var endTime = moment.tz('2020-07-17 18:30', 'America/New_York');
   $('#clock')
@@ -15,10 +20,10 @@
       var $this = $(this).html(
         event.strftime(
           '' +
-            '<span class="h1 font-weight-bold">%D</span> Day%!d' +
-            '<span class="h1 font-weight-bold">%H</span> Hr' +
-            '<span class="h1 font-weight-bold">%M</span> Min' +
-            '<span class="h1 font-weight-bold">%S</span> Sec'
+          '<span class="h1 font-weight-bold">%D</span> Day%!d' +
+          '<span class="h1 font-weight-bold">%H</span> Hr' +
+          '<span class="h1 font-weight-bold">%M</span> Min' +
+          '<span class="h1 font-weight-bold">%S</span> Sec'
         )
       );
     });
@@ -135,7 +140,7 @@
     scroll = false;
     if (
       location.pathname.replace(/^\//, '') ==
-        this.pathname.replace(/^\//, '') &&
+      this.pathname.replace(/^\//, '') &&
       location.hostname == this.hostname
     ) {
       var target = $(this.hash);
