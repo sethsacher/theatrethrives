@@ -10,6 +10,8 @@
   // Notification Banner
   // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
   // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+  var bannerTextFile = 'http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/assets/txt/banner.txt';
+
   function readTextFile(file) {
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
@@ -31,8 +33,13 @@
     rawFile.send(null);
   }
 
+  // Time in ms (5000 ms = 5 s)
+  window.setInterval(function () {
+    readTextFile(bannerTextFile);
+  }, 5000);
+
   $(document).ready(function () {
-    readTextFile('http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/assets/txt/banner.txt')
+    readTextFile(bannerTextFile);
   });
 
   // Countdown Timer
