@@ -18,6 +18,8 @@ exports.handler = async (event) => {
   };
   let theatres;
   let tshirt;
+
+  let items;
   console.log('request: ' + JSON.stringify(event));
 
   if (event.body) {
@@ -32,20 +34,34 @@ exports.handler = async (event) => {
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
     if (body.tshirt) tshirt = body.tshirt;
+
+    if (body.items) items = body.items;
   }
 
   var response = {
     status: 'Success!'
   }
 
+  const calculateOrderAmount = items => {
+    // Replace this constant with a calculation of the order's amount
+    // Calculate the order total on the server to prevent
+    // people from directly manipulating the amount on the client
+    return 1400;
+  };
+
   if (type === 'TOKEN') {
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: calculateOrderAmount(items),
+      currency: "usd"
+    });
 
     return {
       statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...response,
+        clientSecret: paymentIntent.client_secret,
       }),
     };
 

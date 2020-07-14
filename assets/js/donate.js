@@ -291,7 +291,8 @@ fetch(isProd
   : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    'x-amz-docs-region': 'us-east-1',
   },
   body: JSON.stringify(purchase)
 })
