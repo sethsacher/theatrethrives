@@ -17,7 +17,14 @@
       if (rawFile.readyState === 4) {
         if (rawFile.status === 200 || rawFile.status == 0) {
           var allText = rawFile.responseText;
-          $('#notification').text(allText)
+          if (allText.length > 0) {
+            $('#notification').text(allText)
+            $('#banner').show();
+            $('#header').css("top", "25px");
+          } else {
+            $('#banner').hide();
+            $('#header').css("top", "0px");
+          }
         }
       }
     }
@@ -25,7 +32,6 @@
   }
 
   $(document).ready(function () {
-    $('#header').css("top", "25px");
     readTextFile('http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/assets/txt/banner.txt')
   });
 
