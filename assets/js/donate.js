@@ -4,8 +4,8 @@ var rawAmount = amount;
 var feeAmount = 1.03;
 var coverFees = true;
 var shareContactInfo = 'true';
-var submitButton = document.querySelector('#submit-button');
-submitButton.disabled = false;
+// var submitButton = document.querySelector('#submit-button');
+// submitButton.disabled = false;
 
 var sameAddress = document.querySelector('#same-address');
 sameAddress.value = 'false'
@@ -175,168 +175,6 @@ $(document).ready(function () {
   });
 })
 
-// BRAINTREE CLIENT TOKEN
-$.ajax({
-  type: 'POST',
-  url: isProd
-    ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-    : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
-  data: JSON.stringify({
-    type: 'TOKEN'
-  }),
-  headers: {
-    'content-type': 'application/json',
-    'x-amz-docs-region': 'us-east-1',
-  },
-}).done(function (result) {
-
-  // BRAINTREE PAYMENT
-  braintree.dropin
-    .create({
-      // authorization: isProd
-      //   ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
-      //   : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-      authorization: result.clientToken,
-      container: '#dropin-container',
-      threeDSecure: true,
-      card: {
-        cardholderName: {
-          required: true,
-        },
-      },
-    })
-    .then(function (dropinInstance) {
-      enablePayNow();
-
-      submitButton.addEventListener('click', function () {
-        submitButton.setAttribute('disabled', 'disabled');
-        submitButton.value = 'Processing...';
-
-        if (sameAddress.value === 'true') {
-          mapBillingToShipping()
-        }
-
-        var billingIsValid = validateFields(billingFields);
-        var shippingIsValid = validateFields(shippingFields);
-
-        if (!billingIsValid || !shippingIsValid) {
-          enablePayNow();
-          return;
-        }
-
-        var customer = {
-          firstName: billingFields['billing-given-name'].input.value,
-          lastName: billingFields['billing-surname'].input.value,
-          phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
-          email: billingFields.email.input.value
-        }
-
-        var billingAddress = {
-          firstName: billingFields['billing-given-name'].input.value,
-          lastName: billingFields['billing-surname'].input.value,
-          streetAddress: billingFields['billing-street-address'].input.value,
-          extendedAddress: billingFields['billing-extended-address'].input.value,
-          locality: billingFields['billing-locality'].input.value,
-          region: billingFields['billing-region'].input.value,
-          postalCode: billingFields['billing-postal-code'].input.value,
-          countryCodeAlpha2: billingFields['billing-country-code'].input.value
-        };
-
-        var shippingAddress = {
-          firstName: shippingFields['shipping-given-name'].input.value,
-          lastName: shippingFields['shipping-surname'].input.value,
-          streetAddress: shippingFields['shipping-street-address'].input.value,
-          extendedAddress: shippingFields['shipping-extended-address'].input.value,
-          locality: shippingFields['shipping-locality'].input.value,
-          region: shippingFields['shipping-region'].input.value,
-          postalCode: shippingFields['shipping-postal-code'].input.value,
-          countryCodeAlpha2: shippingFields['shipping-country-code'].input.value
-        };
-
-        dropinInstance
-          .requestPaymentMethod({
-            threeDSecure: {
-              amount,
-              email: billingFields.email.input.value,
-              billingAddress
-            }
-          })
-          .then(function (payload) {
-            // Send payload.nonce to your server
-            $.ajax({
-              type: 'POST',
-              url: isProd
-                ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-                : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
-              data: JSON.stringify({
-                type: 'PAYMENT',
-                nonce: payload.nonce,
-                amount: amount,
-                shareContactInfo: shareContactInfo,
-                theatres,
-                tshirt,
-                customer,
-                billingAddress,
-                shippingAddress
-              }),
-              headers: {
-                'content-type': 'application/json',
-                'x-amz-docs-region': 'us-east-1',
-              },
-            }).done(function (result) {
-              console.log(result);
-
-              // Tear down the Drop-in UI
-              dropinInstance.teardown(function (teardownErr) {
-                if (teardownErr) {
-                  console.error('Could not tear down Drop-in UI!');
-                } else {
-                  console.info('Drop-in UI has been torn down!');
-                  // Remove the 'Submit payment' button and page contents
-                  $('#submit-button').remove();
-                  $('#donation-amount').remove();
-                  $('#donation-theatres').remove();
-                  $('#donation-tshirt').remove();
-                  $('#donation-billing').remove();
-                  $('#donation-shipping').remove();
-                  $('#donation-legal').remove();
-                }
-              });
-
-              if (result.success) {
-                $('#checkout-message').html(
-                  `<h2>Thank you for your donation!</h2>
-              <p>Your generous donation of $${result.transaction.amount} goes a long way 
-              in supporting DC-area community theatres. Thank you for supporting the arts!</p>
-              <p>Refresh to make another donation.</p>`
-                );
-              } else {
-                $('#checkout-message').html(
-                  '<h2>Error</h2><p>An error has occurred. Please contact your administrator.</p>'
-                );
-              }
-            });
-          })
-          .catch(function (err) {
-            // Handle errors in requesting payment method
-            console.log('tokenization error:');
-            console.log(err);
-            dropinInstance.clearSelectedPaymentMethod();
-            enablePayNow();
-
-            return;
-          });
-      });
-    })
-    .catch(function (err) {
-      // Handle any errors that might've occurred when creating Drop-in
-      console.error(err);
-    });
-}).catch(function (err) {
-  console.log(err);
-  return;
-});
-
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
@@ -435,3 +273,127 @@ $(document).ready(function () {
     });
   });
 });
+
+// STRIPE
+// A reference to Stripe.js initialized with your real test publishable API key.
+var stripe = Stripe("pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe");
+
+// The items the customer wants to buy
+var purchase = {
+  type: 'PAYMENT',
+  items: [{ id: "xl-tshirt" }]
+};
+
+// Disable the button until we have Stripe set up on the page
+document.querySelector("button").disabled = true;
+fetch(isProd
+  ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+  : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(purchase)
+})
+  .then(function (result) {
+    return result.json();
+  })
+  .then(function (data) {
+    var elements = stripe.elements();
+
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d"
+        }
+      },
+      invalid: {
+        fontFamily: 'Arial, sans-serif',
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    };
+
+    var card = elements.create("card", { style: style });
+    // Stripe injects an iframe into the DOM
+    card.mount("#card-element");
+
+    card.on("change", function (event) {
+      // Disable the Pay button if there are no card details in the Element
+      document.querySelector("button").disabled = event.empty;
+      document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+    });
+
+    var form = document.getElementById("payment-form");
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      // Complete payment when the submit button is clicked
+      payWithCard(stripe, card, data.clientSecret);
+    });
+  });
+
+// Calls stripe.confirmCardPayment
+// If the card requires authentication Stripe shows a pop-up modal to
+// prompt the user to enter authentication details without leaving your page.
+var payWithCard = function (stripe, card, clientSecret) {
+  loading(true);
+  stripe
+    .confirmCardPayment(clientSecret, {
+      receipt_email: document.getElementById('email').value,
+      payment_method: {
+        card: card
+      }
+    })
+    .then(function (result) {
+      if (result.error) {
+        // Show error to your customer
+        showError(result.error.message);
+      } else {
+        // The payment succeeded!
+        orderComplete(result.paymentIntent.id);
+      }
+    });
+};
+
+/* ------- UI helpers ------- */
+
+// Shows a success message when the payment is complete
+var orderComplete = function (paymentIntentId) {
+  loading(false);
+  document
+    .querySelector(".result-message a")
+    .setAttribute(
+      "href",
+      "https://dashboard.stripe.com/test/payments/" + paymentIntentId
+    );
+  document.querySelector(".result-message").classList.remove("hidden");
+  document.querySelector("button").disabled = true;
+};
+
+// Show the customer the error from Stripe if their card fails to charge
+var showError = function (errorMsgText) {
+  loading(false);
+  var errorMsg = document.querySelector("#card-error");
+  errorMsg.textContent = errorMsgText;
+  setTimeout(function () {
+    errorMsg.textContent = "";
+  }, 4000);
+};
+
+// Show a spinner on payment submission
+var loading = function (isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    document.querySelector("button").disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    document.querySelector("button").disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+};
