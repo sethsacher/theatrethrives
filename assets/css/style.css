@@ -1564,6 +1564,28 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #4869df;
 }
 
+#donate hr {
+  margin-top: 35px; 
+  margin-bottom: 35px
+}
+
+#donation-legal {
+  margin-top: 35px;
+}
+
+#submit-button {
+  color: #fff;
+  background: var(--accent-color);
+  padding: 7px 22px;
+  border-radius: 50px;
+  border: 2px solid var(--accent-color);
+  transition: all ease-in-out 0.3s;
+  font-weight: 500;
+  margin-top: 20px;
+  line-height: 1;
+  font-size: 25px;
+}
+
 #donate .donate-info a:hover {
   color: var(--accent-color);
 }
