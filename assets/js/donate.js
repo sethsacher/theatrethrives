@@ -21,6 +21,49 @@ var theatres = [];
 // Set initial donation amount
 amount = rawAmount * feeAmount;
 
+var billingFields = [
+  'email',
+  'billing-phone',
+  'billing-given-name',
+  'billing-surname',
+  'billing-street-address',
+  'billing-extended-address',
+  'billing-locality',
+  'billing-region',
+  'billing-postal-code',
+  'billing-country-code'
+].reduce(function (fields, fieldName) {
+  var field = fields[fieldName] = {
+    input: document.getElementById(fieldName),
+    help: document.getElementById('help-' + fieldName)
+  };
+
+  // field.input.addEventListener('focus', function () {
+  //   clearFieldValidations(field);
+  // });
+
+  return fields;
+}, {});
+
+billingFields['billing-country-code'].input.value = "US";
+billingFields['billing-extended-address'].optional = true;
+
+function setBillingTestData() {
+  billingFields['email'].input.value = "test@test.com";
+  billingFields['billing-given-name'].input.value = "Seth";
+  billingFields['billing-surname'].input.value = "Sacher";
+  billingFields['billing-phone'].input.value = "1231231234";
+  billingFields['billing-street-address'].input.value = "123 Fake St";
+  billingFields['billing-extended-address'].input.value = "Apt 100";
+  billingFields['billing-locality'].input.value = "Arlington";
+  billingFields['billing-region'].input.value = "VA";
+  billingFields['billing-postal-code'].input.value = "12345";
+  billingFields['billing-country-code'].input.value = "US";
+  return;
+}
+
+setBillingTestData();
+
 $(document).ready(function () {
 
   $('#contact').on('change', function (e) {
@@ -140,6 +183,7 @@ $(document).ready(function () {
 function hidePageElements() {
   document.querySelector("#stripe").classList.add("hidden");
   document.querySelector("#donation-amount").classList.add("hidden");
+  document.querySelector("#donation-billing").classList.add("hidden");
   document.querySelector("#donation-legal").classList.add("hidden");
 }
 
@@ -220,9 +264,22 @@ var payWithCard = function (stripe, card, clientSecret) {
   loading(true);
   stripe
     .confirmCardPayment(clientSecret, {
-      receipt_email: document.getElementById('email').value,
+      receipt_email: billingFields['email'].input.value,
       payment_method: {
-        card: card
+        card: card,
+        billing_details: {
+          address: {
+            city: billingFields['billing-locality'].input.value,
+            country: billingFields['billing-country-code'].input.value,
+            line1: billingFields['billing-street-address'].input.value,
+            line2: billingFields['billing-extended-address'].input.value,
+            postal_code: billingFields['billing-postal-code'].input.value,
+            state: billingFields['billing-region'].input.value
+          },
+          email: billingFields['email'].input.value,
+          name: billingFields['billing-given-name'].input.value + " " + billingFields['billing-surname'].input.value,
+          phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '')
+        }
       }
     })
     .then(function (result) {
