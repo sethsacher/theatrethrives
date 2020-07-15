@@ -89,7 +89,7 @@ $(document).ready(function () {
 $(document).ready(function () {
   // $('#searchbar').focus();
 
-  $('#amount').html(amount);
+  $('#amount').html("$" + amount);
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
     e.preventDefault();

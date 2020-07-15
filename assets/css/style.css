@@ -1962,6 +1962,13 @@ input[type='number']::-webkit-outer-spin-button {
   }
 }
 
+#donate .inline-field input,
+#donate .inline-field label {
+  display: inline;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
