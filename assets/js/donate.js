@@ -233,6 +233,7 @@ card.on("change", function (event) {
 var form = document.getElementById("payment-form");
 form.addEventListener("submit", function (event) {
   event.preventDefault();
+  submitButton.disabled = true;
   // Complete payment when the submit button is clicked
   updatePayment(stripe, card);
 });
@@ -272,6 +273,7 @@ var updatePayment = function (stripe, card) {
     })
     .catch(function (error) {
       console.log(error)
+      submitButton.disabled = false;
       // stripeSection.style.display = "none";
       // loadingError.classList.remove("hidden");
       // hidePageElements();
@@ -334,6 +336,7 @@ var orderComplete = function (paymentAmount) {
 // Show the customer the error from Stripe if their card fails to charge
 var showError = function (errorMsgText) {
   loading(false);
+  submitButton.disabled = false;
   var errorMsg = document.querySelector("#card-error");
   errorMsg.textContent = errorMsgText;
   setTimeout(function () {
