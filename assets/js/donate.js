@@ -134,6 +134,12 @@ $(document).ready(function () {
   });
 });
 
+function hidePageElements() {
+  document.querySelector("#stripe").classList.add("hidden");
+  document.querySelector("#donation-amount").classList.add("hidden");
+  document.querySelector("#donation-legal").classList.add("hidden");
+}
+
 // STRIPE
 // A reference to Stripe.js initialized with your real test publishable API key.
 var stripe = Stripe(stripePk);
@@ -201,6 +207,7 @@ fetch(isProd
     console.log(error)
     stripeSection.style.display = "none";
     loadingError.classList.remove("hidden");
+    hidePageElements();
   });
 
 // Calls stripe.confirmCardPayment
@@ -216,12 +223,13 @@ var payWithCard = function (stripe, card, clientSecret) {
       }
     })
     .then(function (result) {
+      console.log(result);
       if (result.error) {
         // Show error to your customer
         showError(result.error.message);
       } else {
         // The payment succeeded!
-        orderComplete(result.paymentIntent.id);
+        orderComplete(result.paymentIntent.amount);
       }
     });
 };
@@ -229,18 +237,16 @@ var payWithCard = function (stripe, card, clientSecret) {
 /* ------- UI helpers ------- */
 
 // Shows a success message when the payment is complete
-var orderComplete = function (paymentIntentId) {
+var orderComplete = function (paymentAmount) {
   loading(false);
   document
     .querySelector(".result-message")
     .innerHTML = `<h2>Thank you for your donation!</h2>
-    <p>Your generous donation of $${amount} goes a long way 
+    <p>Your generous donation of $${paymentAmount} goes a long way 
     in supporting DC-area community theatres. Thank you for supporting the arts!</p>
     <p>Refresh to make another donation.</p>`
   document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector("#stripe").classList.add("hidden");
-  document.querySelector("#donation-amount").classList.add("hidden");
-  document.querySelector("#donation-legal").classList.add("hidden");
+  hidePageElements();
   submitButton.disabled = true;
 };
 
