@@ -258,7 +258,9 @@ var updatePayment = function (stripe, card) {
       type: 'PAYMENT',
       amount,
       shareContactInfo,
-      theatres
+      theatres,
+      email: billingFields['email'].input.value,
+      phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '')
     })
   })
     .then(function (result) {

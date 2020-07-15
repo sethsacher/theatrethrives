@@ -8,20 +8,17 @@ const stripe = require("stripe")(process.env.STRIPE_SK, {
 console.log('Loading Stripe function');
 
 exports.handler = async (event) => {
-  let nonce = '';
   let amount = '0';
   let type = '';
   let shareContactInfo = 'false';
-  let customer;
-  let billing;
-  let shipping;
   let headers = {
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': '*',
   };
   let theatres;
-  let paymentIntentId;
+  let email;
+  let phone;
 
   console.log('request: ' + JSON.stringify(event));
 
@@ -29,53 +26,24 @@ exports.handler = async (event) => {
     let body = JSON.parse(event.body);
     // TYPE is either TOKEN or PAYMENT
     if (body.type) type = body.type;
-    if (body.nonce) nonce = body.nonce;
     if (body.amount) amount = body.amount;
-    if (body.customer) customer = body.customer;
-    if (body.billingAddress) billing = body.billingAddress;
-    if (body.shippingAddress) shipping = body.shippingAddress;
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
-    if (body.paymentIntentId) paymentIntentId = body.paymentIntentId;
+    if (body.email) email = body.email;
+    if (body.phone) phone = body.phone;
   }
 
-  if (type === 'TOKEN') {
-
-    try {
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 100, //Cents
-        currency: "usd"
-      });
-
-      return {
-        statusCode: 200,
-        headers: headers,
-        isBase64Encoded: false,
-        body: JSON.stringify({
-          paymentIntentId: paymentIntent.id,
-          clientSecret: paymentIntent.client_secret,
-        }),
-      };
-    } catch (err) {
-      return {
-        statusCode: 500,
-        headers: headers,
-        isBase64Encoded: false,
-        body: JSON.stringify({
-          ...err
-        }),
-      };
-    }
-
-  } else if (type === 'PAYMENT') {
+  if (type === 'PAYMENT') {
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: amount * 100, //Dollars to cents
         currency: "usd",
         metadata: {
-          shareContactInfo: shareContactInfo,
-          theatres: theatres
+          shareContactInfo,
+          theatres,
+          email,
+          phone
         }
       });
 
