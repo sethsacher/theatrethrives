@@ -231,12 +231,15 @@ var payWithCard = function (stripe, card, clientSecret) {
 var orderComplete = function (paymentIntentId) {
   loading(false);
   document
-    .querySelector(".result-message a")
-    .setAttribute(
-      "href",
-      "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-    );
+    .querySelector(".result-message")
+    .innerHTML = `<h2>Thank you for your donation!</h2>
+    <p>Your generous donation of $${amount} goes a long way 
+    in supporting DC-area community theatres. Thank you for supporting the arts!</p>
+    <p>Refresh to make another donation.</p>`
   document.querySelector(".result-message").classList.remove("hidden");
+  document.querySelector("#stripe").classList.add("hidden");
+  document.querySelector("#donation-amount").classList.add("hidden");
+  document.querySelector("#donation-legal").classList.add("hidden");
   submitButton.disabled = true;
 };
 
