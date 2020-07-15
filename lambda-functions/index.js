@@ -1,7 +1,7 @@
 'use strict';
 
-var braintree = require('braintree');
-console.log('Loading Braintree function');
+const stripe = require("stripe")(process.env.STRIPE_SK);
+console.log('Loading Stripe function');
 
 exports.handler = async (event) => {
   let nonce = '';
@@ -17,7 +17,8 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Methods': '*',
   };
   let theatres;
-  let tshirt;
+  let paymentIntentId;
+
   console.log('request: ' + JSON.stringify(event));
 
   if (event.body) {
@@ -31,57 +32,42 @@ exports.handler = async (event) => {
     if (body.shippingAddress) shipping = body.shippingAddress;
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
-    if (body.tshirt) tshirt = body.tshirt;
+    if (body.paymentIntentId) paymentIntentId = body.paymentIntentId;
   }
 
-  var gateway = braintree.connect({
-    environment: braintree.Environment.Sandbox,
-    // Use your own credentials from the sandbox Control Panel here
-    merchantId: process.env.BT_MERCHANT_ID,
-    publicKey: process.env.BT_PUBLIC_KEY,
-    privateKey: process.env.BT_PRIVATE_KEY,
-  });
-
   if (type === 'TOKEN') {
-    var generateToken = await gateway.clientToken.generate({});
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: 100, //Cents
+      currency: "usd"
+    });
 
     return {
-      statusCode: (generateToken.success) ? 200 : 500,
+      statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...generateToken,
+        paymentIntentId: paymentIntent.id,
+        clientSecret: paymentIntent.client_secret,
       }),
     };
 
   } else if (type === 'PAYMENT') {
-    // Create a new transaction
-    var newTransaction = await gateway.transaction.sale({
-      amount: amount,
-      paymentMethodNonce: nonce,
-      customFields: {
-        share_contact_info: shareContactInfo,
-        theatres_of_interest: theatres,
-        tshirt_size: tshirt
-      },
-      customer,
-      billing,
-      shipping,
-      options: {
-        // This option requests the funds from the transaction
-        // once it has been authorized successfully
-        submitForSettlement: true,
-      },
+
+    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+      amount: amount * 100, //Dollars to cents
+      metadata: {
+        shareContactInfo: shareContactInfo,
+        theatres: theatres
+      }
     });
 
-    console.log('transaction: ' + JSON.stringify(newTransaction));
-
     return {
-      statusCode: (newTransaction.success) ? 200 : 500,
+      statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...newTransaction,
+        clientSecret: paymentIntent.client_secret,
       }),
     };
 
