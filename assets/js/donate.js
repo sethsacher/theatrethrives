@@ -187,6 +187,10 @@ function hidePageElements() {
   document.querySelector("#donation-legal").classList.add("hidden");
 }
 
+function showLoadingError() {
+  loadingError.classList.remove("hidden");
+}
+
 // STRIPE
 // A reference to Stripe.js initialized with your real test publishable API key.
 var stripe = Stripe(stripePk);
@@ -211,8 +215,9 @@ fetch(isProd
     if (result.status !== 200) {
       return result.json()
         .then((json) => {
-          // const { message, stackTrace } = json;
           console.log(json)
+          showLoadingError();
+          hidePageElements();
         });
     } else {
       return result.json();
@@ -259,7 +264,7 @@ fetch(isProd
   .catch(function (error) {
     console.log(error)
     stripeSection.style.display = "none";
-    loadingError.classList.remove("hidden");
+    showLoadingError();
     hidePageElements();
   });
 
@@ -282,7 +287,16 @@ var updatePayment = function (stripe, card, clientSecret, paymentIntentId) {
     })
   })
     .then(function (result) {
-      return result.json();
+      if (result.status !== 200) {
+        return result.json()
+          .then((json) => {
+            console.log(json)
+            showLoadingError();
+            hidePageElements();
+          });
+      } else {
+        return result.json();
+      }
     })
     .then(function (data) {
       payWithCard(stripe, card, data.clientSecret);

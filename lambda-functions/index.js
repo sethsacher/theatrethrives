@@ -34,12 +34,14 @@ exports.handler = async (event) => {
     if (body.theatres) theatres = body.theatres;
     if (body.paymentIntentId) paymentIntentId = body.paymentIntentId;
   }
-
+  // https://github.com/stripe/stripe-node#network-retries
+  // Intermittent connection issues, add a retry to resolve
   if (type === 'TOKEN') {
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: 100, //Cents
+        maxNetworkRetries: 2,
         currency: "usd"
       });
 
@@ -68,6 +70,7 @@ exports.handler = async (event) => {
     try {
       const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
         amount: amount * 100, //Dollars to cents
+        maxNetworkRetries: 2,
         metadata: {
           shareContactInfo: shareContactInfo,
           theatres: theatres
