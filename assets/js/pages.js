@@ -1,4 +1,5 @@
 var templates = Handlebars.templates;
+document.getElementById('banner').innerHTML = templates.banner();
 document.getElementById('header').innerHTML = templates.header();
 document.getElementById('intro').innerHTML = templates.intro();
 document.getElementById('about').innerHTML = templates.about();

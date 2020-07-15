@@ -7,6 +7,46 @@
 !(function ($) {
   'use strict';
 
+  var isProd = window.location.hostname.includes('theatrethrives.org');
+  if (!isProd) {
+    console.log('Prod environment? ' + isProd);
+  }
+
+  // Notification Banner
+  // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+  // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+  var bannerTextFile = (isProd) ? 'https://theatrethrives-s3bucketprod-b41sv4j6aaws.s3.amazonaws.com/assets/txt/banner.txt' : 'https://theatrethrives-s3buckettest-1h5ug55ioxofy.s3.amazonaws.com/assets/txt/banner.txt'
+
+  function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          var allText = rawFile.responseText;
+          if (allText.length > 0) {
+            $('#notification').text(allText)
+            $('#banner').show();
+            $('#header').css("top", "25px");
+          } else {
+            $('#banner').hide();
+            $('#header').css("top", "0px");
+          }
+        }
+      }
+    }
+    rawFile.send(null);
+  }
+
+  // Time in ms (5000 ms = 5 s)
+  window.setInterval(function () {
+    readTextFile(bannerTextFile);
+  }, 5000);
+
+  $(document).ready(function () {
+    readTextFile(bannerTextFile);
+  });
+
   // Countdown Timer
   var endTime = moment.tz('2020-07-17 18:30', 'America/New_York');
   $('#clock')
@@ -15,10 +55,10 @@
       var $this = $(this).html(
         event.strftime(
           '' +
-            '<span class="h1 font-weight-bold">%D</span> Day%!d' +
-            '<span class="h1 font-weight-bold">%H</span> Hr' +
-            '<span class="h1 font-weight-bold">%M</span> Min' +
-            '<span class="h1 font-weight-bold">%S</span> Sec'
+          '<span class="h1 font-weight-bold">%D</span> Day%!d' +
+          '<span class="h1 font-weight-bold">%H</span> Hr' +
+          '<span class="h1 font-weight-bold">%M</span> Min' +
+          '<span class="h1 font-weight-bold">%S</span> Sec'
         )
       );
     });
@@ -135,7 +175,7 @@
     scroll = false;
     if (
       location.pathname.replace(/^\//, '') ==
-        this.pathname.replace(/^\//, '') &&
+      this.pathname.replace(/^\//, '') &&
       location.hostname == this.hostname
     ) {
       var target = $(this.hash);
