@@ -70,8 +70,9 @@ exports.handler = async (event) => {
   } else if (type === 'PAYMENT') {
 
     try {
-      const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+      const paymentIntent = await stripe.paymentIntents.create({
         amount: amount * 100, //Dollars to cents
+        currency: "usd",
         metadata: {
           shareContactInfo: shareContactInfo,
           theatres: theatres
