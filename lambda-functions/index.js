@@ -37,39 +37,61 @@ exports.handler = async (event) => {
 
   if (type === 'TOKEN') {
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 100, //Cents
-      currency: "usd"
-    });
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: 100, //Cents
+        currency: "usd"
+      });
 
-    return {
-      statusCode: (true) ? 200 : 500,
-      headers: headers,
-      isBase64Encoded: false,
-      body: JSON.stringify({
-        paymentIntentId: paymentIntent.id,
-        clientSecret: paymentIntent.client_secret,
-      }),
-    };
+      return {
+        statusCode: 200,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          paymentIntentId: paymentIntent.id,
+          clientSecret: paymentIntent.client_secret,
+        }),
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          ...err
+        }),
+      };
+    }
 
   } else if (type === 'PAYMENT') {
 
-    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
-      amount: amount * 100, //Dollars to cents
-      metadata: {
-        shareContactInfo: shareContactInfo,
-        theatres: theatres
-      }
-    });
+    try {
+      const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+        amount: amount * 100, //Dollars to cents
+        metadata: {
+          shareContactInfo: shareContactInfo,
+          theatres: theatres
+        }
+      });
 
-    return {
-      statusCode: (true) ? 200 : 500,
-      headers: headers,
-      isBase64Encoded: false,
-      body: JSON.stringify({
-        clientSecret: paymentIntent.client_secret,
-      }),
-    };
+      return {
+        statusCode: 200,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          clientSecret: paymentIntent.client_secret,
+        }),
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          ...err
+        }),
+      };
+    }
 
   } else {
     return {
