@@ -208,7 +208,15 @@ fetch(isProd
   })
 })
   .then(function (result) {
-    return result.json();
+    if (result.status !== 200) {
+      return result.json()
+        .then((json) => {
+          // const { message, stackTrace } = json;
+          console.log(json)
+        });
+    } else {
+      return result.json();
+    }
   })
   .then(function (data) {
     var elements = stripe.elements();
