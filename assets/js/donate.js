@@ -191,6 +191,10 @@ fetch(isProd
       // Complete payment when the submit button is clicked
       payWithCard(stripe, card, data.clientSecret);
     });
+  })
+  .catch(function (error) {
+    console.log(error)
+    showError("An error has occurred. Please reload the page to try again.")
   });
 
 // Calls stripe.confirmCardPayment
