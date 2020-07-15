@@ -7,10 +7,15 @@
 !(function ($) {
   'use strict';
 
+  var isProd = window.location.hostname.includes('theatrethrives.org');
+  if (!isProd) {
+    console.log('Prod environment? ' + isProd);
+  }
+
   // Notification Banner
   // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
   // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
-  var bannerTextFile = 'http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/assets/txt/banner.txt';
+  var bannerTextFile = (isProd) ? 'https://theatrethrives-s3bucketprod-b41sv4j6aaws.s3.amazonaws.com/assets/txt/banner.txt' : 'https://theatrethrives-s3buckettest-1h5ug55ioxofy.s3.amazonaws.com/assets/txt/banner.txt'
 
   function readTextFile(file) {
     var rawFile = new XMLHttpRequest();
