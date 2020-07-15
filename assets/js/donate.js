@@ -93,6 +93,7 @@ $(document).ready(function () {
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
     e.preventDefault();
+    $('#validation').html('<p>fewfew</p>');
     $('.active').removeClass('active');
     $('#donate-other-input').hide().siblings('#donate-other').show();
     $(this).filter('.btn-blue').addClass('active');
@@ -104,7 +105,7 @@ $(document).ready(function () {
       .find('p')
       .text('' + value);
     $('#donate-other-input').find('input').val('');
-    $('#amount').html(amount);
+    $('#amount').html("$" + amount);
   });
 
   $('#fees').on('change', function (e) {
@@ -113,12 +114,12 @@ $(document).ready(function () {
       $(this).attr('value', 'true');
       coverFees = true;
       amount = rawAmount * feeAmount;
-      $('#amount').html(amount);
+      $('#amount').html("$" + amount);
     } else {
       $(this).attr('value', 'false');
       coverFees = false;
       amount = rawAmount;
-      $('#amount').html(amount);
+      $('#amount').html("$" + amount);
     }
   });
 
@@ -164,7 +165,7 @@ $(document).ready(function () {
         submitButton.disabled = false;
         rawAmount = oValue.val();
         amount = coverFees ? rawAmount * feeAmount : rawAmount;
-        $('#amount').html(amount);
+        $('#amount').html("$" + amount);
       }
       // if (oValue.val() > 50) {
       //   pText.text(
