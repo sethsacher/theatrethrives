@@ -4,154 +4,13 @@ var rawAmount = amount;
 var feeAmount = 1.03;
 var coverFees = true;
 var shareContactInfo = 'true';
-// var submitButton = document.querySelector('#submit-button');
-// submitButton.disabled = false;
-
-var sameAddress = document.querySelector('#same-address');
-sameAddress.value = 'false'
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
 
 var theatres = [];
-var tshirt;
-
-// PATRON INFORMATION
-var billingFields = [
-  'email',
-  'billing-phone',
-  'billing-given-name',
-  'billing-surname',
-  'billing-street-address',
-  'billing-extended-address',
-  'billing-locality',
-  'billing-region',
-  'billing-postal-code',
-  'billing-country-code'
-].reduce(function (fields, fieldName) {
-  var field = fields[fieldName] = {
-    input: document.getElementById(fieldName),
-    help: document.getElementById('help-' + fieldName)
-  };
-
-  field.input.addEventListener('focus', function () {
-    clearFieldValidations(field);
-  });
-
-  return fields;
-}, {});
-
-var shippingFields = [
-  'shipping-given-name',
-  'shipping-surname',
-  'shipping-street-address',
-  'shipping-extended-address',
-  'shipping-locality',
-  'shipping-region',
-  'shipping-postal-code',
-  'shipping-country-code'
-].reduce(function (fields, fieldName) {
-  var field = fields[fieldName] = {
-    input: document.getElementById(fieldName),
-    help: document.getElementById('help-' + fieldName)
-  };
-
-  field.input.addEventListener('focus', function () {
-    clearFieldValidations(field);
-  });
-
-  return fields;
-}, {});
-
-function clearFieldValidations(field) {
-  field.help.innerText = '';
-  field.help.parentNode.classList.remove('has-error');
-}
-
-billingFields['billing-country-code'].input.value = "US";
-shippingFields['shipping-country-code'].input.value = "US";
-billingFields['billing-extended-address'].optional = true;
-shippingFields['shipping-extended-address'].optional = true;
-
-function validateFields(fields) {
-  var isValid = true;
-
-  Object.keys(fields).forEach(function (fieldName) {
-    var fieldEmpty = false;
-    var field = fields[fieldName];
-
-    if (field.optional) {
-      return;
-    }
-
-    fieldEmpty = field.input.value.trim() === '';
-
-    if (fieldEmpty) {
-      isValid = false;
-      field.help.innerText = 'Field cannot be blank.';
-      field.help.parentNode.classList.add('has-error');
-    } else {
-      clearFieldValidations(field);
-    }
-  });
-
-  return isValid;
-}
-
-function toggleDisableFields(fields) {
-  Object.keys(fields).forEach(function (fieldName) {
-    if (!fieldName.includes('country-code')) {
-      var field = fields[fieldName];
-      field.input.disabled = !field.input.disabled
-    }
-  });
-
-  return;
-}
-
-function setBillingTestData() {
-  billingFields.email.input.value = "test@test.com";
-  billingFields['billing-given-name'].input.value = "Seth";
-  billingFields['billing-surname'].input.value = "Sacher";
-  billingFields['billing-phone'].input.value = "1231231234";
-  billingFields['billing-street-address'].input.value = "123 Fake St";
-  billingFields['billing-extended-address'].input.value = "Apt 100";
-  billingFields['billing-locality'].input.value = "Arlington";
-  billingFields['billing-region'].input.value = "VA";
-  billingFields['billing-postal-code'].input.value = "12345";
-  billingFields['billing-country-code'].input.value = "US";
-  return;
-}
-
-function mapBillingToShipping() {
-  shippingFields['shipping-given-name'].input.value = billingFields['billing-given-name'].input.value;
-  shippingFields['shipping-surname'].input.value = billingFields['billing-surname'].input.value;
-  shippingFields['shipping-street-address'].input.value = billingFields['billing-street-address'].input.value;
-  shippingFields['shipping-extended-address'].input.value = billingFields['billing-extended-address'].input.value;
-  shippingFields['shipping-locality'].input.value = billingFields['billing-locality'].input.value;
-  shippingFields['shipping-region'].input.value = billingFields['billing-region'].input.value;
-  shippingFields['shipping-postal-code'].input.value = billingFields['billing-postal-code'].input.value;
-  shippingFields['shipping-country-code'].input.value = billingFields['billing-country-code'].input.value;
-  return;
-}
-
-function enablePayNow() {
-  submitButton.value = 'Submit Payment';
-  submitButton.removeAttribute('disabled');
-}
 
 $(document).ready(function () {
-  $('#same-address').on('change', function (e) {
-    e.preventDefault();
-    if ($(this).is(':checked')) {
-      $(this).attr('value', 'true');
-      toggleDisableFields(shippingFields);
-    } else {
-      $(this).attr('value', 'false');
-      toggleDisableFields(shippingFields);
-    }
-  });
-
 
   $('#contact').on('change', function (e) {
     e.preventDefault();
@@ -169,16 +28,11 @@ $(document).ready(function () {
     theatres = $(this).val();
   });
 
-  $('#tshirt').on('change', function (e) {
-    e.preventDefault();
-    tshirt = $(this).val();
-  });
 })
 
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
-  setBillingTestData()
   // $('#searchbar').focus();
 
   // Set initial donation amount
@@ -297,11 +151,9 @@ fetch(isProd
   body: JSON.stringify(purchase)
 })
   .then(function (result) {
-    console.log(result)
     return result.json();
   })
   .then(function (data) {
-    console.log(data)
     var elements = stripe.elements();
 
     var style = {

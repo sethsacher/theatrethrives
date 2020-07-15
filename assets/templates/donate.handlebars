@@ -4,7 +4,7 @@
         <p>Support DC Community Theatre with your donation!</p>
     </div>
 
-    <form action="javascript:void(0)" class="container theme-background-white main-body">
+    <form id="payment-form" action="javascript:void(0)" class="container theme-background-white main-body">
         {{!-- <div class="col-md-12"> --}}
         {{!-- AMOUNT --}}
         <div id="donation-amount">
@@ -72,7 +72,7 @@
                 members.</i>
             <hr />
         </div>
-        <div id="donation-theatres">
+        {{!-- <div id="donation-theatres">
             <h4 class="mb-3">Theatres</h4>
             Are you interested in learning more about any of our participating theatres?
             <br />
@@ -94,347 +94,28 @@
                 <option value="VLOC" data-subtext="VLOC" data-tokens="VLOC">The Victorian Lyric Opera Company</option>
             </select>
             <hr />
-        </div>
-
-        <div id="donation-tshirt">
-            <h4 class="mb-3">T-Shirt</h4>
-            Donations of $100 or more will be sent a Community Theatre Thrives T-Shirt! Please provide your t-shirt size
-            below:
-            <br />
-            <select id="tshirt" name="tshirt" class="selectpicker" data-actions-box="true" title="None selected">
-                <optgroup label="Mens">
-                    <option value="Men-S">Small</option>
-                    <option value="Men-M">Medium</option>
-                    <option value="Men-L">Large</option>
-                    <option value="Men-XL">X-Large</option>
-                    <option value="Men-XXL">XX-Large</option>
-                    <option value="Men-XXXL">XXX-Large</option>
-                </optgroup>
-                <optgroup label="Womens">
-                    <option value="Women-S">Small</option>
-                    <option value="Women-M">Medium</option>
-                    <option value="Women-L">Large</option>
-                    <option value="Women-XL">X-Large</option>
-                    <option value="Women-XXL">XX-Large</option>
-                    <option value="Women-XXXL">XXX-Large</option>
-                </optgroup>
-            </select>
-            <hr />
-        </div>
-
-        {{!-- PATRON INFORMATION --}}
-        {{!-- Billing Address --}}
-        <div id="donation-billing">
-            <h4 class="mb-3">Billing address</h4>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-given-name">First Name</label>
-                        <input type="billing-given-name" class="form-control" id="billing-given-name"
-                            placeholder="First">
-                        <span id="help-billing-given-name" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-surname">Last Name</label>
-                        <input type="billing-surname" class="form-control" id="billing-surname" placeholder="Last">
-                        <span id="help-billing-surname" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                        <span id="help-email" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-phone">Phone</label>
-                        <input type="billing-phone" class="form-control" id="billing-phone" placeholder="123-456-7890">
-                        <span id="help-billing-phone" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <input type="checkbox" id="contact" name="contact" value="true" checked>
-                    <label for="contact"> It's okay to share my contact information with the participating theatres
-                        of Community Theatre Thrives, and it's okay for those theatres to contact me in the
-                        future.</label>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <label for="billing-street-address">Address</label>
-                    <input type="billing-street-address" class="form-control" id="billing-street-address"
-                        placeholder="123 Street">
-                    <span id="help-billing-street-address" class="help-block"></span>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <label for="billing-extended-address">Address 2 (Optional)</label>
-                    <input type="billing-extended-address" class="form-control" id="billing-extended-address"
-                        placeholder="Unit 1">
-                    <span id="help-billing-extended-address" class="help-block"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-locality">City</label>
-                        <input type="billing-locality" class="form-control" id="billing-locality" placeholder="City">
-                        <span id="help-billing-locality" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-region">State</label>
-                        {{!-- <input type="billing-region" class="form-control" id="billing-region" placeholder="State"> --}}
-                        <select class="form-control" id="billing-region" name="billing-region">
-                            <option value="AK">Alaska</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DC">District of Columbia</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="IA">Iowa</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MD">Maryland</option>
-                            <option value="ME">Maine</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MT">Montana</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NY">New York</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="PR">Puerto Rico</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VA">Virginia</option>
-                            <option value="VT">Vermont</option>
-                            <option value="WA">Washington</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                        <span id="help-billing-region" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-postal-code">Zip</label>
-                        <input type="billing-postal-code" class="form-control" id="billing-postal-code"
-                            placeholder="12345">
-                        <span id="help-billing-postal-code" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="billing-country-code">Country</label>
-                        <input type="billing-country-code" class="form-control" id="billing-country-code"
-                            placeholder="US" disabled>
-                        <span id="help-billing-country-code" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <hr />
-        </div>
-
-        {{!-- Shipping Address --}}
-        <div id="donation-shipping">
-            <h4 class="mb-3">Shipping address</h4>
-            <div class="form-group">
-                <input type="checkbox" id="same-address" name="same-address" value="true">
-                <label for="same-address"> Shipping Address is same as Billing</label>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-given-name">First Name</label>
-                        <input type="shipping-given-name" class="form-control" id="shipping-given-name"
-                            placeholder="First">
-                        <span id="help-shipping-given-name" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-surname">Last Name</label>
-                        <input type="shipping-surname" class="form-control" id="shipping-surname" placeholder="Last">
-                        <span id="help-shipping-surname" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <label for="shipping-street-address">Address</label>
-                    <input type="shipping-street-address" class="form-control" id="shipping-street-address"
-                        placeholder="123 Street">
-                    <span id="help-shipping-street-address" class="help-block"></span>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="form-group">
-                    <label for="shipping-extended-address">Address 2 (Optional)</label>
-                    <input type="shipping-extended-address" class="form-control" id="shipping-extended-address"
-                        placeholder="Unit 1">
-                    <span id="help-shipping-extended-address" class="help-block"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-locality">City</label>
-                        <input type="shipping-locality" class="form-control" id="shipping-locality" placeholder="City">
-                        <span id="help-shipping-locality" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-region">State</label>
-                        {{!-- <input type="shipping-region" class="form-control" id="shipping-region" placeholder="State"> --}}
-                        <select class="form-control" id="shipping-region" name="shipping-region">
-                            <option value="AK">Alaska</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DC">District of Columbia</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="IA">Iowa</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MD">Maryland</option>
-                            <option value="ME">Maine</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MT">Montana</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NY">New York</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="PR">Puerto Rico</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VA">Virginia</option>
-                            <option value="VT">Vermont</option>
-                            <option value="WA">Washington</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                        <span id="help-shipping-region" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-postal-code">Zip</label>
-                        <input type="shipping-postal-code" class="form-control" id="shipping-postal-code"
-                            placeholder="12345">
-                        <span id="help-shipping-postal-code" class="help-block"></span>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="form-group">
-                        <label for="shipping-country-code">Country</label>
-                        <input type="shipping-country-code" class="form-control" id="shipping-country-code"
-                            placeholder="US" disabled>
-                        <span id="help-shipping-country-code" class="help-block"></span>
-                    </div>
-                </div>
-            </div>
-            <hr />
-        </div>
-
-        {{!-- BRAINTREE DROP IN PAYMENT --}}
-        {{!-- <div id="dropin-wrapper">
-            <div id="checkout-message"></div>
-            <div id="dropin-container"></div>
-            <button id="submit-button">GIVE NOW</button>
         </div> --}}
-        {{!-- LEGAL --}}
-        <div id="donation-legal">
-            By clicking GIVE NOW, I agree to the <a
-                href="https://www.braintreepayments.com/legal/payment-services-agreement" target="_blank">Terms of
-                Service</a> and <a href="https://www.braintreepayments.com/legal/braintree-privacy-policy"
-                target="_blank">Privacy Policy</a>
-        </div>
-        {{!-- </div> --}}
-    </form>
 
-    <!-- Display a payment form -->
-    <form id="payment-form">
+        {{!-- STRIPE --}}
         <input type="text" id="email" placeholder="Email address" />
         <div id="card-element">
             <!--Stripe.js injects the Card Element-->
         </div>
         <button id="submit">
             <div class="spinner hidden" id="spinner"></div>
-            <span id="button-text">Pay</span>
+            <span id="button-text">GIVE NOW</span>
         </button>
         <p id="card-error" role="alert"></p>
         <p class="result-message hidden">
             Payment succeeded, see the result in your
             <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
         </p>
+
+        {{!-- LEGAL --}}
+        <div id="donation-legal">
+            By clicking GIVE NOW, I agree to the <a href="https://stripe.com/ssa" target="_blank">Terms of
+                Service</a> and <a href="https://stripe.com/privacy" target="_blank">Privacy Policy</a>
+        </div>
+        {{!-- </div> --}}
     </form>
 </div>
