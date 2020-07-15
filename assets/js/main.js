@@ -12,6 +12,9 @@
     console.log('Prod environment? ' + isProd);
   }
 
+  var path = window.location.pathname;
+  var page = path.split("/").pop();
+
   // Notification Banner
   // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
   // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
@@ -38,14 +41,16 @@
     rawFile.send(null);
   }
 
-  // Time in ms (5000 ms = 5 s)
-  window.setInterval(function () {
-    readTextFile(bannerTextFile);
-  }, 5000);
+  if (!page.includes('donate')) {
+    // Time in ms (5000 ms = 5 s)
+    window.setInterval(function () {
+      readTextFile(bannerTextFile);
+    }, 5000);
 
-  $(document).ready(function () {
-    readTextFile(bannerTextFile);
-  });
+    $(document).ready(function () {
+      readTextFile(bannerTextFile);
+    });
+  }
 
   // Countdown Timer
   var endTime = moment.tz('2020-07-17 18:30', 'America/New_York');
