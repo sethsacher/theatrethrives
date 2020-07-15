@@ -12,6 +12,8 @@ var loadingError = document.querySelector('#loading-error');
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
 
+var stripePk = (isProd) ? 'pk_live_51H4tSZLy4QiR4BrlDiEklGlApYdotMAYNLluyVVh9CvvMoQVTL7YGpirgr8WN02L4Zo278kW1j0lQvbw67RMQBKk00zXR3yEe5' : 'pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe'
+
 var theatres = [];
 
 $(document).ready(function () {
@@ -134,7 +136,7 @@ $(document).ready(function () {
 
 // STRIPE
 // A reference to Stripe.js initialized with your real test publishable API key.
-var stripe = Stripe("pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe");
+var stripe = Stripe(stripePk);
 
 // The items the customer wants to buy
 var purchase = {
@@ -183,7 +185,7 @@ fetch(isProd
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      document.querySelector("button").disabled = event.empty;
+      submitButton.disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
     });
 
@@ -197,7 +199,7 @@ fetch(isProd
   .catch(function (error) {
     console.log(error)
     stripeSection.style.display = "none";
-    loadingError.style.display = "";
+    loadingError.classList.remove("hidden");
   });
 
 // Calls stripe.confirmCardPayment
