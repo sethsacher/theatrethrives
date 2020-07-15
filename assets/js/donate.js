@@ -280,7 +280,7 @@ var stripe = Stripe("pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc
 
 // The items the customer wants to buy
 var purchase = {
-  type: 'PAYMENT',
+  type: 'TOKEN',
   items: [{ id: "xl-tshirt" }]
 };
 
@@ -297,9 +297,11 @@ fetch(isProd
   body: JSON.stringify(purchase)
 })
   .then(function (result) {
+    console.log(result)
     return result.json();
   })
   .then(function (data) {
+    console.log(data)
     var elements = stripe.elements();
 
     var style = {
