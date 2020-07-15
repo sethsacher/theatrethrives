@@ -2,6 +2,7 @@
 var amount = 25;
 var rawAmount = amount;
 var feeAmount = 1.03;
+var flatFee = 0.30
 var coverFees = true;
 var shareContactInfo = 'true';
 var submitButton = document.querySelector('#submit');
@@ -17,9 +18,6 @@ if (!isProd) {
 var stripePk = (isProd) ? 'pk_live_51H4tSZLy4QiR4BrlDiEklGlApYdotMAYNLluyVVh9CvvMoQVTL7YGpirgr8WN02L4Zo278kW1j0lQvbw67RMQBKk00zXR3yEe5' : 'pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe'
 
 var theatres = [];
-
-// Set initial donation amount
-amount = rawAmount * feeAmount;
 
 var billingFields = [
   'email',
@@ -64,6 +62,13 @@ function setBillingTestData() {
 
 // setBillingTestData();
 
+function calculateFeeAmount(amount) {
+  return amount * feeAmount + flatFee
+}
+
+// Set initial donation amount
+amount = calculateFeeAmount(rawAmount)
+
 $(document).ready(function () {
 
   $('#contact').on('change', function (e) {
@@ -99,7 +104,7 @@ $(document).ready(function () {
     $(this).filter('.btn-blue').addClass('active');
     var value = $(this).data('impact');
     rawAmount = $(this).data('dollars');
-    amount = coverFees ? rawAmount * feeAmount : rawAmount;
+    amount = coverFees ? calculateFeeAmount(rawAmount) : rawAmount;
     $(this)
       .closest('div')
       .find('p')
@@ -113,7 +118,7 @@ $(document).ready(function () {
     if ($(this).is(':checked')) {
       $(this).attr('value', 'true');
       coverFees = true;
-      amount = rawAmount * feeAmount;
+      amount = calculateFeeAmount(rawAmount);
       $('#amount').html("$" + amount);
     } else {
       $(this).attr('value', 'false');
@@ -164,7 +169,7 @@ $(document).ready(function () {
         $('#validation').html('<p></p>');
         submitButton.disabled = false;
         rawAmount = oValue.val();
-        amount = coverFees ? rawAmount * feeAmount : rawAmount;
+        amount = coverFees ? calculateFeeAmount(rawAmount) : rawAmount;
         $('#amount').html("$" + amount);
       }
       // if (oValue.val() > 50) {
