@@ -41,7 +41,7 @@ exports.handler = async (event) => {
         currency: "usd",
         metadata: {
           shareContactInfo,
-          theatres,
+          theatres: theatres.toString(),
           email,
           phone
         }

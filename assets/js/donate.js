@@ -189,6 +189,7 @@ $(document).ready(function () {
 function hidePageElements() {
   document.querySelector("#stripe").classList.add("hidden");
   document.querySelector("#donation-amount").classList.add("hidden");
+  document.querySelector("#donation-theatres").classList.add("hidden");
   document.querySelector("#donation-billing").classList.add("hidden");
   document.querySelector("#donation-legal").classList.add("hidden");
 }
