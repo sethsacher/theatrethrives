@@ -182,10 +182,11 @@ fetch(isProd
     var card = elements.create("card", { style: style });
     // Stripe injects an iframe into the DOM
     card.mount("#card-element");
+    submitButton.disabled = false;
 
     card.on("change", function (event) {
       // Disable the Pay button if there are no card details in the Element
-      submitButton.disabled = event.empty;
+      // submitButton.disabled = event.empty;
       document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
     });
 
