@@ -1534,6 +1534,10 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding: 60px 0;
 }
 
+#donate .section-header {
+  margin-top: 20px;
+}
+
 #donate .donate-info {
   margin-bottom: 20px;
   text-align: center;
