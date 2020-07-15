@@ -4,8 +4,10 @@ var rawAmount = amount;
 var feeAmount = 1.03;
 var coverFees = true;
 var shareContactInfo = 'true';
-var submitButton = document.querySelector('#button-text');
+var submitButton = document.querySelector('#submit');
 submitButton.disabled = false;
+var stripeSection = document.querySelector('#stripe');
+var loadingError = document.querySelector('#loading-error');
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);
@@ -141,7 +143,7 @@ var purchase = {
 };
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector("button").disabled = true;
+submitButton.disabled = true;
 fetch(isProd
   ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
   : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
@@ -161,7 +163,7 @@ fetch(isProd
     var style = {
       base: {
         color: "#32325d",
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'Open Sans',
         fontSmoothing: "antialiased",
         fontSize: "16px",
         "::placeholder": {
@@ -169,7 +171,7 @@ fetch(isProd
         }
       },
       invalid: {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: 'Open Sans',
         color: "#fa755a",
         iconColor: "#fa755a"
       }
@@ -194,7 +196,8 @@ fetch(isProd
   })
   .catch(function (error) {
     console.log(error)
-    showError("An error has occurred. Please reload the page to try again.")
+    stripeSection.style.display = "none";
+    loadingError.style.display = "";
   });
 
 // Calls stripe.confirmCardPayment
@@ -232,7 +235,7 @@ var orderComplete = function (paymentIntentId) {
       "https://dashboard.stripe.com/test/payments/" + paymentIntentId
     );
   document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector("button").disabled = true;
+  submitButton.disabled = true;
 };
 
 // Show the customer the error from Stripe if their card fails to charge
@@ -249,11 +252,11 @@ var showError = function (errorMsgText) {
 var loading = function (isLoading) {
   if (isLoading) {
     // Disable the button and show a spinner
-    document.querySelector("button").disabled = true;
+    submitButton.disabled = true;
     document.querySelector("#spinner").classList.remove("hidden");
     document.querySelector("#button-text").classList.add("hidden");
   } else {
-    document.querySelector("button").disabled = false;
+    submitButton.disabled = false;
     document.querySelector("#spinner").classList.add("hidden");
     document.querySelector("#button-text").classList.remove("hidden");
   }
