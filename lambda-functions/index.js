@@ -17,6 +17,7 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Methods': '*',
   };
   let theatres;
+  let paymentIntentId;
 
   console.log('request: ' + JSON.stringify(event));
 
@@ -31,16 +32,13 @@ exports.handler = async (event) => {
     if (body.shippingAddress) shipping = body.shippingAddress;
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
-  }
-
-  var response = {
-    status: 'Success!'
+    if (body.paymentIntentId) paymentIntentId = body.paymentIntentId;
   }
 
   if (type === 'TOKEN') {
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount * 100, //Dollars to cents
+      amount: 100, //Cents
       currency: "usd"
     });
 
@@ -49,18 +47,27 @@ exports.handler = async (event) => {
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
+        paymentIntentId: paymentIntent.id,
         clientSecret: paymentIntent.client_secret,
       }),
     };
 
   } else if (type === 'PAYMENT') {
 
+    const paymentIntent = await stripe.paymentIntents.update(paymentIntentId, {
+      amount: amount * 100, //Dollars to cents
+      metadata: {
+        shareContactInfo: shareContactInfo,
+        theatres: theatres
+      }
+    });
+
     return {
       statusCode: (true) ? 200 : 500,
       headers: headers,
       isBase64Encoded: false,
       body: JSON.stringify({
-        ...response,
+        clientSecret: paymentIntent.client_secret,
       }),
     };
 

@@ -191,14 +191,10 @@ function hidePageElements() {
 // A reference to Stripe.js initialized with your real test publishable API key.
 var stripe = Stripe(stripePk);
 
-// The items the customer wants to buy
-var purchase = {
-  type: 'TOKEN',
-  amount: amount
-};
-
 // Disable the button until we have Stripe set up on the page
 submitButton.disabled = true;
+
+// Create PaymentIntent to add Stripe card to the page
 fetch(isProd
   ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
   : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
@@ -207,7 +203,9 @@ fetch(isProd
     "Content-Type": "application/json",
     'x-amz-docs-region': 'us-east-1',
   },
-  body: JSON.stringify(purchase)
+  body: JSON.stringify({
+    type: 'TOKEN'
+  })
 })
   .then(function (result) {
     return result.json();
@@ -247,7 +245,7 @@ fetch(isProd
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       // Complete payment when the submit button is clicked
-      payWithCard(stripe, card, data.clientSecret);
+      updatePayment(stripe, card, data.clientSecret, data.paymentIntentId);
     });
   })
   .catch(function (error) {
@@ -256,6 +254,38 @@ fetch(isProd
     loadingError.classList.remove("hidden");
     hidePageElements();
   });
+
+// Update PaymentIntent with customer inputs
+var updatePayment = function (stripe, card, clientSecret, paymentIntentId) {
+  fetch(isProd
+    ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+    : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'x-amz-docs-region': 'us-east-1',
+    },
+    body: JSON.stringify({
+      type: 'PAYMENT',
+      amount,
+      shareContactInfo,
+      theatres,
+      paymentIntentId
+    })
+  })
+    .then(function (result) {
+      return result.json();
+    })
+    .then(function (data) {
+      payWithCard(stripe, card, data.clientSecret);
+    })
+    .catch(function (error) {
+      console.log(error)
+      // stripeSection.style.display = "none";
+      // loadingError.classList.remove("hidden");
+      // hidePageElements();
+    });
+}
 
 // Calls stripe.confirmCardPayment
 // If the card requires authentication Stripe shows a pop-up modal to
@@ -280,7 +310,7 @@ var payWithCard = function (stripe, card, clientSecret) {
           name: billingFields['billing-given-name'].input.value + " " + billingFields['billing-surname'].input.value,
           phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '')
         }
-      }
+      },
     })
     .then(function (result) {
       // console.log(result);
