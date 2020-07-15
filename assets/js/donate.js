@@ -10,7 +10,9 @@ var stripeSection = document.querySelector('#stripe');
 var loadingError = document.querySelector('#loading-error');
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
-console.log('Prod environment? ' + isProd);
+if (!isProd) {
+  console.log('Prod environment? ' + isProd);
+}
 
 var stripePk = (isProd) ? 'pk_live_51H4tSZLy4QiR4BrlDiEklGlApYdotMAYNLluyVVh9CvvMoQVTL7YGpirgr8WN02L4Zo278kW1j0lQvbw67RMQBKk00zXR3yEe5' : 'pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe'
 
@@ -223,7 +225,7 @@ var payWithCard = function (stripe, card, clientSecret) {
       }
     })
     .then(function (result) {
-      console.log(result);
+      // console.log(result);
       if (result.error) {
         // Show error to your customer
         showError(result.error.message);
@@ -242,7 +244,7 @@ var orderComplete = function (paymentAmount) {
   document
     .querySelector(".result-message")
     .innerHTML = `<h2>Thank you for your donation!</h2>
-    <p>Your generous donation of $${paymentAmount} goes a long way 
+    <p>Your generous donation of $${paymentAmount / 100} goes a long way 
     in supporting DC-area community theatres. Thank you for supporting the arts!</p>
     <p>Refresh to make another donation.</p>`
   document.querySelector(".result-message").classList.remove("hidden");
