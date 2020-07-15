@@ -62,7 +62,7 @@ function setBillingTestData() {
   return;
 }
 
-setBillingTestData();
+// setBillingTestData();
 
 $(document).ready(function () {
 
