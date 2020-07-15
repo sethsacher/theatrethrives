@@ -18,6 +18,9 @@ var stripePk = (isProd) ? 'pk_live_51H4tSZLy4QiR4BrlDiEklGlApYdotMAYNLluyVVh9Cvv
 
 var theatres = [];
 
+// Set initial donation amount
+amount = rawAmount * feeAmount;
+
 $(document).ready(function () {
 
   $('#contact').on('change', function (e) {
@@ -43,8 +46,6 @@ $(document).ready(function () {
 $(document).ready(function () {
   // $('#searchbar').focus();
 
-  // Set initial donation amount
-  amount = rawAmount * feeAmount;
   $('#amount').html(amount);
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
@@ -149,7 +150,7 @@ var stripe = Stripe(stripePk);
 // The items the customer wants to buy
 var purchase = {
   type: 'TOKEN',
-  items: [{ id: "xl-tshirt" }]
+  amount: amount
 };
 
 // Disable the button until we have Stripe set up on the page
