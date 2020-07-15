@@ -4,6 +4,8 @@ var rawAmount = amount;
 var feeAmount = 1.03;
 var coverFees = true;
 var shareContactInfo = 'true';
+var submitButton = document.querySelector('#button-text');
+submitButton.disabled = false;
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
 console.log('Prod environment? ' + isProd);

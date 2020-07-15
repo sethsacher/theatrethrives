@@ -1573,7 +1573,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin-top: 35px;
 }
 
-#submit-button {
+/* #submit-button {
   color: #fff;
   background: var(--accent-color);
   padding: 7px 22px;
@@ -1584,7 +1584,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin-top: 20px;
   line-height: 1;
   font-size: 25px;
-}
+} */
 
 #donate .donate-info a:hover {
   color: var(--accent-color);
@@ -1770,11 +1770,11 @@ input[type='number']::-webkit-outer-spin-button {
 
 /*STRIPE*/
 /* Variables */
-#donate * {
+/* #donate .stripe * {
   box-sizing: border-box;
 }
 
-#donate body {
+#donate .stripe body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
@@ -1783,19 +1783,19 @@ input[type='number']::-webkit-outer-spin-button {
   align-content: center;
   height: 100vh;
   width: 100vw;
-}
+} */
 
-#donate form {
-  /* width: 30vw; */
+/* #donate form {
+  width: 30vw;
   min-width: 500px;
   align-self: center;
   box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
   border-radius: 7px;
   padding: 40px;
-}
+} */
 
-#donate input {
+/* #donate .stripe input {
   border-radius: 6px;
   margin-bottom: 6px;
   padding: 12px;
@@ -1804,7 +1804,7 @@ input[type='number']::-webkit-outer-spin-button {
   font-size: 16px;
   width: 100%;
   background: white;
-}
+} */
 
 #donate .result-message {
   line-height: 22px;
@@ -1843,7 +1843,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 /* Buttons and links */
-#donate button {
+/* #donate button {
   background: #5469d4;
   color: #ffffff;
   font-family: Arial, sans-serif;
@@ -1864,7 +1864,7 @@ input[type='number']::-webkit-outer-spin-button {
 #donate button:disabled {
   opacity: 0.5;
   cursor: default;
-}
+} */
 
 /* spinner/processing state, errors */
 #donate .spinner,
