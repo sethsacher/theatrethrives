@@ -1,89 +1,70 @@
 'use strict';
 
-var braintree = require('braintree');
-console.log('Loading Braintree function');
+// https://github.com/stripe/stripe-node#network-retries
+// Intermittent connection issues, add a retry to resolve
+const stripe = require("stripe")(process.env.STRIPE_SK, {
+  maxNetworkRetries: 2
+});
+console.log('Loading Stripe function');
 
 exports.handler = async (event) => {
-  let nonce = '';
   let amount = '0';
   let type = '';
   let shareContactInfo = 'false';
-  let customer;
-  let billing;
-  let shipping;
   let headers = {
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': '*',
   };
   let theatres;
-  let tshirt;
+  let email;
+  let phone;
+
   console.log('request: ' + JSON.stringify(event));
 
   if (event.body) {
     let body = JSON.parse(event.body);
     // TYPE is either TOKEN or PAYMENT
     if (body.type) type = body.type;
-    if (body.nonce) nonce = body.nonce;
     if (body.amount) amount = body.amount;
-    if (body.customer) customer = body.customer;
-    if (body.billingAddress) billing = body.billingAddress;
-    if (body.shippingAddress) shipping = body.shippingAddress;
     if (body.shareContactInfo) shareContactInfo = body.shareContactInfo;
     if (body.theatres) theatres = body.theatres;
-    if (body.tshirt) tshirt = body.tshirt;
+    if (body.email) email = body.email;
+    if (body.phone) phone = body.phone;
   }
 
-  var gateway = braintree.connect({
-    environment: braintree.Environment.Sandbox,
-    // Use your own credentials from the sandbox Control Panel here
-    merchantId: process.env.BT_MERCHANT_ID,
-    publicKey: process.env.BT_PUBLIC_KEY,
-    privateKey: process.env.BT_PRIVATE_KEY,
-  });
+  if (type === 'PAYMENT') {
 
-  if (type === 'TOKEN') {
-    var generateToken = await gateway.clientToken.generate({});
+    try {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100, //Dollars to cents
+        currency: "usd",
+        metadata: {
+          shareContactInfo,
+          theatres: theatres.toString(),
+          email,
+          phone
+        }
+      });
 
-    return {
-      statusCode: (generateToken.success) ? 200 : 500,
-      headers: headers,
-      isBase64Encoded: false,
-      body: JSON.stringify({
-        ...generateToken,
-      }),
-    };
-
-  } else if (type === 'PAYMENT') {
-    // Create a new transaction
-    var newTransaction = await gateway.transaction.sale({
-      amount: amount,
-      paymentMethodNonce: nonce,
-      customFields: {
-        share_contact_info: shareContactInfo,
-        theatres_of_interest: theatres,
-        tshirt_size: tshirt
-      },
-      customer,
-      billing,
-      shipping,
-      options: {
-        // This option requests the funds from the transaction
-        // once it has been authorized successfully
-        submitForSettlement: true,
-      },
-    });
-
-    console.log('transaction: ' + JSON.stringify(newTransaction));
-
-    return {
-      statusCode: (newTransaction.success) ? 200 : 500,
-      headers: headers,
-      isBase64Encoded: false,
-      body: JSON.stringify({
-        ...newTransaction,
-      }),
-    };
+      return {
+        statusCode: 200,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          clientSecret: paymentIntent.client_secret,
+        }),
+      };
+    } catch (err) {
+      return {
+        statusCode: 500,
+        headers: headers,
+        isBase64Encoded: false,
+        body: JSON.stringify({
+          ...err
+        }),
+      };
+    }
 
   } else {
     return {

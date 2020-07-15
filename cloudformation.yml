@@ -29,6 +29,12 @@ Parameters:
   BTPrivateKeyProd:
     Type: String
     Description: PROD - Braintree PrivateKey
+  StripeSKTest:
+    Type: String
+    Description: TEST - Stripe Secret Key
+  StripeSKProd:
+    Type: String
+    Description: PROD - Stripe Secret Key
 Resources:
   GitHubSecret:
     Type: "AWS::SecretsManager::Secret"
@@ -192,6 +198,15 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
+        # RoutingRules:
+        #   - RedirectRule:
+        #       ReplaceKeyWith: donate.html
+        #     RoutingRuleCondition:
+        #       KeyPrefixEquals: donate
+        # - RedirectRule:
+        #     ReplaceKeyWith: donate
+        #   RoutingRuleCondition:
+        #     KeyPrefixEquals: donate.html
     DeletionPolicy: Retain
   BucketPolicyTest:
     Type: AWS::S3::BucketPolicy
@@ -563,6 +578,7 @@ Resources:
           BT_MERCHANT_ID: !Ref BTMerchantIDTest
           BT_PUBLIC_KEY: !Ref BTPublicKeyTest
           BT_PRIVATE_KEY: !Ref BTPrivateKeyTest
+          STRIPE_SK: !Ref StripeSKTest
       Events:
         Api1:
           Type: Api
@@ -595,6 +611,7 @@ Resources:
           BT_MERCHANT_ID: !Ref BTMerchantIDProd
           BT_PUBLIC_KEY: !Ref BTPublicKeyProd
           BT_PRIVATE_KEY: !Ref BTPrivateKeyProd
+          STRIPE_SK: !Ref StripeSKProd
       Events:
         Api1:
           Type: Api
