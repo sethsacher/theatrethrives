@@ -62,7 +62,7 @@ function setBillingTestData() {
   return;
 }
 
-// setBillingTestData();
+setBillingTestData();
 
 $(document).ready(function () {
 
@@ -199,78 +199,47 @@ var stripe = Stripe(stripePk);
 // Disable the button until we have Stripe set up on the page
 submitButton.disabled = true;
 
-// Create PaymentIntent to add Stripe card to the page
-fetch(isProd
-  ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-  : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    'x-amz-docs-region': 'us-east-1',
-  },
-  body: JSON.stringify({
-    type: 'TOKEN'
-  })
-})
-  .then(function (result) {
-    if (result.status !== 200) {
-      return result.json()
-        .then((json) => {
-          console.log(json)
-          showLoadingError();
-          hidePageElements();
-        });
-    } else {
-      return result.json();
+// Create the Stripe payment window
+var elements = stripe.elements();
+
+var style = {
+  base: {
+    color: "#32325d",
+    fontFamily: 'Open Sans',
+    fontSmoothing: "antialiased",
+    fontSize: "16px",
+    "::placeholder": {
+      color: "#32325d"
     }
-  })
-  .then(function (data) {
-    var elements = stripe.elements();
+  },
+  invalid: {
+    fontFamily: 'Open Sans',
+    color: "#fa755a",
+    iconColor: "#fa755a"
+  }
+};
 
-    var style = {
-      base: {
-        color: "#32325d",
-        fontFamily: 'Open Sans',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#32325d"
-        }
-      },
-      invalid: {
-        fontFamily: 'Open Sans',
-        color: "#fa755a",
-        iconColor: "#fa755a"
-      }
-    };
+var card = elements.create("card", { style: style });
+// Stripe injects an iframe into the DOM
+card.mount("#card-element");
+submitButton.disabled = false;
 
-    var card = elements.create("card", { style: style });
-    // Stripe injects an iframe into the DOM
-    card.mount("#card-element");
-    submitButton.disabled = false;
+card.on("change", function (event) {
+  // Disable the Pay button if there are no card details in the Element
+  // submitButton.disabled = event.empty;
+  document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+});
 
-    card.on("change", function (event) {
-      // Disable the Pay button if there are no card details in the Element
-      // submitButton.disabled = event.empty;
-      document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-    });
+var form = document.getElementById("payment-form");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  // Complete payment when the submit button is clicked
+  updatePayment(stripe, card);
+});
 
-    var form = document.getElementById("payment-form");
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      // Complete payment when the submit button is clicked
-      updatePayment(stripe, card, data.clientSecret, data.paymentIntentId);
-    });
-  })
-  .catch(function (error) {
-    console.log(error)
-    stripeSection.style.display = "none";
-    showLoadingError();
-    hidePageElements();
-  });
 
 // Update PaymentIntent with customer inputs
-var updatePayment = function (stripe, card, clientSecret, paymentIntentId) {
+var updatePayment = function (stripe, card) {
   fetch(isProd
     ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
     : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
@@ -283,8 +252,7 @@ var updatePayment = function (stripe, card, clientSecret, paymentIntentId) {
       type: 'PAYMENT',
       amount,
       shareContactInfo,
-      theatres,
-      paymentIntentId
+      theatres
     })
   })
     .then(function (result) {
