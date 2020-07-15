@@ -2,21 +2,23 @@
 var amount = 25;
 var rawAmount = amount;
 var feeAmount = 1.03;
+var flatFee = 0.30
 var coverFees = true;
 var shareContactInfo = 'true';
-var submitButton = document.querySelector('#submit-button');
+var submitButton = document.querySelector('#submit');
 submitButton.disabled = false;
-
-var sameAddress = document.querySelector('#same-address');
-sameAddress.value = 'false'
+var stripeSection = document.querySelector('#stripe');
+var loadingError = document.querySelector('#loading-error');
 
 var isProd = window.location.hostname.includes('theatrethrives.org');
-console.log('Prod environment? ' + isProd);
+if (!isProd) {
+  console.log('Prod environment? ' + isProd);
+}
+
+var stripePk = (isProd) ? 'pk_live_51H4tSZLy4QiR4BrlDiEklGlApYdotMAYNLluyVVh9CvvMoQVTL7YGpirgr8WN02L4Zo278kW1j0lQvbw67RMQBKk00zXR3yEe5' : 'pk_test_51H4tSZLy4QiR4Brl5dD2xQ1fjYFcWequGWsxvUu5sT3sM5HTGc6yGcFA9twidcLygL4px0AFkpYgUIVjvvgERcUV002Z1BCDHe'
 
 var theatres = [];
-var tshirt;
 
-// PATRON INFORMATION
 var billingFields = [
   'email',
   'billing-phone',
@@ -34,83 +36,18 @@ var billingFields = [
     help: document.getElementById('help-' + fieldName)
   };
 
-  field.input.addEventListener('focus', function () {
-    clearFieldValidations(field);
-  });
+  // field.input.addEventListener('focus', function () {
+  //   clearFieldValidations(field);
+  // });
 
   return fields;
 }, {});
-
-var shippingFields = [
-  'shipping-given-name',
-  'shipping-surname',
-  'shipping-street-address',
-  'shipping-extended-address',
-  'shipping-locality',
-  'shipping-region',
-  'shipping-postal-code',
-  'shipping-country-code'
-].reduce(function (fields, fieldName) {
-  var field = fields[fieldName] = {
-    input: document.getElementById(fieldName),
-    help: document.getElementById('help-' + fieldName)
-  };
-
-  field.input.addEventListener('focus', function () {
-    clearFieldValidations(field);
-  });
-
-  return fields;
-}, {});
-
-function clearFieldValidations(field) {
-  field.help.innerText = '';
-  field.help.parentNode.classList.remove('has-error');
-}
 
 billingFields['billing-country-code'].input.value = "US";
-shippingFields['shipping-country-code'].input.value = "US";
 billingFields['billing-extended-address'].optional = true;
-shippingFields['shipping-extended-address'].optional = true;
-
-function validateFields(fields) {
-  var isValid = true;
-
-  Object.keys(fields).forEach(function (fieldName) {
-    var fieldEmpty = false;
-    var field = fields[fieldName];
-
-    if (field.optional) {
-      return;
-    }
-
-    fieldEmpty = field.input.value.trim() === '';
-
-    if (fieldEmpty) {
-      isValid = false;
-      field.help.innerText = 'Field cannot be blank.';
-      field.help.parentNode.classList.add('has-error');
-    } else {
-      clearFieldValidations(field);
-    }
-  });
-
-  return isValid;
-}
-
-function toggleDisableFields(fields) {
-  Object.keys(fields).forEach(function (fieldName) {
-    if (!fieldName.includes('country-code')) {
-      var field = fields[fieldName];
-      field.input.disabled = !field.input.disabled
-    }
-  });
-
-  return;
-}
 
 function setBillingTestData() {
-  billingFields.email.input.value = "test@test.com";
+  billingFields['email'].input.value = "test@test.com";
   billingFields['billing-given-name'].input.value = "Seth";
   billingFields['billing-surname'].input.value = "Sacher";
   billingFields['billing-phone'].input.value = "1231231234";
@@ -123,35 +60,16 @@ function setBillingTestData() {
   return;
 }
 
-function mapBillingToShipping() {
-  shippingFields['shipping-given-name'].input.value = billingFields['billing-given-name'].input.value;
-  shippingFields['shipping-surname'].input.value = billingFields['billing-surname'].input.value;
-  shippingFields['shipping-street-address'].input.value = billingFields['billing-street-address'].input.value;
-  shippingFields['shipping-extended-address'].input.value = billingFields['billing-extended-address'].input.value;
-  shippingFields['shipping-locality'].input.value = billingFields['billing-locality'].input.value;
-  shippingFields['shipping-region'].input.value = billingFields['billing-region'].input.value;
-  shippingFields['shipping-postal-code'].input.value = billingFields['billing-postal-code'].input.value;
-  shippingFields['shipping-country-code'].input.value = billingFields['billing-country-code'].input.value;
-  return;
+// setBillingTestData();
+
+function calculateFeeAmount(amount) {
+  return amount * feeAmount + flatFee
 }
 
-function enablePayNow() {
-  submitButton.value = 'Submit Payment';
-  submitButton.removeAttribute('disabled');
-}
+// Set initial donation amount
+amount = calculateFeeAmount(rawAmount)
 
 $(document).ready(function () {
-  $('#same-address').on('change', function (e) {
-    e.preventDefault();
-    if ($(this).is(':checked')) {
-      $(this).attr('value', 'true');
-      toggleDisableFields(shippingFields);
-    } else {
-      $(this).attr('value', 'false');
-      toggleDisableFields(shippingFields);
-    }
-  });
-
 
   $('#contact').on('change', function (e) {
     e.preventDefault();
@@ -169,198 +87,30 @@ $(document).ready(function () {
     theatres = $(this).val();
   });
 
-  $('#tshirt').on('change', function (e) {
-    e.preventDefault();
-    tshirt = $(this).val();
-  });
 })
-
-// BRAINTREE CLIENT TOKEN
-$.ajax({
-  type: 'POST',
-  url: isProd
-    ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-    : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
-  data: JSON.stringify({
-    type: 'TOKEN'
-  }),
-  headers: {
-    'content-type': 'application/json',
-    'x-amz-docs-region': 'us-east-1',
-  },
-}).done(function (result) {
-
-  // BRAINTREE PAYMENT
-  braintree.dropin
-    .create({
-      // authorization: isProd
-      //   ? 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn'
-      //   : 'sandbox_8hxgrcnv_y5nk3gv4jqys8ywn',
-      authorization: result.clientToken,
-      container: '#dropin-container',
-      threeDSecure: true,
-      card: {
-        cardholderName: {
-          required: true,
-        },
-      },
-    })
-    .then(function (dropinInstance) {
-      enablePayNow();
-
-      submitButton.addEventListener('click', function () {
-        submitButton.setAttribute('disabled', 'disabled');
-        submitButton.value = 'Processing...';
-
-        if (sameAddress.value === 'true') {
-          mapBillingToShipping()
-        }
-
-        var billingIsValid = validateFields(billingFields);
-        var shippingIsValid = validateFields(shippingFields);
-
-        if (!billingIsValid || !shippingIsValid) {
-          enablePayNow();
-          return;
-        }
-
-        var customer = {
-          firstName: billingFields['billing-given-name'].input.value,
-          lastName: billingFields['billing-surname'].input.value,
-          phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, ''), // remove (), spaces, and - from phone number
-          email: billingFields.email.input.value
-        }
-
-        var billingAddress = {
-          firstName: billingFields['billing-given-name'].input.value,
-          lastName: billingFields['billing-surname'].input.value,
-          streetAddress: billingFields['billing-street-address'].input.value,
-          extendedAddress: billingFields['billing-extended-address'].input.value,
-          locality: billingFields['billing-locality'].input.value,
-          region: billingFields['billing-region'].input.value,
-          postalCode: billingFields['billing-postal-code'].input.value,
-          countryCodeAlpha2: billingFields['billing-country-code'].input.value
-        };
-
-        var shippingAddress = {
-          firstName: shippingFields['shipping-given-name'].input.value,
-          lastName: shippingFields['shipping-surname'].input.value,
-          streetAddress: shippingFields['shipping-street-address'].input.value,
-          extendedAddress: shippingFields['shipping-extended-address'].input.value,
-          locality: shippingFields['shipping-locality'].input.value,
-          region: shippingFields['shipping-region'].input.value,
-          postalCode: shippingFields['shipping-postal-code'].input.value,
-          countryCodeAlpha2: shippingFields['shipping-country-code'].input.value
-        };
-
-        dropinInstance
-          .requestPaymentMethod({
-            threeDSecure: {
-              amount,
-              email: billingFields.email.input.value,
-              billingAddress
-            }
-          })
-          .then(function (payload) {
-            // Send payload.nonce to your server
-            $.ajax({
-              type: 'POST',
-              url: isProd
-                ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
-                : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate',
-              data: JSON.stringify({
-                type: 'PAYMENT',
-                nonce: payload.nonce,
-                amount: amount,
-                shareContactInfo: shareContactInfo,
-                theatres,
-                tshirt,
-                customer,
-                billingAddress,
-                shippingAddress
-              }),
-              headers: {
-                'content-type': 'application/json',
-                'x-amz-docs-region': 'us-east-1',
-              },
-            }).done(function (result) {
-              console.log(result);
-
-              // Tear down the Drop-in UI
-              dropinInstance.teardown(function (teardownErr) {
-                if (teardownErr) {
-                  console.error('Could not tear down Drop-in UI!');
-                } else {
-                  console.info('Drop-in UI has been torn down!');
-                  // Remove the 'Submit payment' button and page contents
-                  $('#submit-button').remove();
-                  $('#donation-amount').remove();
-                  $('#donation-theatres').remove();
-                  $('#donation-tshirt').remove();
-                  $('#donation-billing').remove();
-                  $('#donation-shipping').remove();
-                  $('#donation-legal').remove();
-                }
-              });
-
-              if (result.success) {
-                $('#checkout-message').html(
-                  `<h2>Thank you for your donation!</h2>
-              <p>Your generous donation of $${result.transaction.amount} goes a long way 
-              in supporting DC-area community theatres. Thank you for supporting the arts!</p>
-              <p>Refresh to make another donation.</p>`
-                );
-              } else {
-                $('#checkout-message').html(
-                  '<h2>Error</h2><p>An error has occurred. Please contact your administrator.</p>'
-                );
-              }
-            });
-          })
-          .catch(function (err) {
-            // Handle errors in requesting payment method
-            console.log('tokenization error:');
-            console.log(err);
-            dropinInstance.clearSelectedPaymentMethod();
-            enablePayNow();
-
-            return;
-          });
-      });
-    })
-    .catch(function (err) {
-      // Handle any errors that might've occurred when creating Drop-in
-      console.error(err);
-    });
-}).catch(function (err) {
-  console.log(err);
-  return;
-});
 
 // AMOUNT
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
-  setBillingTestData()
   // $('#searchbar').focus();
 
-  // Set initial donation amount
-  amount = rawAmount * feeAmount;
-  $('#amount').html(amount);
+  $('#amount').html("$" + amount);
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
     e.preventDefault();
+    $('#validation').html('<p>fewfew</p>');
     $('.active').removeClass('active');
     $('#donate-other-input').hide().siblings('#donate-other').show();
     $(this).filter('.btn-blue').addClass('active');
     var value = $(this).data('impact');
     rawAmount = $(this).data('dollars');
-    amount = coverFees ? rawAmount * feeAmount : rawAmount;
+    amount = coverFees ? calculateFeeAmount(rawAmount) : rawAmount;
     $(this)
       .closest('div')
       .find('p')
       .text('' + value);
     $('#donate-other-input').find('input').val('');
-    $('#amount').html(amount);
+    $('#amount').html("$" + amount);
   });
 
   $('#fees').on('change', function (e) {
@@ -368,13 +118,13 @@ $(document).ready(function () {
     if ($(this).is(':checked')) {
       $(this).attr('value', 'true');
       coverFees = true;
-      amount = rawAmount * feeAmount;
-      $('#amount').html(amount);
+      amount = calculateFeeAmount(rawAmount);
+      $('#amount').html("$" + amount);
     } else {
       $(this).attr('value', 'false');
       coverFees = false;
       amount = rawAmount;
-      $('#amount').html(amount);
+      $('#amount').html("$" + amount);
     }
   });
 
@@ -419,8 +169,8 @@ $(document).ready(function () {
         $('#validation').html('<p></p>');
         submitButton.disabled = false;
         rawAmount = oValue.val();
-        amount = coverFees ? rawAmount * feeAmount : rawAmount;
-        $('#amount').html(amount);
+        amount = coverFees ? calculateFeeAmount(rawAmount) : rawAmount;
+        $('#amount').html("$" + amount);
       }
       // if (oValue.val() > 50) {
       //   pText.text(
@@ -435,3 +185,183 @@ $(document).ready(function () {
     });
   });
 });
+
+function hidePageElements() {
+  document.querySelector("#stripe").classList.add("hidden");
+  document.querySelector("#donation-amount").classList.add("hidden");
+  document.querySelector("#donation-theatres").classList.add("hidden");
+  document.querySelector("#donation-billing").classList.add("hidden");
+  document.querySelector("#donation-legal").classList.add("hidden");
+}
+
+function showLoadingError() {
+  loadingError.classList.remove("hidden");
+}
+
+// STRIPE
+// A reference to Stripe.js initialized with your real test publishable API key.
+var stripe = Stripe(stripePk);
+
+// Disable the button until we have Stripe set up on the page
+submitButton.disabled = true;
+
+// Create the Stripe payment window
+var elements = stripe.elements();
+
+var style = {
+  base: {
+    color: "#32325d",
+    fontFamily: 'Open Sans',
+    fontSmoothing: "antialiased",
+    fontSize: "16px",
+    "::placeholder": {
+      color: "#32325d"
+    }
+  },
+  invalid: {
+    fontFamily: 'Open Sans',
+    color: "#fa755a",
+    iconColor: "#fa755a"
+  }
+};
+
+var card = elements.create("card", { style: style });
+// Stripe injects an iframe into the DOM
+card.mount("#card-element");
+submitButton.disabled = false;
+
+card.on("change", function (event) {
+  // Disable the Pay button if there are no card details in the Element
+  // submitButton.disabled = event.empty;
+  document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+});
+
+var form = document.getElementById("payment-form");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  submitButton.disabled = true;
+  // Complete payment when the submit button is clicked
+  updatePayment(stripe, card);
+});
+
+
+// Update PaymentIntent with customer inputs
+var updatePayment = function (stripe, card) {
+  fetch(isProd
+    ? 'https://fep49t1mdc.execute-api.us-east-1.amazonaws.com/Prod/donate'
+    : 'https://o2iaftp5s0.execute-api.us-east-1.amazonaws.com/Stage/donate', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'x-amz-docs-region': 'us-east-1',
+    },
+    body: JSON.stringify({
+      type: 'PAYMENT',
+      amount,
+      shareContactInfo,
+      theatres,
+      email: billingFields['email'].input.value,
+      phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '')
+    })
+  })
+    .then(function (result) {
+      if (result.status !== 200) {
+        return result.json()
+          .then((json) => {
+            console.log(json)
+            showLoadingError();
+            hidePageElements();
+          });
+      } else {
+        return result.json();
+      }
+    })
+    .then(function (data) {
+      payWithCard(stripe, card, data.clientSecret);
+    })
+    .catch(function (error) {
+      console.log(error)
+      submitButton.disabled = false;
+      // stripeSection.style.display = "none";
+      // loadingError.classList.remove("hidden");
+      // hidePageElements();
+    });
+}
+
+// Calls stripe.confirmCardPayment
+// If the card requires authentication Stripe shows a pop-up modal to
+// prompt the user to enter authentication details without leaving your page.
+var payWithCard = function (stripe, card, clientSecret) {
+  loading(true);
+  stripe
+    .confirmCardPayment(clientSecret, {
+      receipt_email: billingFields['email'].input.value,
+      payment_method: {
+        card: card,
+        billing_details: {
+          address: {
+            city: billingFields['billing-locality'].input.value,
+            country: billingFields['billing-country-code'].input.value,
+            line1: billingFields['billing-street-address'].input.value,
+            line2: billingFields['billing-extended-address'].input.value,
+            postal_code: billingFields['billing-postal-code'].input.value,
+            state: billingFields['billing-region'].input.value
+          },
+          email: billingFields['email'].input.value,
+          name: billingFields['billing-given-name'].input.value + " " + billingFields['billing-surname'].input.value,
+          phone: billingFields['billing-phone'].input.value.replace(/[\(\)\s\-]/g, '')
+        }
+      },
+    })
+    .then(function (result) {
+      // console.log(result);
+      if (result.error) {
+        // Show error to your customer
+        showError(result.error.message);
+      } else {
+        // The payment succeeded!
+        orderComplete(result.paymentIntent.amount);
+      }
+    });
+};
+
+/* ------- UI helpers ------- */
+
+// Shows a success message when the payment is complete
+var orderComplete = function (paymentAmount) {
+  loading(false);
+  document
+    .querySelector(".result-message")
+    .innerHTML = `<h2>Thank you for your donation!</h2>
+    <p>Your generous donation of $${paymentAmount / 100} goes a long way 
+    in supporting DC-area community theatres. Thank you for supporting the arts!</p>
+    <p>Refresh to make another donation.</p>`
+  document.querySelector(".result-message").classList.remove("hidden");
+  hidePageElements();
+  submitButton.disabled = true;
+};
+
+// Show the customer the error from Stripe if their card fails to charge
+var showError = function (errorMsgText) {
+  loading(false);
+  submitButton.disabled = false;
+  var errorMsg = document.querySelector("#card-error");
+  errorMsg.textContent = errorMsgText;
+  setTimeout(function () {
+    errorMsg.textContent = "";
+  }, 4000);
+};
+
+// Show a spinner on payment submission
+var loading = function (isLoading) {
+  if (isLoading) {
+    // Disable the button and show a spinner
+    submitButton.disabled = true;
+    document.querySelector("#spinner").classList.remove("hidden");
+    document.querySelector("#button-text").classList.add("hidden");
+  } else {
+    submitButton.disabled = false;
+    document.querySelector("#spinner").classList.add("hidden");
+    document.querySelector("#button-text").classList.remove("hidden");
+  }
+};
