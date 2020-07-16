@@ -18,7 +18,7 @@
   // Notification Banner
   // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
   // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
-  var bannerTextFile = (isProd) ? 'http://theatrethrives-s3bucketprod-b41sv4j6aaws.s3.amazonaws.com/assets/txt/banner.txt' : 'http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3.amazonaws.com/assets/txt/banner.txt'
+  var bannerTextFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/banner.txt'
 
   function readTextFile(file) {
     var rawFile = new XMLHttpRequest();

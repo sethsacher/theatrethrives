@@ -195,12 +195,6 @@ Resources:
     Properties:
       # BucketName: community-theatre-thrives
       AccessControl: PublicRead
-      CorsConfiguration:
-        CorsRules:
-          - AllowedMethods:
-              - GET
-            AllowedOrigins:
-              - http://theatrethrives-s3buckettest-1h5ug55ioxofy.s3-website-us-east-1.amazonaws.com/
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
@@ -625,6 +619,20 @@ Resources:
             Path: /donate
             Method: ANY
             RestApiId: !Ref LambdaApiProd
+  S3BucketBanner:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: community-theatre-thrives-banner
+      AccessControl: PublicRead
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - "*"
+            AllowedHeaders:
+              - Authorization
+    DeletionPolicy: Retain
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
