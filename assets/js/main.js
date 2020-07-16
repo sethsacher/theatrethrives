@@ -19,7 +19,6 @@
   var page = path.split("/").pop();
 
   var youTubeURL = 'https://www.youtube.com/embed/'
-  // https://www.youtube.com/live_chat?v=WzWKcLOCYbc&embed_domain=localhost
   var youTubeChatURL = 'https://www.youtube.com/live_chat?v=';
   var youTubeChatEmbedDomain = '&embed_domain=';
   var domain = window.location.hostname;
@@ -54,16 +53,17 @@
 
           $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
           console.log('Active YouTube Video: ' + youTubeURL + data.youTubeId)
+
           $('#chat-iframe').attr("src", youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
           console.log('Active YouTube Chat: ' + youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
         }
 
         // Update the repeated call
         if (!intervalId) {
-          // Time in ms (5000 ms = 5 s)
+          // Time in ms (30000 ms = 30 s)
           intervalId = window.setInterval(function () {
             getWebsiteConfig(websiteConfigFile);
-          }, 5000);
+          }, 30000);
         } else if (intervalId && data.bannerHalt) {
           window.clearInterval(intervalId);
           intervalId = null;
