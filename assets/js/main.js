@@ -7,6 +7,51 @@
 !(function ($) {
   'use strict';
 
+  var isProd = window.location.hostname.includes('theatrethrives.org');
+  if (!isProd) {
+    console.log('Prod environment? ' + isProd);
+  }
+
+  var path = window.location.pathname;
+  var page = path.split("/").pop();
+
+  // Notification Banner
+  // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
+  // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+  var bannerTextFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/banner.txt'
+
+  function readTextFile(file) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function () {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          var allText = rawFile.responseText;
+          if (allText.length > 0) {
+            $('#notification').text(allText)
+            $('#banner').show();
+            $('#header').css("top", "25px");
+          } else {
+            $('#banner').hide();
+            $('#header').css("top", "0px");
+          }
+        }
+      }
+    }
+    rawFile.send(null);
+  }
+
+  if (!page.includes('donate')) {
+    // Time in ms (5000 ms = 5 s)
+    window.setInterval(function () {
+      readTextFile(bannerTextFile);
+    }, 5000);
+
+    $(document).ready(function () {
+      readTextFile(bannerTextFile);
+    });
+  }
+
   // Countdown Timer
   var endTime = moment.tz('2020-07-17 18:00', 'America/New_York');
 
