@@ -12,6 +12,8 @@
     console.log('Prod environment? ' + isProd);
   }
 
+  var intervalId;
+
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
@@ -20,37 +22,52 @@
   // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
   var websiteConfigFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/website-config.json'
 
+  function updateBanner(bannerMsg) {
+    if (bannerMsg.length > 0) {
+      $('#notification').text(bannerMsg)
+      $('#banner').show();
+      $('#header').css("top", "25px");
+    } else {
+      $('#banner').hide();
+      $('#header').css("top", "0px");
+    }
+  }
+
   function getWebsiteConfig() {
     $.ajax({
       url: websiteConfigFile,
       dataType: 'json',
       success: function (data) {
-        console.log(data.bannerHalt)
 
         // Set banner
-        if (data.bannerMsg.length > 0) {
-          $('#notification').text(data.bannerMsg)
-          $('#banner').show();
-          $('#header').css("top", "25px");
-        } else {
-          $('#banner').hide();
-          $('#header').css("top", "0px");
+        updateBanner(data.bannerMsg)
+
+        // Update the repeated call
+        if (!intervalId) {
+          // Time in ms (5000 ms = 5 s)
+          intervalId = window.setInterval(function () {
+            getWebsiteConfig(websiteConfigFile);
+          }, 5000);
+        } else if (intervalId && data.bannerHalt) {
+          window.clearInterval(intervalId);
+          intervalId = null;
         }
       },
       error: function (data) {
         console.log('ERROR: ', data);
+        // Stop the repeated call
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = null;
+          updateBanner("An error has occurred, please refresh your browser.")
+        }
       }
     });
   }
 
   if (!page.includes('donate')) {
-    // Time in ms (5000 ms = 5 s)
-    window.setInterval(function () {
-      getWebsiteConfig(bannerTextFile);
-    }, 5000);
-
     $(document).ready(function () {
-      getWebsiteConfig(bannerTextFile);
+      getWebsiteConfig(websiteConfigFile);
     });
   }
 
