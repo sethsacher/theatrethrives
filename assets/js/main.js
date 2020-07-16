@@ -4,6 +4,7 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+
 !(function ($) {
   'use strict';
 
@@ -17,9 +18,14 @@
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
-  // Notification Banner
-  // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
-  // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
+  var youTubeURL = 'https://www.youtube.com/embed/'
+  // https://www.youtube.com/live_chat?v=WzWKcLOCYbc&embed_domain=localhost
+  var youTubeChatURL = 'https://www.youtube.com/live_chat?v=';
+  var youTubeChatEmbedDomain = '&embed_domain=';
+  var domain = window.location.hostname;
+  var currentYouTubeId;
+
+  // Website Configurations (banner, youtube)
   var websiteConfigFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/website-config.json'
 
   function updateBanner(bannerMsg) {
@@ -41,6 +47,16 @@
 
         // Set banner
         updateBanner(data.bannerMsg)
+
+        // Set YouTube URL
+        if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
+          currentYouTubeId = data.youTubeId;
+
+          $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
+          console.log('Active YouTube Video: ' + youTubeURL + data.youTubeId)
+          $('#chat-iframe').attr("src", youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+          console.log('Active YouTube Chat: ' + youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+        }
 
         // Update the repeated call
         if (!intervalId) {
@@ -67,6 +83,11 @@
 
   if (!page.includes('donate')) {
     $(document).ready(function () {
+      // Force the video to appear, for testing.
+      // Need to comment out the clock/video toggle below as well.
+      // $("#clock-wrapper").hide();
+      // $("#video-wrapper").show();
+
       getWebsiteConfig(websiteConfigFile);
     });
   }
