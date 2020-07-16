@@ -333,8 +333,13 @@ var orderComplete = function (paymentAmount) {
   document
     .querySelector(".result-message")
     .innerHTML = `<h2>Thank you for your donation!</h2>
-    <p>Your generous donation of $${paymentAmount / 100} goes a long way 
-    in supporting DC-area community theatres. Thank you for supporting the arts!</p>
+    <p>Your generous donation of $${paymentAmount / 100} is greatly appreciated by 
+    all of the participating theatre companies of Community Theatre Thrives. Each donation 
+    will be shared among the participating theatre companies and helps support live theatre across 
+    the Washington, DC metropolitan area. If you would like to be provided with a 
+    donation letter for tax purposes, Reston Community Players will be happy to supply one.
+    Please email us at communitytheatrethrives@restonplayers.org.</p>
+    
     <p>Refresh to make another donation.</p>`
   document.querySelector(".result-message").classList.remove("hidden");
   hidePageElements();
