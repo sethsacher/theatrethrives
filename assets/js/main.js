@@ -4,6 +4,7 @@
  * Author: BootstrapMade.com
  * License: https://bootstrapmade.com/license/
  */
+
 !(function ($) {
   'use strict';
 
@@ -12,48 +13,98 @@
     console.log('Prod environment? ' + isProd);
   }
 
+  var intervalId;
+
   var path = window.location.pathname;
   var page = path.split("/").pop();
 
-  // Notification Banner
-  // Need to enable CORS on S3 bucket: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html
-  // Reading a file: https://stackoverflow.com/questions/14446447/how-to-read-a-local-text-file
-  var bannerTextFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/banner.txt'
+  var youTubeURL = 'https://www.youtube.com/embed/'
+  var youTubeChatURL = 'https://www.youtube.com/live_chat?v=';
+  var youTubeChatEmbedDomain = '&embed_domain=';
+  var domain = window.location.hostname;
+  var currentYouTubeId;
 
-  function readTextFile(file) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function () {
-      if (rawFile.readyState === 4) {
-        if (rawFile.status === 200 || rawFile.status == 0) {
-          var allText = rawFile.responseText;
-          if (allText.length > 0) {
-            $('#notification').text(allText)
-            $('#banner').show();
-            $('#header').css("top", "25px");
-          } else {
-            $('#banner').hide();
-            $('#header').css("top", "0px");
-          }
+  // Website Configurations (banner, youtube)
+  var websiteConfigFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/website-config.json'
+
+  function updateBanner(bannerMsg) {
+    if (bannerMsg.length > 0) {
+      $('#notification').text(bannerMsg)
+      $('#banner').show();
+      $('#header').css("top", "25px");
+    } else {
+      $('#banner').hide();
+      $('#header').css("top", "0px");
+    }
+  }
+
+  function getWebsiteConfig() {
+    $.ajax({
+      url: websiteConfigFile,
+      dataType: 'json',
+      success: function (data) {
+
+        // Set banner
+        updateBanner(data.bannerMsg)
+
+        // Set YouTube URL
+        if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
+          currentYouTubeId = data.youTubeId;
+
+          $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
+          console.log('Active YouTube Video: ' + youTubeURL + data.youTubeId)
+
+          $('#chat-iframe').attr("src", youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+          console.log('Active YouTube Chat: ' + youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+        }
+
+        // Update the repeated call
+        if (!intervalId) {
+          // Time in ms (30000 ms = 30 s)
+          intervalId = window.setInterval(function () {
+            getWebsiteConfig(websiteConfigFile);
+          }, 30000);
+        } else if (intervalId && data.bannerHalt) {
+          window.clearInterval(intervalId);
+          intervalId = null;
+        }
+      },
+      error: function (data) {
+        console.log('ERROR: ', data);
+        // Stop the repeated call
+        if (intervalId) {
+          window.clearInterval(intervalId);
+          intervalId = null;
+          updateBanner("An error has occurred, please refresh your browser.")
         }
       }
-    }
-    rawFile.send(null);
+    });
   }
 
   if (!page.includes('donate')) {
-    // Time in ms (5000 ms = 5 s)
-    window.setInterval(function () {
-      readTextFile(bannerTextFile);
-    }, 5000);
-
     $(document).ready(function () {
-      readTextFile(bannerTextFile);
+      // Force the video to appear, for testing.
+      // Need to comment out the clock/video toggle below as well.
+      // $("#clock-wrapper").hide();
+      // $("#video-wrapper").show();
+
+      getWebsiteConfig(websiteConfigFile);
     });
   }
 
   // Countdown Timer
-  var endTime = moment.tz('2020-07-17 18:30', 'America/New_York');
+  var endTime = moment.tz('2020-07-17 18:00', 'America/New_York');
+
+  $(document).ready(function () {
+    if (moment().diff(endTime, 'minutes') < 0) {
+      $("#clock-wrapper").show();
+      $("#video-wrapper").hide();
+    } else {
+      $("#clock-wrapper").hide();
+      $("#video-wrapper").show();
+    }
+  });
+
   $('#clock')
     .countdown(endTime.toDate())
     .on('update.countdown', function (event) {
@@ -66,6 +117,10 @@
           '<span class="h1 font-weight-bold">%S</span> Sec'
         )
       );
+    })
+    .on('finish.countdown', function (event) {
+      $("#clock-wrapper").hide();
+      $("#video-wrapper").show();
     });
 
   // Back to top button
@@ -85,6 +140,25 @@
       'easeInOutExpo'
     );
     return false;
+  });
+
+  function toggleChat(win) {
+    if (win.width() <= 850) {
+      $("#chat").hide();
+    } else {
+      $("#chat").show();
+    }
+    return;
+  }
+
+  // Hide video chat when window is too small
+  $(document).ready(function () {
+    toggleChat($(this));
+  });
+
+  $(window).on('resize', function () {
+    var win = $(this); //this = window
+    toggleChat(win);
   });
 
   // Header fixed on scroll
