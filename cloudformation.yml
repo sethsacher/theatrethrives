@@ -633,6 +633,41 @@ Resources:
             AllowedHeaders:
               - Authorization
     DeletionPolicy: Retain
+  CloudFrontDistributionProdBanner:
+    Type: "AWS::CloudFront::Distribution"
+    Properties:
+      DistributionConfig:
+        Comment: "CloudFront for S3BucketBanner"
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - "HEAD"
+            - "GET"
+          CachedMethods:
+            - "HEAD"
+            - "GET"
+          Compress: false
+          DefaultTTL: 86400
+          ForwardedValues:
+            Cookies:
+              Forward: "none"
+            Headers:
+              - "Origin"
+            QueryString: false
+          MaxTTL: 31536000
+          MinTTL: 86400
+          TargetOriginId: !Sub "s3-origin-${S3BucketBanner}"
+          ViewerProtocolPolicy: "redirect-to-https"
+        DefaultRootObject: "index.html"
+        Enabled: true
+        HttpVersion: "http1.1"
+        IPV6Enabled: false
+        Origins:
+          - DomainName: !GetAtt S3BucketBanner.DomainName
+            Id: !Sub "s3-origin-${S3BucketBanner}"
+            OriginPath: ""
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+        PriceClass: "PriceClass_100"
 Outputs:
   WebsiteURLTest:
     Value: !GetAtt
