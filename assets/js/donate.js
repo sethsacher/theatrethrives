@@ -93,7 +93,7 @@ $(document).ready(function () {
 // https://codepen.io/sleepysensei/pen/jEaNro
 $(document).ready(function () {
   // $('#searchbar').focus();
-
+  amount = amount.toFixed(2);
   $('#amount').html("$" + amount);
 
   $('#donate-buttons').on('click', '.btn-blue', function (e) {
@@ -110,6 +110,7 @@ $(document).ready(function () {
       .find('p')
       .text('' + value);
     $('#donate-other-input').find('input').val('');
+    amount = amount.toFixed(2);
     $('#amount').html("$" + amount);
   });
 
@@ -119,11 +120,13 @@ $(document).ready(function () {
       $(this).attr('value', 'true');
       coverFees = true;
       amount = calculateFeeAmount(rawAmount);
+      amount = amount.toFixed(2);
       $('#amount').html("$" + amount);
     } else {
       $(this).attr('value', 'false');
       coverFees = false;
       amount = rawAmount;
+      amount = amount.toFixed(2);
       $('#amount').html("$" + amount);
     }
   });
@@ -168,9 +171,11 @@ $(document).ready(function () {
       } else {
         $('#validation').html('<p></p>');
         submitButton.disabled = false;
-        rawAmount = oValue.val();
+        rawAmount = Number(oValue.val());
         amount = coverFees ? calculateFeeAmount(rawAmount) : rawAmount;
+        amount = amount.toFixed(2);
         $('#amount').html("$" + amount);
+        console.log(amount)
       }
       // if (oValue.val() > 50) {
       //   pText.text(
