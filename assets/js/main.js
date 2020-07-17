@@ -48,7 +48,9 @@
         updateBanner(data.bannerMsg)
 
         // Set YouTube URL
-        if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
+        if (data.technicalDifficulties) {
+          $('#video-iframe').attr("src", 'assets/img/TechnicalDifficulties.jpg')
+        } else if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
           currentYouTubeId = data.youTubeId;
 
           $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
