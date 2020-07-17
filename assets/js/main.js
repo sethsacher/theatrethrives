@@ -25,7 +25,8 @@
   var currentYouTubeId;
 
   // Website Configurations (banner, youtube)
-  var websiteConfigFile = 'https://community-theatre-thrives-banner.s3.amazonaws.com/website-config.json'
+  // 'https://community-theatre-thrives-banner.s3.amazonaws.com/website-config.json'
+  var websiteConfigFile = 'https://dq7c6qs7inora.cloudfront.net/website-config.json'
 
   function updateBanner(bannerMsg) {
     if (bannerMsg.length > 0) {
