@@ -49,17 +49,17 @@
         updateBanner(data.bannerMsg)
 
         // Set YouTube URL
-        if (data.technicalDifficulties) {
-          $('#video-iframe').attr("src", 'assets/img/TechnicalDifficulties.jpg')
-        } else if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
-          currentYouTubeId = data.youTubeId;
+        // if (data.technicalDifficulties) {
+        //   $('#video-iframe').attr("src", 'assets/img/TechnicalDifficulties.jpg')
+        // } else if (!currentYouTubeId || currentYouTubeId !== data.youTubeId) {
+        //   currentYouTubeId = data.youTubeId;
 
-          $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
-          console.log('Active YouTube Video: ' + youTubeURL + data.youTubeId)
+        //   $('#video-iframe').attr("src", youTubeURL + data.youTubeId)
+        //   console.log('Active YouTube Video: ' + youTubeURL + data.youTubeId)
 
-          $('#chat-iframe').attr("src", youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
-          console.log('Active YouTube Chat: ' + youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
-        }
+        //   $('#chat-iframe').attr("src", youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+        //   console.log('Active YouTube Chat: ' + youTubeChatURL + data.youTubeId + youTubeChatEmbedDomain + domain)
+        // }
 
         // Update the repeated call
         if (!intervalId) {
@@ -145,24 +145,24 @@
     return false;
   });
 
-  function toggleChat(win) {
-    if (win.width() <= 850) {
-      $("#chat").hide();
-    } else {
-      $("#chat").show();
-    }
-    return;
-  }
+  // function toggleChat(win) {
+  //   if (win.width() <= 850) {
+  //     $("#chat").hide();
+  //   } else {
+  //     $("#chat").show();
+  //   }
+  //   return;
+  // }
 
   // Hide video chat when window is too small
-  $(document).ready(function () {
-    toggleChat($(this));
-  });
+  // $(document).ready(function () {
+  //   toggleChat($(this));
+  // });
 
-  $(window).on('resize', function () {
-    var win = $(this); //this = window
-    toggleChat(win);
-  });
+  // $(window).on('resize', function () {
+  //   var win = $(this); //this = window
+  //   toggleChat(win);
+  // });
 
   // Header fixed on scroll
   // $(window).scroll(function() {
