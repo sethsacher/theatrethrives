@@ -37,7 +37,7 @@ exports.handler = async (event) => {
 
     try {
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount * 100, //Dollars to cents
+        amount: Math.trunc(amount * 100), //Dollars to cents
         currency: "usd",
         metadata: {
           shareContactInfo,
