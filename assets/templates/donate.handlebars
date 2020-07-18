@@ -120,7 +120,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+                        <input pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" title="Enter a valid email address."
+                            class="form-control" id="email" placeholder="you@example.com" required>
                         <span id="help-email" class="help-block"></span>
                     </div>
                 </div>
