@@ -101,32 +101,36 @@
   var endTime = moment.tz('2020-07-17 18:00', 'America/New_York');
 
   $(document).ready(function () {
-    if (moment().diff(endTime, 'minutes') < 0) {
-      $("#clock-wrapper").show();
-      $("#video-wrapper").hide();
-    } else {
-      $("#clock-wrapper").hide();
-      $("#video-wrapper").show();
-    }
+    $("#clock-wrapper").hide();
+    $("#video-wrapper").hide();
+    $("#thanks-wrapper").show();
+
+    // if (moment().diff(endTime, 'minutes') < 0) {
+    //   $("#clock-wrapper").show();
+    //   $("#video-wrapper").hide();
+    // } else {
+    //   $("#clock-wrapper").hide();
+    //   $("#video-wrapper").show();
+    // }
   });
 
-  $('#clock')
-    .countdown(endTime.toDate())
-    .on('update.countdown', function (event) {
-      var $this = $(this).html(
-        event.strftime(
-          '' +
-          '<span class="h1 font-weight-bold">%D</span> Day%!d' +
-          '<span class="h1 font-weight-bold">%H</span> Hr' +
-          '<span class="h1 font-weight-bold">%M</span> Min' +
-          '<span class="h1 font-weight-bold">%S</span> Sec'
-        )
-      );
-    })
-    .on('finish.countdown', function (event) {
-      $("#clock-wrapper").hide();
-      $("#video-wrapper").show();
-    });
+  // $('#clock')
+  //   .countdown(endTime.toDate())
+  //   .on('update.countdown', function (event) {
+  //     var $this = $(this).html(
+  //       event.strftime(
+  //         '' +
+  //         '<span class="h1 font-weight-bold">%D</span> Day%!d' +
+  //         '<span class="h1 font-weight-bold">%H</span> Hr' +
+  //         '<span class="h1 font-weight-bold">%M</span> Min' +
+  //         '<span class="h1 font-weight-bold">%S</span> Sec'
+  //       )
+  //     );
+  //   })
+  //   .on('finish.countdown', function (event) {
+  //     $("#clock-wrapper").hide();
+  //     $("#video-wrapper").show();
+  //   });
 
   // Back to top button
   $(window).scroll(function () {
