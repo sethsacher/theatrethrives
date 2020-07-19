@@ -93,7 +93,7 @@
       // $("#clock-wrapper").hide();
       // $("#video-wrapper").show();
 
-      getWebsiteConfig(websiteConfigFile);
+      // getWebsiteConfig(websiteConfigFile);
     });
   }
 
