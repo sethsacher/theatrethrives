@@ -198,15 +198,11 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
-        # RoutingRules:
-        #   - RedirectRule:
-        #       ReplaceKeyWith: donate.html
-        #     RoutingRuleCondition:
-        #       KeyPrefixEquals: donate
-        # - RedirectRule:
-        #     ReplaceKeyWith: donate
-        #   RoutingRuleCondition:
-        #     KeyPrefixEquals: donate.html
+        RoutingRules:
+          - RedirectRule:
+              ReplaceKeyWith: error.html
+            RoutingRuleCondition:
+              KeyPrefixEquals: donate.html
     DeletionPolicy: Retain
   BucketPolicyTest:
     Type: AWS::S3::BucketPolicy
@@ -233,6 +229,11 @@ Resources:
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
+        RoutingRules:
+          - RedirectRule:
+              ReplaceKeyWith: error.html
+            RoutingRuleCondition:
+              KeyPrefixEquals: donate.html
     DeletionPolicy: Retain
   BucketPolicyProd:
     Type: AWS::S3::BucketPolicy
